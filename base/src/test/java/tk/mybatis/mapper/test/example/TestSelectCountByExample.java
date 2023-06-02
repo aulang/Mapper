@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.example;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
@@ -48,7 +48,7 @@ public class TestSelectCountByExample {
             example.createCriteria().andGreaterThan("id", 100);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assert.assertEquals(83, count);
+            Assertions.assertEquals(83, count);
         } finally {
             sqlSession.close();
         }
@@ -64,7 +64,7 @@ public class TestSelectCountByExample {
             example.createCriteria().andGreaterThan("id", 100);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assert.assertEquals(83, count);
+            Assertions.assertEquals(83, count);
         } finally {
             sqlSession.close();
         }
@@ -81,7 +81,7 @@ public class TestSelectCountByExample {
             example.setDistinct(true);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assert.assertEquals(true, count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.close();
         }
@@ -98,7 +98,7 @@ public class TestSelectCountByExample {
             example.setDistinct(true);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assert.assertEquals(true, count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.close();
         }

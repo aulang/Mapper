@@ -24,7 +24,9 @@
 
 package tk.mybatis.mapper.additional.update.force;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -34,6 +36,7 @@ import java.io.Serializable;
  */
 public class CountryInt implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -1626761012846137805L;
     @Id
     private Integer id;

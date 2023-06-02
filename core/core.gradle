@@ -1,0 +1,11 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-base')
+
+dependencies {
+
+    api 'org.slf4j:slf4j-api'
+
+    api 'org.mybatis:mybatis'
+    api 'jakarta.persistence:jakarta.persistence-api'
+}

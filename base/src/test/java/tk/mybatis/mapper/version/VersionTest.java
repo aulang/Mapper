@@ -1,14 +1,13 @@
 package tk.mybatis.mapper.version;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Timestamp;
-
-import static org.junit.Assert.*;
 
 /**
  * @author liuzh
@@ -34,7 +33,7 @@ public class VersionTest extends BaseTest {
             user.setId(1);
             user.setJoinDate(new Timestamp(System.currentTimeMillis()));
             int count = mapper.insert(user);
-            assertEquals(1, count);
+            Assertions.assertEquals(1, count);
         } finally {
             sqlSession.close();
         }
@@ -46,13 +45,13 @@ public class VersionTest extends BaseTest {
         try {
             UserTimestampMapper mapper = sqlSession.getMapper(UserTimestampMapper.class);
             UserTimestamp user = mapper.selectByPrimaryKey(999);
-            assertNotNull(user);
+            Assertions.assertNotNull(user);
             Timestamp joinDate = user.getJoinDate();
             int count = mapper.updateByPrimaryKey(user);
-            assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            assertFalse(joinDate.equals(user.getJoinDate()));
+            Assertions.assertFalse(joinDate.equals(user.getJoinDate()));
         } finally {
             sqlSession.close();
         }
@@ -64,13 +63,13 @@ public class VersionTest extends BaseTest {
         try {
             UserTimestampMapper mapper = sqlSession.getMapper(UserTimestampMapper.class);
             UserTimestamp user = mapper.selectByPrimaryKey(999);
-            assertNotNull(user);
+            Assertions.assertNotNull(user);
             Timestamp joinDate = user.getJoinDate();
             int count = mapper.updateByPrimaryKeySelective(user);
-            assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            assertFalse(joinDate.equals(user.getJoinDate()));
+            Assertions.assertFalse(joinDate.equals(user.getJoinDate()));
         } finally {
             sqlSession.close();
         }
@@ -82,13 +81,13 @@ public class VersionTest extends BaseTest {
         try {
             UserIntMapper mapper = sqlSession.getMapper(UserIntMapper.class);
             UserInt user = mapper.selectByPrimaryKey(999);
-            assertNotNull(user);
+            Assertions.assertNotNull(user);
             Integer age = user.getAge();
             int count = mapper.updateByPrimaryKey(user);
-            assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            assertFalse(age.equals(user.getAge()));
+            Assertions.assertFalse(age.equals(user.getAge()));
         } finally {
             sqlSession.close();
         }
@@ -100,13 +99,13 @@ public class VersionTest extends BaseTest {
         try {
             UserIntMapper mapper = sqlSession.getMapper(UserIntMapper.class);
             UserInt user = mapper.selectByPrimaryKey(999);
-            assertNotNull(user);
+            Assertions.assertNotNull(user);
             Integer age = user.getAge();
             int count = mapper.updateByPrimaryKeySelective(user);
-            assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            assertFalse(age.equals(user.getAge()));
+            Assertions.assertFalse(age.equals(user.getAge()));
         } finally {
             sqlSession.close();
         }

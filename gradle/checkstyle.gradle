@@ -1,0 +1,8 @@
+apply plugin: "checkstyle"
+
+checkstyle {
+    toolVersion = "9.1"
+    showViolations = true
+    ignoreFailures = false
+    configDirectory.set(rootProject.file("src/checkstyle"))
+}

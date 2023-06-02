@@ -1,0 +1,10 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+dependencies {
+      api(project(':core'))
+      api(project(':base'))
+      api(project(':extra'))
+      api(project(':spring'))
+      api(project(':weekend'))
+      api(project(':generator'))
+}

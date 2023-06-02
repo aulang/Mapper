@@ -26,8 +26,8 @@ package tk.mybatis.mapper.test.example;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -38,18 +38,20 @@ import tk.mybatis.mapper.model.Country;
  */
 public class TestSelectOneByExample {
 
-    @Test(expected = TooManyResultsException.class)
+    @Test
     public void testSelectOneByExampleException() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
-            example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 151);
-            example.or().andLessThan("id", 41);
-            mapper.selectOneByExample(example);
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(TooManyResultsException.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                Example example = new Example(Country.class);
+                example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 151);
+                example.or().andLessThan("id", 41);
+                mapper.selectOneByExample(example);
+            } finally {
+                sqlSession.close();
+            }
+        });
     }
 
     @Test
@@ -60,8 +62,8 @@ public class TestSelectOneByExample {
             Example example = new Example(Country.class);
             example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 102);
             Country country = mapper.selectOneByExample(example);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(101), country.getId());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(Integer.valueOf(101), country.getId());
         } finally {
             sqlSession.close();
         }

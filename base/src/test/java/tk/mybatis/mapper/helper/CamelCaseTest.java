@@ -24,8 +24,8 @@
 
 package tk.mybatis.mapper.helper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.util.StringUtil;
 
 /**
@@ -36,9 +36,9 @@ public class CamelCaseTest {
 
     @Test
     public void testCamelhumpToUnderline() {
-        Assert.assertEquals("user_id", StringUtil.camelhumpToUnderline("userId"));
-        Assert.assertEquals("sys_user", StringUtil.camelhumpToUnderline("sysUser"));
-        Assert.assertEquals("sys_user_role", StringUtil.camelhumpToUnderline("sysUserRole"));
-        Assert.assertEquals("s_function", StringUtil.camelhumpToUnderline("sFunction"));
+        Assertions.assertEquals("user_id", StringUtil.camelhumpToUnderline("userId"));
+        Assertions.assertEquals("sys_user", StringUtil.camelhumpToUnderline("sysUser"));
+        Assertions.assertEquals("sys_user_role", StringUtil.camelhumpToUnderline("sysUserRole"));
+        Assertions.assertEquals("s_function", StringUtil.camelhumpToUnderline("sFunction"));
     }
 }

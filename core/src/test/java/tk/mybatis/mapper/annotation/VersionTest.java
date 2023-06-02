@@ -1,9 +1,9 @@
 package tk.mybatis.mapper.annotation;
 
 import org.apache.ibatis.session.Configuration;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityColumn;
@@ -23,7 +23,7 @@ public class VersionTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
@@ -40,13 +40,13 @@ public class VersionTest {
     public void testVersion() {
         EntityHelper.initEntityNameMap(UserVersion.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserVersion.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertTrue(column.getEntityField().isAnnotationPresent(Version.class));
+            Assertions.assertTrue(column.getEntityField().isAnnotationPresent(Version.class));
         }
     }
 
@@ -61,12 +61,13 @@ public class VersionTest {
         private String name;
     }
 
-    @Test(expected = VersionException.class)
+    @Test
     public void testVersionError() {
-        EntityHelper.initEntityNameMap(UserVersionError.class, config);
-        EntityTable entityTable = EntityHelper.getEntityTable(UserVersionError.class);
-        Assert.assertNotNull(entityTable);
-        SqlHelper.wherePKColumns(UserVersionError.class, true);
+        Assertions.assertThrows(VersionException.class, () -> {
+            EntityHelper.initEntityNameMap(UserVersionError.class, config);
+            EntityTable entityTable = EntityHelper.getEntityTable(UserVersionError.class);
+            Assertions.assertNotNull(entityTable);
+            SqlHelper.wherePKColumns(UserVersionError.class, true);
+        });
     }
-
 }

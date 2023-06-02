@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country2;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.Country2Mapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country2;
@@ -51,12 +51,12 @@ public class TestInsert {
             Country2 country2 = new Country2();
             country2.setCountrycode("CN");
             country2.setId(100);
-            Assert.assertEquals(1, mapper.insert(country2));
+            Assertions.assertEquals(1, mapper.insert(country2));
 
             country2 = mapper.select(country2).get(0);
-            Assert.assertNotNull(country2);
+            Assertions.assertNotNull(country2);
 
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country2.getId()));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country2.getId()));
 
         } finally {
             sqlSession.close();
@@ -89,16 +89,16 @@ public class TestInsert {
             country.setId(10086);
             country.setCountrycode("CN");
             country.setCountryname("天朝");
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
 
             //查询CN结果2个
             country = new Country2();
             country.setCountrycode("CN");
             List<Country2> list = mapper.select(country);
 
-            Assert.assertEquals(1, list.size());
+            Assertions.assertEquals(1, list.size());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
         } finally {
             sqlSession.close();
         }
@@ -115,17 +115,17 @@ public class TestInsert {
             Country2 country = new Country2();
             country.setId(10086);
             country.setCountryname("天朝");
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
 
             //查询CN结果2个
             country = new Country2();
             country.setId(10086);
             List<Country2> list = mapper.select(country);
 
-            Assert.assertEquals(1, list.size());
-            Assert.assertNull(list.get(0).getCountrycode());
+            Assertions.assertEquals(1, list.size());
+            Assertions.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
         } finally {
             sqlSession.close();
         }

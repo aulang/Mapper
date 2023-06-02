@@ -25,7 +25,7 @@
 package tk.mybatis.mapper.test.user;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.UserInfoMapMapper;
 import tk.mybatis.mapper.model.UserInfoMap;
@@ -53,12 +53,12 @@ public class TestMap {
             userInfoMap.setPassword("123456");
             userInfoMap.setUserType("2");
 
-            Assert.assertEquals(1, mapper.insert(userInfoMap));
+            Assertions.assertEquals(1, mapper.insert(userInfoMap));
 
-            Assert.assertNotNull(userInfoMap.getId());
-            Assert.assertEquals(6, (int) userInfoMap.getId());
+            Assertions.assertNotNull(userInfoMap.getId());
+            Assertions.assertEquals(6, (int) userInfoMap.getId());
 
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(userInfoMap));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userInfoMap));
         } finally {
             sqlSession.close();
         }
@@ -73,17 +73,17 @@ public class TestMap {
         try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             //查询总数
-            Assert.assertEquals(5, mapper.selectCount(new UserInfoMap()));
+            Assertions.assertEquals(5, mapper.selectCount(new UserInfoMap()));
             //查询100
             UserInfoMap userInfoMap = mapper.selectByPrimaryKey(1);
 
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(1));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(1));
 
             //查询总数
-            Assert.assertEquals(4, mapper.selectCount(new UserInfoMap()));
+            Assertions.assertEquals(4, mapper.selectCount(new UserInfoMap()));
             //插入
-            Assert.assertEquals(1, mapper.insert(userInfoMap));
+            Assertions.assertEquals(1, mapper.insert(userInfoMap));
         } finally {
             sqlSession.close();
         }
@@ -101,7 +101,7 @@ public class TestMap {
             UserInfoMap userInfoMap = new UserInfoMap();
             userInfoMap.setUserType("1");
             List<UserInfoMap> UserInfoMaps = mapper.select(userInfoMap);
-            Assert.assertEquals(3, UserInfoMaps.size());
+            Assertions.assertEquals(3, UserInfoMaps.size());
         } finally {
             sqlSession.close();
         }
@@ -116,15 +116,15 @@ public class TestMap {
         try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = mapper.selectByPrimaryKey(2);
-            Assert.assertNotNull(userInfoMap);
+            Assertions.assertNotNull(userInfoMap);
             userInfoMap.setUserType(null);
             userInfoMap.setRealName("liuzh");
             //不会更新user_type
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userInfoMap));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(userInfoMap));
 
             userInfoMap = mapper.selectByPrimaryKey(userInfoMap);
-            Assert.assertNull(userInfoMap.getUserType());
-            Assert.assertEquals("liuzh", userInfoMap.getRealName());
+            Assertions.assertNull(userInfoMap.getUserType());
+            Assertions.assertEquals("liuzh", userInfoMap.getRealName());
         } finally {
             sqlSession.close();
         }
@@ -139,15 +139,15 @@ public class TestMap {
         try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = mapper.selectByPrimaryKey(1);
-            Assert.assertNotNull(userInfoMap);
+            Assertions.assertNotNull(userInfoMap);
             userInfoMap.setUserType(null);
             userInfoMap.setRealName("liuzh");
             //不会更新user_type
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfoMap));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfoMap));
 
             userInfoMap = mapper.selectByPrimaryKey(1);
-            Assert.assertEquals("1", userInfoMap.getUserType());
-            Assert.assertEquals("liuzh", userInfoMap.getRealName());
+            Assertions.assertEquals("1", userInfoMap.getUserType());
+            Assertions.assertEquals("liuzh", userInfoMap.getRealName());
         } finally {
             sqlSession.close();
         }

@@ -1,0 +1,109 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'org.springframework.boot' version '3.1.0' apply false
+    id 'io.spring.dependency-management' version '1.1.0' apply false
+    id 'com.adarshr.test-logger' version '3.2.0' apply false
+}
+
+ext {
+    javaProjects = subprojects.findAll { it.childProjects.isEmpty() && !it.name.endsWith("bom") }
+}
+
+allprojects {
+    group 'tk.mybatis-jdk17'
+    version '1.0.0-SNAPSHOT'
+
+    buildDir = "$rootDir/build/" + outputDir(project)
+
+    apply plugin: "io.spring.dependency-management"
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+            mavenBom 'org.junit:junit-bom:5.9.3'
+        }
+
+        dependencies {
+            dependencySet(group: 'org.slf4j', version: '2.0.7') {
+                entry 'slf4j-api'
+                entry 'jcl-over-slf4j'
+            }
+
+            dependency 'org.mybatis:mybatis:3.5.13'
+            dependency 'org.mybatis:mybatis-spring:3.0.2'
+
+            dependency 'com.mysql:mysql-connector-j:8.0.33'
+
+            dependency 'org.projectlombok:lombok:1.18.28'
+
+            dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+            dependency 'jakarta.websocket:jakarta.websocket-api:2.1.0'
+
+            dependency 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+
+            dependency 'jakarta.validation:jakarta.validation-api:3.0.2'
+
+            dependency 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+
+
+            dependency 'org.hsqldb:hsqldb:2.7.2'
+            dependency 'com.h2database:h2:2.1.214'
+        }
+
+        generatedPomCustomization {
+            enabled = false
+        }
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+
+    configurations.configureEach {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+            cacheDynamicVersionsFor 0, 'seconds'
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url "https://$swater_nexus/repository/maven-public/" }
+    }
+}
+
+configure(javaProjects) { project ->
+    apply plugin: 'java'
+    apply plugin: 'com.adarshr.test-logger'
+    apply plugin: 'com.unicloud.swater.build.optional-dependencies'
+    apply from: "$rootDir/gradle/checkstyle.gradle"
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    }
+
+    configurations.configureEach {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    testlogger {
+        slowThreshold 5000
+        showFullStackTraces false
+        showStandardStreams false
+    }
+
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+//get build file output directory, not calculates recursively.
+static def outputDir(Project project) {
+    String parentPath = project == project.rootProject || project.parent == project.rootProject ? '' : project.parent.name + '/'
+    project.parent == null ? project.name : parentPath + project.name
+}

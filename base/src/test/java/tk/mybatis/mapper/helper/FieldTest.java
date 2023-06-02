@@ -24,13 +24,13 @@
 
 package tk.mybatis.mapper.helper;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.EntityField;
 import tk.mybatis.mapper.mapperhelper.FieldHelper;
 import tk.mybatis.mapper.model.Country;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;

@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.user;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.UserLoginMapper;
 import tk.mybatis.mapper.model.UserLogin;
@@ -49,19 +49,19 @@ public class TestDelete {
         try {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
             //查询总数
-            Assert.assertEquals(10, mapper.selectCount(new UserLogin()));
+            Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
             UserLogin userLogin = new UserLogin();
             userLogin.setUsername("test1");
             List<UserLogin> userLoginList = mapper.select(userLogin);
             //批量删除
-            Assert.assertEquals(userLoginList.size(), mapper.delete(userLogin));
+            Assertions.assertEquals(userLoginList.size(), mapper.delete(userLogin));
             //循环插入
             for (int i = 0; i < userLoginList.size(); i++) {
-                Assert.assertEquals(1, mapper.insert(userLoginList.get(i)));
-                Assert.assertEquals(i + 1, (int) userLoginList.get(i).getLogid());
+                Assertions.assertEquals(1, mapper.insert(userLoginList.get(i)));
+                Assertions.assertEquals(i + 1, (int) userLoginList.get(i).getLogid());
             }
             //查询总数
-            Assert.assertEquals(10, mapper.selectCount(new UserLogin()));
+            Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
         } finally {
             sqlSession.close();
         }

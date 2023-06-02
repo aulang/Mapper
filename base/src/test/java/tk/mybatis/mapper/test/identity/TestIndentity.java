@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.identity;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryIMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.CountryI;
@@ -47,11 +47,11 @@ public class TestIndentity {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
             country.setCountrycode("CN");
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
             //ID会回写
-            Assert.assertNotNull(country.getId());
+            Assertions.assertNotNull(country.getId());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
         } finally {
             sqlSession.close();
         }
@@ -69,18 +69,18 @@ public class TestIndentity {
             country.setId(10086);
             country.setCountrycode("CN");
             country.setCountryname("天朝");
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
 
             //查询CN结果
             country = new CountryI();
             country.setCountrycode("CN");
             List<CountryI> list = mapper.select(country);
 
-            Assert.assertEquals(1, list.size());
-            Assert.assertNotNull(list.get(0).getCountryname());
-            Assert.assertEquals("天朝", list.get(0).getCountryname());
+            Assertions.assertEquals(1, list.size());
+            Assertions.assertNotNull(list.get(0).getCountryname());
+            Assertions.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
         } finally {
             sqlSession.close();
         }
@@ -95,16 +95,16 @@ public class TestIndentity {
         try {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
-            Assert.assertEquals(1, mapper.insertSelective(country));
+            Assertions.assertEquals(1, mapper.insertSelective(country));
             //ID会回写
-            Assert.assertNotNull(country.getId());
+            Assertions.assertNotNull(country.getId());
             //带有默认值的其他的属性不会自动回写,需要手动查询
             country = mapper.selectByPrimaryKey(country);
             //查询后,默认值不为null
-            Assert.assertNotNull(country.getCountrycode());
-            Assert.assertEquals("HH", country.getCountrycode());
+            Assertions.assertNotNull(country.getCountrycode());
+            Assertions.assertEquals("HH", country.getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
         } finally {
             sqlSession.close();
         }
@@ -122,18 +122,18 @@ public class TestIndentity {
             country.setId(10086);
             country.setCountrycode("CN");
             country.setCountryname("天朝");
-            Assert.assertEquals(1, mapper.insertSelective(country));
+            Assertions.assertEquals(1, mapper.insertSelective(country));
 
             //查询CN结果
             country = new CountryI();
             country.setCountrycode("CN");
             List<CountryI> list = mapper.select(country);
 
-            Assert.assertEquals(1, list.size());
-            Assert.assertNotNull(list.get(0).getCountryname());
-            Assert.assertEquals("天朝", list.get(0).getCountryname());
+            Assertions.assertEquals(1, list.size());
+            Assertions.assertNotNull(list.get(0).getCountryname());
+            Assertions.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
         } finally {
             sqlSession.close();
         }

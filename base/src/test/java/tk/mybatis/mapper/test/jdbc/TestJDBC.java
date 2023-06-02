@@ -25,7 +25,7 @@
 package tk.mybatis.mapper.test.jdbc;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import tk.mybatis.mapper.mapper.CountryJDBCMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.CountryJDBC;
@@ -44,8 +44,8 @@ public class TestJDBC {
             country.setId(1);
             country.setCountrycode("CN");
             country.setCountryname("China");
-            Assert.assertEquals(1, mapper.insert(country));
-            Assert.assertNotNull(country.getId());
+            Assertions.assertEquals(1, mapper.insert(country));
+            Assertions.assertNotNull(country.getId());
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -61,8 +61,8 @@ public class TestJDBC {
             country.setId(1);
             country.setCountrycode("CN");
             country.setCountryname("China");
-            Assert.assertEquals(1, mapper.insertSelective(country));
-            Assert.assertNotNull(country.getId());
+            Assertions.assertEquals(1, mapper.insertSelective(country));
+            Assertions.assertNotNull(country.getId());
         } finally {
             sqlSession.rollback();
             sqlSession.close();

@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.able;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.UserInfoAbleMapper;
 import tk.mybatis.mapper.model.UserInfoAble;
@@ -52,14 +52,14 @@ public class TestBasicAble {
             userInfo.setUsertype("2");
             userInfo.setEmail("abel533@gmail.com");//insert=false
 
-            Assert.assertEquals(1, mapper.insert(userInfo));
+            Assertions.assertEquals(1, mapper.insert(userInfo));
 
-            Assert.assertNotNull(userInfo.getId());
-            Assert.assertEquals(6, (int) userInfo.getId());
+            Assertions.assertNotNull(userInfo.getId());
+            Assertions.assertEquals(6, (int) userInfo.getId());
 
             userInfo = mapper.selectByPrimaryKey(userInfo.getId());
             //email没有插入
-            Assert.assertNull(userInfo.getEmail());
+            Assertions.assertNull(userInfo.getEmail());
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -75,17 +75,17 @@ public class TestBasicAble {
         try {
             UserInfoAbleMapper mapper = sqlSession.getMapper(UserInfoAbleMapper.class);
             UserInfoAble userInfo = mapper.selectByPrimaryKey(2);
-            Assert.assertNotNull(userInfo);
+            Assertions.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setEmail("abel533@gmail.com");
             userInfo.setAddress("这个地址不会更新进去");//update=false
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userInfo));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(userInfo));
 
             userInfo = mapper.selectByPrimaryKey(userInfo);
-            Assert.assertNull(userInfo.getUsertype());
-            Assert.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());
-            Assert.assertEquals("abel533@gmail.com", userInfo.getEmail());
+            Assertions.assertNull(userInfo.getUsertype());
+            Assertions.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());
+            Assertions.assertEquals("abel533@gmail.com", userInfo.getEmail());
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -101,17 +101,17 @@ public class TestBasicAble {
         try {
             UserInfoAbleMapper mapper = sqlSession.getMapper(UserInfoAbleMapper.class);
             UserInfoAble userInfo = mapper.selectByPrimaryKey(1);
-            Assert.assertNotNull(userInfo);
+            Assertions.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setPassword(null);
             userInfo.setAddress("这个地址不会更新进去");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfo));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfo));
 
             userInfo = mapper.selectByPrimaryKey(1);
-            Assert.assertEquals("1", userInfo.getUsertype());
-            Assert.assertEquals("12345678", userInfo.getPassword());
-            Assert.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());
+            Assertions.assertEquals("1", userInfo.getUsertype());
+            Assertions.assertEquals("12345678", userInfo.getPassword());
+            Assertions.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());
         } finally {
             sqlSession.rollback();
             sqlSession.close();

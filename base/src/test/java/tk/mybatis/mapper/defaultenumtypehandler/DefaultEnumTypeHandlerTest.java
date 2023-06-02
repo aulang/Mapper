@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.defaultenumtypehandler;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.entity.Config;
 
@@ -38,21 +38,21 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             List<User> users = userMapper.selectAll();
-            Assert.assertNotNull(users);
-            Assert.assertEquals(2, users.size());
+            Assertions.assertNotNull(users);
+            Assertions.assertEquals(2, users.size());
 
-            Assert.assertEquals("abel533", users.get(0).getName());
-            Assert.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
-            Assert.assertEquals(StateDictEnum.enabled, users.get(0).getState());
+            Assertions.assertEquals("abel533", users.get(0).getName());
+            Assertions.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
+            Assertions.assertEquals(StateDictEnum.enabled, users.get(0).getState());
 
-            Assert.assertEquals("isea533", users.get(1).getName());
-            Assert.assertEquals(LockDictEnum.locked, users.get(1).getLock());
-            Assert.assertEquals(StateDictEnum.disabled, users.get(1).getState());
+            Assertions.assertEquals("isea533", users.get(1).getName());
+            Assertions.assertEquals(LockDictEnum.locked, users.get(1).getLock());
+            Assertions.assertEquals(StateDictEnum.disabled, users.get(1).getState());
 
             User user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
-            Assert.assertEquals(StateDictEnum.enabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
+            Assertions.assertEquals(StateDictEnum.enabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -70,12 +70,12 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             user.setLock(LockDictEnum.unlocked);
             user.setState(StateDictEnum.enabled);
 
-            Assert.assertEquals(1, userMapper.insert(user));
+            Assertions.assertEquals(1, userMapper.insert(user));
 
             user = userMapper.selectByPrimaryKey(3);
-            Assert.assertEquals("liuzh", user.getName());
-            Assert.assertEquals(LockDictEnum.unlocked, user.getLock());
-            Assert.assertEquals(StateDictEnum.enabled, user.getState());
+            Assertions.assertEquals("liuzh", user.getName());
+            Assertions.assertEquals(LockDictEnum.unlocked, user.getLock());
+            Assertions.assertEquals(StateDictEnum.enabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -87,18 +87,18 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             User user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals(LockDictEnum.unlocked, user.getLock());
-            Assert.assertEquals(StateDictEnum.enabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals(LockDictEnum.unlocked, user.getLock());
+            Assertions.assertEquals(StateDictEnum.enabled, user.getState());
 
             user.setLock(LockDictEnum.locked);
             user.setState(StateDictEnum.disabled);
-            Assert.assertEquals(1, userMapper.updateByPrimaryKey(user));
+            Assertions.assertEquals(1, userMapper.updateByPrimaryKey(user));
 
             user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals(LockDictEnum.locked, user.getLock());
-            Assert.assertEquals(StateDictEnum.disabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals(LockDictEnum.locked, user.getLock());
+            Assertions.assertEquals(StateDictEnum.disabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -109,20 +109,20 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            Assert.assertEquals(1, userMapper.deleteByPrimaryKey(1));
+            Assertions.assertEquals(1, userMapper.deleteByPrimaryKey(1));
 
             User user = new User();
             user.setState(StateDictEnum.enabled);
-            Assert.assertEquals(0, userMapper.delete(user));
+            Assertions.assertEquals(0, userMapper.delete(user));
 
             user = new User();
             user.setLock(LockDictEnum.unlocked);
-            Assert.assertEquals(0, userMapper.delete(user));
+            Assertions.assertEquals(0, userMapper.delete(user));
 
             user = new User();
             user.setLock(LockDictEnum.locked);
             user.setState(StateDictEnum.disabled);
-            Assert.assertEquals(1, userMapper.delete(user));
+            Assertions.assertEquals(1, userMapper.delete(user));
         } finally {
             sqlSession.close();
         }

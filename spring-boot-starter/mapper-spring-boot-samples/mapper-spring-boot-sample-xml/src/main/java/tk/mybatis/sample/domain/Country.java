@@ -27,7 +27,7 @@ package tk.mybatis.sample.domain;
 import org.apache.ibatis.type.JdbcType;
 import tk.mybatis.mapper.annotation.ColumnType;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -36,6 +36,7 @@ import java.io.Serializable;
  * Update: liuzh(2014-06-06 13:38)
  */
 public class Country implements Serializable {
+    @java.io.Serial
     private static final long serialVersionUID = 6569081236403751407L;
     @Id
     @ColumnType(jdbcType = JdbcType.BIGINT)

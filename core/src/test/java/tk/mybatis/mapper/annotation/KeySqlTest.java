@@ -1,9 +1,9 @@
 package tk.mybatis.mapper.annotation;
 
 import org.apache.ibatis.session.Configuration;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.IdentityDialect;
 import tk.mybatis.mapper.code.ORDER;
 import tk.mybatis.mapper.code.Style;
@@ -23,7 +23,7 @@ public class KeySqlTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
@@ -40,14 +40,14 @@ public class KeySqlTest {
     public void testUseGeneratedKeys() {
         EntityHelper.initEntityNameMap(UserJDBC.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserJDBC.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("JDBC", column.getGenerator());
-            Assert.assertTrue(column.isIdentity());
+            Assertions.assertEquals("JDBC", column.getGenerator());
+            Assertions.assertTrue(column.isIdentity());
         }
     }
 
@@ -60,15 +60,15 @@ public class KeySqlTest {
     public void testDialect() {
         EntityHelper.initEntityNameMap(UserDialect.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserDialect.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("SELECT LAST_INSERT_ID()", column.getGenerator());
-            Assert.assertEquals(ORDER.AFTER, column.getOrder());
-            Assert.assertTrue(column.isIdentity());
+            Assertions.assertEquals("SELECT LAST_INSERT_ID()", column.getGenerator());
+            Assertions.assertEquals(ORDER.AFTER, column.getOrder());
+            Assertions.assertTrue(column.isIdentity());
         }
     }
 
@@ -81,15 +81,15 @@ public class KeySqlTest {
     public void testSql() {
         EntityHelper.initEntityNameMap(UserSql.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserSql.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("select seq.nextval from dual", column.getGenerator());
-            Assert.assertEquals(ORDER.BEFORE, column.getOrder());
-            Assert.assertTrue(column.isIdentity());
+            Assertions.assertEquals("select seq.nextval from dual", column.getGenerator());
+            Assertions.assertEquals(ORDER.BEFORE, column.getOrder());
+            Assertions.assertTrue(column.isIdentity());
         }
     }
 
@@ -102,14 +102,14 @@ public class KeySqlTest {
     public void testAll() {
         EntityHelper.initEntityNameMap(UserAll.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserAll.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("JDBC", column.getGenerator());
-            Assert.assertTrue(column.isIdentity());
+            Assertions.assertEquals("JDBC", column.getGenerator());
+            Assertions.assertTrue(column.isIdentity());
         }
     }
 
@@ -122,15 +122,15 @@ public class KeySqlTest {
     public void testAll2() {
         EntityHelper.initEntityNameMap(UserAll2.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserAll2.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("SELECT LAST_INSERT_ID()", column.getGenerator());
-            Assert.assertEquals(ORDER.AFTER, column.getOrder());
-            Assert.assertTrue(column.isIdentity());
+            Assertions.assertEquals("SELECT LAST_INSERT_ID()", column.getGenerator());
+            Assertions.assertEquals(ORDER.AFTER, column.getOrder());
+            Assertions.assertTrue(column.isIdentity());
         }
     }
 

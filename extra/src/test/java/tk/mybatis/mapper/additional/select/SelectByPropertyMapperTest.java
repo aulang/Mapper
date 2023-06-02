@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.select;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 
 import java.io.IOException;
@@ -40,8 +40,8 @@ public class SelectByPropertyMapperTest extends BaseTest {
         try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             Book book = mapper.selectOneByProperty(Book::getName, "JavaStarter1");
-            Assert.assertNotNull(book);
-            Assert.assertEquals("JavaStarter1", book.getName());
+            Assertions.assertNotNull(book);
+            Assertions.assertEquals("JavaStarter1", book.getName());
         } finally {
             sqlSession.close();
         }
@@ -53,7 +53,7 @@ public class SelectByPropertyMapperTest extends BaseTest {
         try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectByProperty(Book::getPrice, 50);
-            Assert.assertEquals(2, books.size());
+            Assertions.assertEquals(2, books.size());
         } finally {
             sqlSession.close();
         }
@@ -65,7 +65,7 @@ public class SelectByPropertyMapperTest extends BaseTest {
         try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectInByProperty(Book::getPrice, Arrays.asList(50, 80));
-            Assert.assertEquals(3, books.size());
+            Assertions.assertEquals(3, books.size());
         } finally {
             sqlSession.close();
         }
@@ -78,7 +78,7 @@ public class SelectByPropertyMapperTest extends BaseTest {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectBetweenByProperty(Book::getPublished, LocalDate.of(2015, 11, 11),
                     LocalDate.of(2019, 11, 11));
-            Assert.assertEquals(4, books.size());
+            Assertions.assertEquals(4, books.size());
         } finally {
             sqlSession.close();
         }
@@ -90,7 +90,7 @@ public class SelectByPropertyMapperTest extends BaseTest {
         try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             int count = mapper.selectCountByProperty(Book::getPrice, 50);
-            Assert.assertEquals(2, count);
+            Assertions.assertEquals(2, count);
         } finally {
             sqlSession.close();
         }
@@ -102,7 +102,7 @@ public class SelectByPropertyMapperTest extends BaseTest {
         try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             boolean exist = mapper.existsWithProperty(Book::getPrice, 50);
-            Assert.assertTrue(exist);
+            Assertions.assertTrue(exist);
         } finally {
             sqlSession.close();
         }

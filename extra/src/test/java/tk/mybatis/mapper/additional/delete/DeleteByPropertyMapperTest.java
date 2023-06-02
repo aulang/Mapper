@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.delete;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 
 import java.io.IOException;
@@ -40,14 +40,14 @@ public class DeleteByPropertyMapperTest extends BaseTest {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             Course beforeDelete = mapper.selectByPrimaryKey(2);
-            Assert.assertNotNull(beforeDelete);
-            Assert.assertEquals("JavaStarter2", beforeDelete.getName());
+            Assertions.assertNotNull(beforeDelete);
+            Assertions.assertEquals("JavaStarter2", beforeDelete.getName());
 
             int deletedCount = mapper.deleteByProperty(Course::getName, "JavaStarter2");
-            Assert.assertEquals(1, deletedCount);
+            Assertions.assertEquals(1, deletedCount);
 
             Course afterDelete = mapper.selectByPrimaryKey(2);
-            Assert.assertNull(afterDelete);
+            Assertions.assertNull(afterDelete);
         } finally {
             sqlSession.close();
         }
@@ -60,14 +60,14 @@ public class DeleteByPropertyMapperTest extends BaseTest {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             List<Course> beforeDelete = mapper.selectAll();
-            Assert.assertEquals(4, beforeDelete.size());
+            Assertions.assertEquals(4, beforeDelete.size());
 
             int deletedCount = mapper.deleteInByProperty(Course::getPrice, Arrays.asList(50, 80, 100));
 
-            Assert.assertEquals(4, deletedCount);
+            Assertions.assertEquals(4, deletedCount);
 
             List<Course> afterDelete = mapper.selectAll();
-            Assert.assertEquals(0, afterDelete.size());
+            Assertions.assertEquals(0, afterDelete.size());
         } finally {
             sqlSession.close();
         }
@@ -80,14 +80,14 @@ public class DeleteByPropertyMapperTest extends BaseTest {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             List<Course> beforeDelete = mapper.selectAll();
-            Assert.assertEquals(4, beforeDelete.size());
+            Assertions.assertEquals(4, beforeDelete.size());
 
             int deletedCount = mapper.deleteBetweenByProperty(Course::getPrice, 80, 100);
 
-            Assert.assertEquals(2, deletedCount);
+            Assertions.assertEquals(2, deletedCount);
 
             List<Course> afterDelete = mapper.selectAll();
-            Assert.assertEquals(2, afterDelete.size());
+            Assertions.assertEquals(2, afterDelete.size());
         } finally {
             sqlSession.close();
         }

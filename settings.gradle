@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        maven { url "https://$swater_nexus/repository/gradle-plugins-central/" }
+        gradlePluginPortal()
+    }
+}
+
+include 'base'
+include 'core'
+include 'extra'
+include 'spring'
+include 'weekend'
+
+include 'spring-boot-starter'
+include 'spring-boot-starter:mapper-spring-boot-autoconfigure', 'spring-boot-starter:mapper-spring-boot-starter'
+
+rootProject.name = "tk.mybatis-jdk17"
+
+rootProject.children.each { project ->
+    project.buildFileName = "${project.name}.gradle"
+
+    project.children.each {
+        it.buildFileName = it.name + '.gradle'
+    }
+}

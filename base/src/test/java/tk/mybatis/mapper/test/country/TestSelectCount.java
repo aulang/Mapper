@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -47,7 +47,7 @@ public class TestSelectCount {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
-            Assert.assertEquals(183, mapper.selectCount(new Country()));
+            Assertions.assertEquals(183, mapper.selectCount(new Country()));
         } finally {
             sqlSession.close();
         }
@@ -62,7 +62,7 @@ public class TestSelectCount {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
-            Assert.assertEquals(183, mapper.selectCount(null));
+            Assertions.assertEquals(183, mapper.selectCount(null));
         } finally {
             sqlSession.close();
         }
@@ -78,7 +78,7 @@ public class TestSelectCount {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
-            Assert.assertEquals(1, mapper.selectCount(country));
+            Assertions.assertEquals(1, mapper.selectCount(country));
         } finally {
             sqlSession.close();
         }
@@ -95,7 +95,7 @@ public class TestSelectCount {
             Country country = new Country();
             country.setCountrycode("CN");
             country.setCountryname("天朝");//实际上是 China
-            Assert.assertEquals(0, mapper.selectCount(country));
+            Assertions.assertEquals(0, mapper.selectCount(country));
         } finally {
             sqlSession.close();
         }

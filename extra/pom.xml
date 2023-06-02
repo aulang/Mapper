@@ -37,8 +37,8 @@
     <description>Mybatis 通用 Mapper 扩展方法</description>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -62,6 +62,12 @@
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-base</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

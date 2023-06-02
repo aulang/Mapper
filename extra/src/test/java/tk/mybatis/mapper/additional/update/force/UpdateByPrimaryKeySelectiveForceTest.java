@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.additional.update.force;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 
 import java.io.IOException;
@@ -74,7 +74,7 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
             mapper.updateByPrimaryKeySelectiveForce(country, null);
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country.getCountrycode());
+            Assertions.assertNotNull(country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -90,8 +90,8 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
             mapper.updateByPrimaryKeySelectiveForce(country, Arrays.asList("countrycode", "countryname"));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNull(country.getCountrycode());
-            Assert.assertNull(country.getCountryname());
+            Assertions.assertNull(country.getCountrycode());
+            Assertions.assertNull(country.getCountryname());
         } finally {
             sqlSession.close();
         }

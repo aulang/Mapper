@@ -1,9 +1,9 @@
 package tk.mybatis.mapper.annotation;
 
 import org.apache.ibatis.session.Configuration;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
@@ -17,7 +17,7 @@ public class RegisterMapperTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
@@ -37,7 +37,7 @@ public class RegisterMapperTest {
     @Test
     public void testHashRegisterMapper() {
         MapperHelper mapperHelper = new MapperHelper();
-        Assert.assertTrue(mapperHelper.isExtendCommonMapper(UserMapper.class));
+        Assertions.assertTrue(mapperHelper.isExtendCommonMapper(UserMapper.class));
     }
 
     interface RoleMapper {
@@ -47,7 +47,7 @@ public class RegisterMapperTest {
     @Test
     public void testRoleMapper() {
         MapperHelper mapperHelper = new MapperHelper();
-        Assert.assertFalse(mapperHelper.isExtendCommonMapper(RoleMapper.class));
+        Assertions.assertFalse(mapperHelper.isExtendCommonMapper(RoleMapper.class));
     }
 
     @RegisterMapper
@@ -58,7 +58,7 @@ public class RegisterMapperTest {
     @Test
     public void testRoleMapper2() {
         MapperHelper mapperHelper = new MapperHelper();
-        Assert.assertFalse(mapperHelper.isExtendCommonMapper(RoleMapper2.class));
+        Assertions.assertFalse(mapperHelper.isExtendCommonMapper(RoleMapper2.class));
     }
 
 }

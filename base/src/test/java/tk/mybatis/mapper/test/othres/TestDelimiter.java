@@ -24,8 +24,8 @@
 
 package tk.mybatis.mapper.test.othres;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,22 +42,22 @@ public class TestDelimiter {
     public void test() {
         Matcher matcher = DELIMITER.matcher("normal");
         if (matcher.find()) {
-            Assert.assertEquals("normal", matcher.group(1));
+            Assertions.assertEquals("normal", matcher.group(1));
         }
 
         matcher = DELIMITER.matcher("`mysql`");
         if (matcher.find()) {
-            Assert.assertEquals("mysql", matcher.group(1));
+            Assertions.assertEquals("mysql", matcher.group(1));
         }
 
         matcher = DELIMITER.matcher("[sqlserver]");
         if (matcher.find()) {
-            Assert.assertEquals("sqlserver", matcher.group(1));
+            Assertions.assertEquals("sqlserver", matcher.group(1));
         }
 
         matcher = DELIMITER.matcher("\"oracle\"");
         if (matcher.find()) {
-            Assert.assertEquals("oracle", matcher.group(1));
+            Assertions.assertEquals("oracle", matcher.group(1));
         }
     }
 }

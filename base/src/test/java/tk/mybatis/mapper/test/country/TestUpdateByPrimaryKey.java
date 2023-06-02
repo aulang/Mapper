@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.CountryVersionMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -48,7 +48,7 @@ public class TestUpdateByPrimaryKey {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertEquals(0, mapper.updateByPrimaryKey(new Country()));
+            Assertions.assertEquals(0, mapper.updateByPrimaryKey(new Country()));
         } finally {
             sqlSession.close();
         }
@@ -80,13 +80,13 @@ public class TestUpdateByPrimaryKey {
             country.setId(174);
             country.setCountryname(null);
             country.setCountryname("美国");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(country));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(174, (int) country.getId());
-            Assert.assertEquals("美国", country.getCountryname());
-            Assert.assertNull(country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(174, (int) country.getId());
+            Assertions.assertEquals("美国", country.getCountryname());
+            Assertions.assertNull(country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -101,13 +101,13 @@ public class TestUpdateByPrimaryKey {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            Assert.assertEquals(0, mapper.updateByPrimaryKey(new Key()));
+            Assertions.assertEquals(0, mapper.updateByPrimaryKey(new Key()));
 
             Key key = new Key();
             key.setId(174);
             key.setCountrycode("CN");
             key.setCountrytel("+86");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(key));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(key));
         } finally {
             sqlSession.close();
         }
@@ -122,28 +122,28 @@ public class TestUpdateByPrimaryKey {
         try {
             CountryVersionMapper mapper = sqlSession.getMapper(CountryVersionMapper.class);
             CountryVersion country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(1), country.getVersion());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(Integer.valueOf(1), country.getVersion());
             country.setCountryname("美国2");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(country));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(2), country.getVersion());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(Integer.valueOf(2), country.getVersion());
 
             country.setCountryname("美国3");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(country));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(3), country.getVersion());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(Integer.valueOf(3), country.getVersion());
 
             country.setCountryname("美国4");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(country));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(4), country.getVersion());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(Integer.valueOf(4), country.getVersion());
         } finally {
             sqlSession.close();
         }

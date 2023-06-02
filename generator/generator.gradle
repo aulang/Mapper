@@ -1,0 +1,17 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-generator')
+
+dependencies {
+
+    implementation(project(':base'))
+
+    implementation 'org.freemarker:freemarker:2.3.32'
+    implementation 'io.swagger:swagger-annotations:1.6.11'
+    implementation 'org.mybatis.generator:mybatis-generator-core:1.4.2'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.hsqldb:sqltool:2.7.2'
+}

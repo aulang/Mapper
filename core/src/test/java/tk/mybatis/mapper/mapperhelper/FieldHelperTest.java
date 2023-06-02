@@ -1,7 +1,7 @@
 package tk.mybatis.mapper.mapperhelper;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.EntityField;
 
 import java.util.List;
@@ -21,9 +21,9 @@ public class FieldHelperTest {
     @Test
     public void testUser() {
         List<EntityField> fieldList = FieldHelper.getFields(User.class);
-        Assert.assertEquals(2, fieldList.size());
-        Assert.assertEquals("id", fieldList.get(0).getName());
-        Assert.assertEquals("name", fieldList.get(1).getName());
+        Assertions.assertEquals(2, fieldList.size());
+        Assertions.assertEquals("id", fieldList.get(0).getName());
+        Assertions.assertEquals("name", fieldList.get(1).getName());
     }
 
     static class Admin {
@@ -34,9 +34,9 @@ public class FieldHelperTest {
     @Test
     public void testComplex() {
         List<EntityField> fieldList = FieldHelper.getFields(Admin.class);
-        Assert.assertEquals(2, fieldList.size());
-        Assert.assertEquals("admin", fieldList.get(0).getName());
-        Assert.assertEquals("user", fieldList.get(1).getName());
+        Assertions.assertEquals(2, fieldList.size());
+        Assertions.assertEquals("admin", fieldList.get(0).getName());
+        Assertions.assertEquals("user", fieldList.get(1).getName());
     }
 
 }

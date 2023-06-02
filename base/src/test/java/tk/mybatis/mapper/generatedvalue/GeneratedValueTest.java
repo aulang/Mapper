@@ -1,9 +1,9 @@
 package tk.mybatis.mapper.generatedvalue;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.entity.Config;
 
@@ -13,7 +13,7 @@ import java.io.Reader;
 /**
  * @author liuzh
  */
-@Ignore("这个测试需要使用 MySql 数据库")
+@Disabled("这个测试需要使用 MySql 数据库")
 public class GeneratedValueTest extends BaseTest {
 
     @Override
@@ -42,11 +42,11 @@ public class GeneratedValueTest extends BaseTest {
 
             UserAutoIncrement user = new UserAutoIncrement();
             user.setName("liuzh");
-            Assert.assertEquals(1, mapper.insert(user));
-            Assert.assertNotNull(user.getId());
+            Assertions.assertEquals(1, mapper.insert(user));
+            Assertions.assertNotNull(user.getId());
 
             user = mapper.selectByPrimaryKey(user.getId());
-            Assert.assertEquals("liuzh", user.getName());
+            Assertions.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
         }
@@ -60,11 +60,11 @@ public class GeneratedValueTest extends BaseTest {
 
             UserAutoIncrementIdentity user = new UserAutoIncrementIdentity();
             user.setName("liuzh");
-            Assert.assertEquals(1, mapper.insert(user));
-            Assert.assertNotNull(user.getId());
+            Assertions.assertEquals(1, mapper.insert(user));
+            Assertions.assertNotNull(user.getId());
 
             user = mapper.selectByPrimaryKey(user.getId());
-            Assert.assertEquals("liuzh", user.getName());
+            Assertions.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
         }
@@ -78,11 +78,11 @@ public class GeneratedValueTest extends BaseTest {
 
             UserSqlAfter user = new UserSqlAfter();
             user.setName("liuzh");
-            Assert.assertEquals(1, mapper.insert(user));
-            Assert.assertNotNull(user.getId());
+            Assertions.assertEquals(1, mapper.insert(user));
+            Assertions.assertNotNull(user.getId());
 
             user = mapper.selectByPrimaryKey(user.getId());
-            Assert.assertEquals("liuzh", user.getName());
+            Assertions.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
         }

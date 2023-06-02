@@ -24,7 +24,9 @@
 
 package tk.mybatis.mapper.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -33,6 +35,7 @@ import java.io.Serializable;
 @Table(name = "user_info")
 public class UserInfoAble extends UserParent implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -7703830119762722918L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

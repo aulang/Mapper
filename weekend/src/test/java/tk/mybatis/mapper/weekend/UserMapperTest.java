@@ -26,7 +26,8 @@
 package tk.mybatis.mapper.weekend;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.weekend.entity.Country;
 import tk.mybatis.mapper.weekend.entity.User;
 import tk.mybatis.mapper.weekend.mapper.CountryMapper;

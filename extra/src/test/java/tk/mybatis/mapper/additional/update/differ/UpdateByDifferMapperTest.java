@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.update.differ;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 import tk.mybatis.mapper.additional.Country;
 
@@ -37,11 +37,11 @@ public class UpdateByDifferMapperTest extends BaseTest {
             newer.setCountryname("Newer");
             newer.setCountrycode("AO");
             int count = mapper.updateByDiffer(old, newer);
-            Assert.assertEquals(1, count);
+            Assertions.assertEquals(1, count);
             old = mapper.selectByPrimaryKey(1L);
-            Assert.assertEquals(1L, old.getId().longValue());
-            Assert.assertEquals("Newer", old.getCountryname());
-            Assert.assertEquals("AO", old.getCountrycode());
+            Assertions.assertEquals(1L, old.getId().longValue());
+            Assertions.assertEquals("Newer", old.getCountryname());
+            Assertions.assertEquals("AO", old.getCountrycode());
         } finally {
             sqlSession.close();
         }

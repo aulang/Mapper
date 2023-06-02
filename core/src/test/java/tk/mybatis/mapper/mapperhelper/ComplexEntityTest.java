@@ -7,16 +7,16 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.EnumTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.annotation.ColumnType;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityTable;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +32,7 @@ public class ComplexEntityTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.camelhump);
@@ -152,7 +152,7 @@ public class ComplexEntityTest {
         sqlBuilder.append(SqlHelper.fromTable(entityClass, entityTable.getName()));
         sqlBuilder.append(SqlHelper.whereAllIfColumns(entityClass, config.isNotEmpty()));
         final String sql = sqlBuilder.toString();
-        Assert.assertEquals("SELECT id,user_name,address,state  FROM user " +
+        Assertions.assertEquals("SELECT id,user_name,address,state  FROM user " +
                 "<where>" +
                 "<if test=\"id != null\"> AND id = #{id}</if>" +
                 "<if test=\"userName != null\"> AND user_name = #{userName}</if>" +
@@ -166,20 +166,20 @@ public class ComplexEntityTest {
         final ResultMapping addressMapping = resultMappings.get(2);
         final ResultMapping stateMapping = resultMappings.get(3);
 
-        Assert.assertEquals("id", idMapping.getColumn());
-        Assert.assertEquals("id", idMapping.getProperty());
-        Assert.assertTrue(idMapping.getFlags().contains(ResultFlag.ID));
+        Assertions.assertEquals("id", idMapping.getColumn());
+        Assertions.assertEquals("id", idMapping.getProperty());
+        Assertions.assertTrue(idMapping.getFlags().contains(ResultFlag.ID));
 
-        Assert.assertEquals("user_name", userNameMapping.getColumn());
-        Assert.assertEquals("userName", userNameMapping.getProperty());
+        Assertions.assertEquals("user_name", userNameMapping.getColumn());
+        Assertions.assertEquals("userName", userNameMapping.getProperty());
 
-        Assert.assertEquals("address", addressMapping.getColumn());
-        Assert.assertEquals("address", addressMapping.getProperty());
-        Assert.assertEquals(AddressHandler.class, addressMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("address", addressMapping.getColumn());
+        Assertions.assertEquals("address", addressMapping.getProperty());
+        Assertions.assertEquals(AddressHandler.class, addressMapping.getTypeHandler().getClass());
 
-        Assert.assertEquals("state", stateMapping.getColumn());
-        Assert.assertEquals("state", stateMapping.getProperty());
-        Assert.assertEquals(EnumTypeHandler.class, stateMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("state", stateMapping.getColumn());
+        Assertions.assertEquals("state", stateMapping.getProperty());
+        Assertions.assertEquals(EnumTypeHandler.class, stateMapping.getTypeHandler().getClass());
 
 
     }

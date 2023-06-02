@@ -26,8 +26,8 @@ package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -39,26 +39,30 @@ import tk.mybatis.mapper.model.Country;
  */
 public class TestUpdateByPrimaryKeySelective {
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testDynamicUpdateByPrimaryKeySelectiveAll() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertEquals(0, mapper.updateByPrimaryKeySelective(new Country()));
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                Assertions.assertEquals(0, mapper.updateByPrimaryKeySelective(new Country()));
+            } finally {
+                sqlSession.close();
+            }
+        });        
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testDynamicUpdateByPrimaryKeySelectiveAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertEquals(0, mapper.updateByPrimaryKeySelective(null));
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                Assertions.assertEquals(0, mapper.updateByPrimaryKeySelective(null));
+            } finally {
+                sqlSession.close();
+            }
+        });        
     }
 
     /**
@@ -72,14 +76,14 @@ public class TestUpdateByPrimaryKeySelective {
             Country country = new Country();
             country.setId(173);
             country.setCountryname("英国");
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(country));
 
             country = mapper.selectByPrimaryKey(173);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(173, (int) country.getId());
-            Assert.assertEquals("英国", country.getCountryname());
-            Assert.assertNotNull(country.getCountrycode());
-            Assert.assertEquals("GB", country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(173, (int) country.getId());
+            Assertions.assertEquals("英国", country.getCountryname());
+            Assertions.assertNotNull(country.getCountrycode());
+            Assertions.assertEquals("GB", country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -97,7 +101,7 @@ public class TestUpdateByPrimaryKeySelective {
             key.setId(173);
             key.setCountrycode("CN");
             key.setCountrytel("+86");
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(key));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(key));
         } finally {
             sqlSession.close();
         }

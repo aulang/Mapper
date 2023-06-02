@@ -4,9 +4,9 @@ import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.ResultMapping;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.StringTypeHandler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityColumn;
@@ -24,7 +24,7 @@ public class NameStyleTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
@@ -41,35 +41,35 @@ public class NameStyleTest {
     public void testCamelhump() {
         EntityHelper.initEntityNameMap(UserCamelhump.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserCamelhump.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("user_camelhump", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("user_camelhump", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("user_name", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("user_name", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("user_name = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("user_name = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("user_name = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("user_name = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("user_name", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("user_name", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
     @NameStyle(Style.camelhumpAndUppercase)
@@ -81,35 +81,35 @@ public class NameStyleTest {
     public void testCamelhumpAndUppercase() {
         EntityHelper.initEntityNameMap(UserCamelhumpAndUppercase.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserCamelhumpAndUppercase.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("USER_CAMELHUMP_AND_UPPERCASE", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("USER_CAMELHUMP_AND_UPPERCASE", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("USER_NAME", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("USER_NAME", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("USER_NAME = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("USER_NAME = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("USER_NAME = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("USER_NAME = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("USER_NAME", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("USER_NAME", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
     @NameStyle(Style.camelhumpAndLowercase)
@@ -121,35 +121,35 @@ public class NameStyleTest {
     public void testCamelhumpAndLowercase() {
         EntityHelper.initEntityNameMap(UserCamelhumpAndLowercase.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserCamelhumpAndLowercase.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("user_camelhump_and_lowercase", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("user_camelhump_and_lowercase", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("user_name", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("user_name", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("user_name = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("user_name = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("user_name = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("user_name = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("user_name", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("user_name", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
     @NameStyle(Style.normal)
@@ -161,35 +161,35 @@ public class NameStyleTest {
     public void testNormal() {
         EntityHelper.initEntityNameMap(UserNormal.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserNormal.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("UserNormal", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("UserNormal", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("userName", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("userName", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("userName = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("userName = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("userName = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("userName = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("userName", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("userName", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
     @NameStyle(Style.uppercase)
@@ -201,35 +201,35 @@ public class NameStyleTest {
     public void testUppercase() {
         EntityHelper.initEntityNameMap(UserUppercase.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserUppercase.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("USERUPPERCASE", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("USERUPPERCASE", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("USERNAME", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("USERNAME", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("USERNAME = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("USERNAME = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("USERNAME = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("USERNAME = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("USERNAME", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("USERNAME", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
     @NameStyle(Style.lowercase)
@@ -241,35 +241,35 @@ public class NameStyleTest {
     public void testLowercase() {
         EntityHelper.initEntityNameMap(UserLowercase.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserLowercase.class);
-        Assert.assertNotNull(entityTable);
-        Assert.assertEquals("userlowercase", entityTable.getName());
+        Assertions.assertNotNull(entityTable);
+        Assertions.assertEquals("userlowercase", entityTable.getName());
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("username", column.getColumn());
-            Assert.assertEquals("userName", column.getProperty());
+            Assertions.assertEquals("username", column.getColumn());
+            Assertions.assertEquals("userName", column.getProperty());
 
-            Assert.assertEquals("username = #{userName}", column.getColumnEqualsHolder());
-            Assert.assertEquals("username = #{record.userName}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{userName}", column.getColumnHolder());
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("username = #{userName}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("username = #{record.userName}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{userName}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.userName}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.userNamesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USERNAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("username", resultMapping.getColumn());
-        Assert.assertEquals("userName", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("username", resultMapping.getColumn());
+        Assertions.assertEquals("userName", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
 }

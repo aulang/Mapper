@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.aggregation;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 import tk.mybatis.mapper.entity.Example;
 
@@ -23,8 +23,6 @@ public class AggregationMapperTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     /**
      * 获取初始化 sql
      *
@@ -43,10 +41,13 @@ public class AggregationMapperTest extends BaseTest {
         try {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             AggregateCondition aggregateCondition = AggregateCondition.builder().
-                    aggregateBy("id").aliasName("total").aggregateType(AggregateType.COUNT).groupBy("role");
+                    aggregateBy("id")
+                    .aliasName("total")
+                    .aggregateType(AggregateType.COUNT)
+                    .groupBy("role");
             Example example = new Example(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
-            Assert.assertEquals(2, m.size());
+            Assertions.assertEquals(2, m.size());
         } finally {
             sqlSession.close();
         }
@@ -61,8 +62,8 @@ public class AggregationMapperTest extends BaseTest {
                     aggregateBy("id").aggregateType(AggregateType.AVG);
             Example example = new Example(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
-            Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(3), m.get(0).getId());
+            Assertions.assertEquals(1, m.size());
+            Assertions.assertEquals(Long.valueOf(3), m.get(0).getId());
         } finally {
             sqlSession.close();
         }
@@ -77,8 +78,8 @@ public class AggregationMapperTest extends BaseTest {
                     aggregateBy("id").aliasName("aggregation").aggregateType(AggregateType.SUM);
             Example example = new Example(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
-            Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(21), m.get(0).getAggregation());
+            Assertions.assertEquals(1, m.size());
+            Assertions.assertEquals(Long.valueOf(21), m.get(0).getAggregation());
         } finally {
             sqlSession.close();
         }
@@ -94,9 +95,9 @@ public class AggregationMapperTest extends BaseTest {
             Example example = new Example(User.class);
             example.setOrderByClause("role desc");
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
-            Assert.assertEquals(2, m.size());
-            Assert.assertEquals(new Long(6), m.get(0).getAggregation());
-            Assert.assertEquals(new Long(3), m.get(1).getAggregation());
+            Assertions.assertEquals(2, m.size());
+            Assertions.assertEquals(Long.valueOf(6), m.get(0).getAggregation());
+            Assertions.assertEquals(Long.valueOf(3), m.get(1).getAggregation());
         } finally {
             sqlSession.close();
         }
@@ -111,8 +112,8 @@ public class AggregationMapperTest extends BaseTest {
                     aggregateBy("id").aliasName("aggregation").aggregateType(AggregateType.MIN);
             Example example = new Example(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
-            Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(1), m.get(0).getAggregation());
+            Assertions.assertEquals(1, m.size());
+            Assertions.assertEquals(Long.valueOf(1), m.get(0).getAggregation());
         } finally {
             sqlSession.close();
         }

@@ -1,0 +1,18 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-weekend')
+
+dependencies {
+
+    api(project(':core'))
+
+    testImplementation(project(':base'))
+
+    testImplementation 'org.hsqldb:hsqldb'
+}
+
+processTestResources {
+    from('src/test/java') {
+        include '**/*.xml', '**/*.sql'
+    }
+}

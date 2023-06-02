@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.user;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.UserLoginMapper;
 import tk.mybatis.mapper.model.UserLogin;
@@ -58,12 +58,12 @@ public class TestUserLogin {
             userLogin.setLogindate(new Date());
             userLogin.setLoginip("192.168.123.1");
 
-            Assert.assertEquals(1, mapper.insert(userLogin));
+            Assertions.assertEquals(1, mapper.insert(userLogin));
 
-            Assert.assertNotNull(userLogin.getLogid());
-            Assert.assertTrue(userLogin.getLogid() > 10);
+            Assertions.assertNotNull(userLogin.getLogid());
+            Assertions.assertTrue(userLogin.getLogid() > 10);
             //这里测了实体类入参的删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(userLogin));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userLogin));
         } finally {
             sqlSession.close();
         }
@@ -78,19 +78,19 @@ public class TestUserLogin {
         try {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
             //查询总数
-            Assert.assertEquals(10, mapper.selectCount(new UserLogin()));
+            Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
             //根据主键查询
             Map<String, Object> key = new HashMap<String, Object>();
             key.put("logid", 1);
             key.put("username", "test1");
             UserLogin userLogin = mapper.selectByPrimaryKey(key);
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(key));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(key));
 
             //查询总数
-            Assert.assertEquals(9, mapper.selectCount(new UserLogin()));
+            Assertions.assertEquals(9, mapper.selectCount(new UserLogin()));
             //插入
-            Assert.assertEquals(1, mapper.insert(userLogin));
+            Assertions.assertEquals(1, mapper.insert(userLogin));
         } finally {
             sqlSession.close();
         }
@@ -108,7 +108,7 @@ public class TestUserLogin {
             UserLogin userLogin = new UserLogin();
             userLogin.setUsername("test1");
             List<UserLogin> userLogins = mapper.select(userLogin);
-            Assert.assertEquals(5, userLogins.size());
+            Assertions.assertEquals(5, userLogins.size());
         } finally {
             sqlSession.close();
         }
@@ -126,15 +126,15 @@ public class TestUserLogin {
             key.put("logid", 2);
             key.put("username", "test1");
             UserLogin userLogin = mapper.selectByPrimaryKey(key);
-            Assert.assertNotNull(userLogin);
+            Assertions.assertNotNull(userLogin);
             userLogin.setLoginip("1.1.1.1");
             userLogin.setLogindate(null);
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userLogin));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(userLogin));
 
             userLogin = mapper.selectByPrimaryKey(userLogin);
-            Assert.assertNull(userLogin.getLogindate());
-            Assert.assertEquals("1.1.1.1", userLogin.getLoginip());
+            Assertions.assertNull(userLogin.getLogindate());
+            Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
         } finally {
             sqlSession.close();
         }
@@ -154,15 +154,15 @@ public class TestUserLogin {
             key.put("username", "test1");
 
             UserLogin userLogin = mapper.selectByPrimaryKey(key);
-            Assert.assertNotNull(userLogin);
+            Assertions.assertNotNull(userLogin);
             userLogin.setLogindate(null);
             userLogin.setLoginip("1.1.1.1");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userLogin));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(userLogin));
 
             userLogin = mapper.selectByPrimaryKey(key);
-            Assert.assertNotNull(userLogin.getLogindate());
-            Assert.assertEquals("1.1.1.1", userLogin.getLoginip());
+            Assertions.assertNotNull(userLogin.getLogindate());
+            Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
         } finally {
             sqlSession.close();
         }

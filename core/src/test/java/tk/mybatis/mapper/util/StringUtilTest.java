@@ -24,81 +24,81 @@
 
 package tk.mybatis.mapper.util;
 
-import org.junit.Test;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 
 public class StringUtilTest {
 
     @Test
     public void testIsEmpty() {
-        Assert.assertTrue(StringUtil.isEmpty(null));
-        Assert.assertTrue(StringUtil.isEmpty(""));
+        Assertions.assertTrue(StringUtil.isEmpty(null));
+        Assertions.assertTrue(StringUtil.isEmpty(""));
 
-        Assert.assertFalse(StringUtil.isEmpty(" "));
-        Assert.assertFalse(StringUtil.isEmpty("foo"));
+        Assertions.assertFalse(StringUtil.isEmpty(" "));
+        Assertions.assertFalse(StringUtil.isEmpty("foo"));
     }
 
     @Test
     public void testIsNotEmpty() {
-        Assert.assertFalse(StringUtil.isNotEmpty(null));
-        Assert.assertFalse(StringUtil.isNotEmpty(""));
+        Assertions.assertFalse(StringUtil.isNotEmpty(null));
+        Assertions.assertFalse(StringUtil.isNotEmpty(""));
 
-        Assert.assertTrue(StringUtil.isNotEmpty(" "));
-        Assert.assertTrue(StringUtil.isNotEmpty("foo"));
+        Assertions.assertTrue(StringUtil.isNotEmpty(" "));
+        Assertions.assertTrue(StringUtil.isNotEmpty("foo"));
     }
 
     @Test
     public void testConvertByStyle() {
-        Assert.assertEquals("fOo",
+        Assertions.assertEquals("fOo",
                 StringUtil.convertByStyle("fOo", Style.normal));
-        Assert.assertEquals("f_oo",
+        Assertions.assertEquals("f_oo",
                 StringUtil.convertByStyle("fOo", Style.camelhump));
-        Assert.assertEquals("FOO",
+        Assertions.assertEquals("FOO",
                 StringUtil.convertByStyle("fOo", Style.uppercase));
-        Assert.assertEquals("foo",
+        Assertions.assertEquals("foo",
                 StringUtil.convertByStyle("FoO", Style.lowercase));
-        Assert.assertEquals("fo_o",
+        Assertions.assertEquals("fo_o",
                 StringUtil.convertByStyle("FoO", Style.camelhumpAndLowercase));
-        Assert.assertEquals("F_OO",
+        Assertions.assertEquals("F_OO",
                 StringUtil.convertByStyle("fOo", Style.camelhumpAndUppercase));
     }
 
     @Test
     public void testCamelhumpToUnderline() {
-        Assert.assertEquals("foo", StringUtil.camelhumpToUnderline("foo"));
-        Assert.assertEquals("f_oo", StringUtil.camelhumpToUnderline("fOo"));
+        Assertions.assertEquals("foo", StringUtil.camelhumpToUnderline("foo"));
+        Assertions.assertEquals("f_oo", StringUtil.camelhumpToUnderline("fOo"));
     }
 
     @Test
     public void testUnderlineToCamelhump() {
-        Assert.assertEquals("foo", StringUtil.underlineToCamelhump("foo"));
-        Assert.assertEquals("foo", StringUtil.underlineToCamelhump("Foo"));
+        Assertions.assertEquals("foo", StringUtil.underlineToCamelhump("foo"));
+        Assertions.assertEquals("foo", StringUtil.underlineToCamelhump("Foo"));
     }
 
     @Test
     public void testIsUppercaseAlpha() {
-        Assert.assertTrue(StringUtil.isUppercaseAlpha('F'));
+        Assertions.assertTrue(StringUtil.isUppercaseAlpha('F'));
 
-        Assert.assertFalse(StringUtil.isUppercaseAlpha('f'));
+        Assertions.assertFalse(StringUtil.isUppercaseAlpha('f'));
     }
 
     @Test
     public void testIsLowercaseAlpha() {
-        Assert.assertTrue(StringUtil.isLowercaseAlpha('f'));
+        Assertions.assertTrue(StringUtil.isLowercaseAlpha('f'));
 
-        Assert.assertFalse(StringUtil.isLowercaseAlpha('F'));
+        Assertions.assertFalse(StringUtil.isLowercaseAlpha('F'));
     }
 
     @Test
     public void testToUpperAscii() {
-        Assert.assertEquals('F', StringUtil.toUpperAscii('f'));
-        Assert.assertEquals('F', StringUtil.toUpperAscii('F'));
+        Assertions.assertEquals('F', StringUtil.toUpperAscii('f'));
+        Assertions.assertEquals('F', StringUtil.toUpperAscii('F'));
     }
 
     @Test
     public void testToLowerAscii() {
-        Assert.assertEquals('f', StringUtil.toLowerAscii('f'));
-        Assert.assertEquals('f', StringUtil.toLowerAscii('F'));
+        Assertions.assertEquals('f', StringUtil.toLowerAscii('f'));
+        Assertions.assertEquals('f', StringUtil.toLowerAscii('F'));
     }
 }

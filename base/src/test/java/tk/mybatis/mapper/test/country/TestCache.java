@@ -25,7 +25,7 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CachedCountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;

@@ -1,11 +1,13 @@
 package tk.mybatis.mapper.typehandler;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * @author liuzh
  */
 public class Address implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private String province;
     private String city;

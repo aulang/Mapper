@@ -26,8 +26,8 @@ package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -42,29 +42,34 @@ public class TestSelectOne {
     /**
      * 查询全部
      */
-    @Test(expected = TooManyResultsException.class)
+    @Test
     public void testDynamicSelectAll() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Country country = mapper.selectOne(new Country());
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(TooManyResultsException.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                Country country = mapper.selectOne(new Country());
+            } finally {
+                sqlSession.close();
+            }
+        });
+        
     }
 
     /**
      * 入参为null时查询全部
      */
-    @Test(expected = TooManyResultsException.class)
+    @Test
     public void testDynamicSelectAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.selectOne(null);
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(TooManyResultsException.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.selectOne(null);
+            } finally {
+                sqlSession.close();
+            }
+        });
     }
 
     /**
@@ -79,8 +84,8 @@ public class TestSelectOne {
             country.setCountrycode("CN");
             Country result = mapper.selectOne(country);
 
-            Assert.assertEquals(true, result.getId() == 35);
-            Assert.assertEquals("China", result.getCountryname());
+            Assertions.assertEquals(true, result.getId() == 35);
+            Assertions.assertEquals("China", result.getCountryname());
         } finally {
             sqlSession.close();
         }
@@ -99,7 +104,7 @@ public class TestSelectOne {
             country.setCountryname("天朝");//实际上是 China
             Country result = mapper.selectOne(country);
 
-            Assert.assertNull(result);
+            Assertions.assertNull(result);
         } finally {
             sqlSession.close();
         }
