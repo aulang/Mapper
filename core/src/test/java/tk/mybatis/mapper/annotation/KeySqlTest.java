@@ -1,5 +1,6 @@
 package tk.mybatis.mapper.annotation;
 
+import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,13 +21,17 @@ public class KeySqlTest {
 
     private Config config;
 
+    private Configuration configuration;
+
     @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
+
+        configuration = new Configuration();
     }
 
-    static class UserJDBC {
+    class UserJDBC {
         @KeySql(useGeneratedKeys = true)
         private Long id;
     }
@@ -46,7 +51,7 @@ public class KeySqlTest {
         }
     }
 
-    static class UserDialect {
+    class UserDialect {
         @KeySql(dialect = IdentityDialect.MYSQL)
         private Long id;
     }
@@ -67,7 +72,7 @@ public class KeySqlTest {
         }
     }
 
-    static class UserSql {
+    class UserSql {
         @KeySql(sql = "select seq.nextval from dual", order = ORDER.BEFORE)
         private Long id;
     }
@@ -88,7 +93,7 @@ public class KeySqlTest {
         }
     }
 
-    static class UserAll {
+    class UserAll {
         @KeySql(useGeneratedKeys = true, dialect = IdentityDialect.MYSQL, sql = "select 1", order = ORDER.BEFORE)
         private Long id;
     }
@@ -108,7 +113,7 @@ public class KeySqlTest {
         }
     }
 
-    static class UserAll2 {
+    class UserAll2 {
         @KeySql(dialect = IdentityDialect.MYSQL, sql = "select 1", order = ORDER.BEFORE)
         private Long id;
     }

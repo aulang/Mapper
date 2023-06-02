@@ -11,8 +11,8 @@ ext {
 }
 
 allprojects {
-    group 'tk.mybatis-jakarta'
-    version '1.0.0'
+    group 'tk.mybatis-jdk17'
+    version '1.0.0-SNAPSHOT'
 
     buildDir = "$rootDir/build/" + outputDir(project)
 

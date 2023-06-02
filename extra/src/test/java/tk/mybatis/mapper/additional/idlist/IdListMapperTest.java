@@ -36,7 +36,8 @@ public class IdListMapperTest extends BaseTest {
 
     @Test
     public void testByIdList() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             List<Long> idList = Arrays.asList(1L, 2L, 3L);
             List<Country> countryList = mapper.selectByIdList(idList);
@@ -48,15 +49,20 @@ public class IdListMapperTest extends BaseTest {
             Assertions.assertEquals(3, mapper.deleteByIdList(idList));
             //查询结果0
             Assertions.assertEquals(0, mapper.selectByIdList(idList).size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testDeleteByEmptyIdList() {
         Assertions.assertThrows(Exception.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-                mapper.deleteByIdList(new ArrayList<>());
+                mapper.deleteByIdList(new ArrayList<Long>());
+            } finally {
+                sqlSession.close();
             }
         });
 
@@ -64,9 +70,13 @@ public class IdListMapperTest extends BaseTest {
 
     @Test
     public void testSelectByEmptyIdList() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assertions.assertEquals(183, mapper.selectByIdList(new ArrayList<>()).size());
+            Assertions.assertEquals(183, mapper.selectByIdList(new ArrayList<Long>()).size());
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

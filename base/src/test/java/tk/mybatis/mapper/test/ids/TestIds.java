@@ -42,11 +42,14 @@ public class TestIds {
 
     @Test
     public void testSelectByIds() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             List<Country> countryList = mapper.selectByIds("1,2,3");
             //查询总数
             Assertions.assertEquals(3, countryList.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -64,4 +67,5 @@ public class TestIds {
             sqlSession.close();
         }
     }
+
 }

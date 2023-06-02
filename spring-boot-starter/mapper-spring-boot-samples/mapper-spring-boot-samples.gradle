@@ -1,0 +1,9 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-spring-boot-samples')
+
+dependencies {
+
+    implementation 'ognl:ognl:3.3.4'
+    implementation 'org.javassist:javassist:3.29.2-GA'
+}

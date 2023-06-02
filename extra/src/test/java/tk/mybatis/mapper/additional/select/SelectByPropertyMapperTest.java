@@ -36,57 +36,76 @@ public class SelectByPropertyMapperTest extends BaseTest {
 
     @Test
     public void selectOneByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             Book book = mapper.selectOneByProperty(Book::getName, "JavaStarter1");
             Assertions.assertNotNull(book);
             Assertions.assertEquals("JavaStarter1", book.getName());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void selectByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectByProperty(Book::getPrice, 50);
             Assertions.assertEquals(2, books.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void selectInByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectInByProperty(Book::getPrice, Arrays.asList(50, 80));
             Assertions.assertEquals(3, books.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void selectBetweenByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             List<Book> books = mapper.selectBetweenByProperty(Book::getPublished, LocalDate.of(2015, 11, 11),
                     LocalDate.of(2019, 11, 11));
             Assertions.assertEquals(4, books.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void selectCountByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             int count = mapper.selectCountByProperty(Book::getPrice, 50);
             Assertions.assertEquals(2, count);
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void existsWithPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
             boolean exist = mapper.existsWithProperty(Book::getPrice, 50);
             Assertions.assertTrue(exist);
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

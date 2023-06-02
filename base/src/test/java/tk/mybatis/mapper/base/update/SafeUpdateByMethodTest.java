@@ -24,9 +24,12 @@ public class SafeUpdateByMethodTest extends BaseTest {
     @Test
     public void testSafeUpdate() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.updateByExample(new Country(), new Example(Country.class));
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -34,9 +37,12 @@ public class SafeUpdateByMethodTest extends BaseTest {
     @Test
     public void testSafeUpdateNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.updateByExample(new Country(), null);
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -44,9 +50,12 @@ public class SafeUpdateByMethodTest extends BaseTest {
     @Test
     public void testSafeUpdateNull2() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.updateByExample(null, null);
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -54,9 +63,12 @@ public class SafeUpdateByMethodTest extends BaseTest {
     @Test
     public void testSafeUpdateByExample() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.updateByExampleSelective(new Country(), new Example(Country.class));
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -64,9 +76,12 @@ public class SafeUpdateByMethodTest extends BaseTest {
     @Test
     public void testSafeUpdateByExampleNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = getSqlSession()) {
+            SqlSession sqlSession = getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.updateByExampleSelective(new Country(), null);
+            } finally {
+                sqlSession.close();
             }
         });
     }

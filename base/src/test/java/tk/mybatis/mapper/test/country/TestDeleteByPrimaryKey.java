@@ -49,14 +49,17 @@ public class TestDeleteByPrimaryKey {
 
     @BeforeEach
     public void setupDB() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             Connection conn = sqlSession.getConnection();
             Reader reader = Resources.getResourceAsReader("CreateDB.sql");
             ScriptRunner runner = new ScriptRunner(conn);
             runner.setLogWriter(null);
             runner.runScript(reader);
             reader.close();
-        } catch (IOException ignored) {
+        } catch (IOException e) {}
+        finally {
+            sqlSession.close();
         }
     }
 
@@ -65,7 +68,8 @@ public class TestDeleteByPrimaryKey {
      */
     @Test
     public void testDynamicDelete() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
             Assertions.assertEquals(183, mapper.selectCount(new Country()));
@@ -77,6 +81,8 @@ public class TestDeleteByPrimaryKey {
             Assertions.assertEquals(182, mapper.selectCount(new Country()));
             //插入
             Assertions.assertEquals(1, mapper.insert(country));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -85,13 +91,16 @@ public class TestDeleteByPrimaryKey {
      */
     @Test
     public void testDynamicDeleteZero() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //根据主键删除
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(null));
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(-100));
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(0));
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(1000));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -100,12 +109,15 @@ public class TestDeleteByPrimaryKey {
      */
     @Test
     public void testDynamicDeleteEntity() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             Country country = new Country();
             country.setId(100);
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -114,16 +126,19 @@ public class TestDeleteByPrimaryKey {
      */
     @Test
     public void testDynamicDeleteMap() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            Map<String, Object> map = new HashMap<>();
+            Map map = new HashMap();
             map.put("id", 100);
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(map));
 
-            map = new HashMap<>();
+            map = new HashMap();
             map.put("countryname", "China");
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(map));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -157,6 +172,7 @@ public class TestDeleteByPrimaryKey {
         }
     }
 
-    static class Key {
+    class Key {
     }
+
 }

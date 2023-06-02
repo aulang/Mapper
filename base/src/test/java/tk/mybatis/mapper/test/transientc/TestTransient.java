@@ -42,7 +42,8 @@ public class TestTransient {
      */
     @Test
     public void testDynamicInsert() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryTMapper mapper = sqlSession.getMapper(CountryTMapper.class);
             CountryT country = new CountryT();
             country.setId(10086);
@@ -60,6 +61,8 @@ public class TestTransient {
             Assertions.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -68,7 +71,8 @@ public class TestTransient {
      */
     @Test
     public void testDynamicUpdateByPrimaryKey() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryTMapper mapper = sqlSession.getMapper(CountryTMapper.class);
             CountryT country = new CountryT();
             country.setId(174);
@@ -81,6 +85,8 @@ public class TestTransient {
             Assertions.assertEquals(174, (int) country.getId());
             Assertions.assertEquals("美国", country.getCountryname());
             Assertions.assertNull(country.getCountrycode());
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -89,7 +95,8 @@ public class TestTransient {
      */
     @Test
     public void testDynamicSelect() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryTMapper mapper = sqlSession.getMapper(CountryTMapper.class);
             CountryT country = new CountryT();
             country.setId(174);
@@ -97,9 +104,11 @@ public class TestTransient {
             List<CountryT> countryList = mapper.select(country);
 
             Assertions.assertEquals(1, countryList.size());
-            Assertions.assertEquals(174, (int) countryList.get(0).getId());
+            Assertions.assertEquals(true, countryList.get(0).getId() == 174);
             Assertions.assertNotNull(countryList.get(0).getCountryname());
             Assertions.assertNull(countryList.get(0).getCountrycode());
+        } finally {
+            sqlSession.close();
         }
     }
 }

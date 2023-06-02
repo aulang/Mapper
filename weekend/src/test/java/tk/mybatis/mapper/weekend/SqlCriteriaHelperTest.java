@@ -19,7 +19,8 @@ public class SqlCriteriaHelperTest {
      */
     @Test
     public void ignore() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
@@ -34,6 +35,8 @@ public class SqlCriteriaHelperTest {
                             .andEqualTo(Country::getCountryname, null)
                             .andLike(Country::getCountrycode, "China")).build());
              */
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -44,7 +47,8 @@ public class SqlCriteriaHelperTest {
      */
     @Test
     public void required() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
@@ -55,6 +59,8 @@ public class SqlCriteriaHelperTest {
             /*List<Country> selectByWeekendSqls = mapper.selectByExample(new Example.Builder(Country.class)
                     .where(WeekendSqls.<Country>custom()
                             .andEqualTo(Country::getCountryname, null)).build());*/
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -63,7 +69,8 @@ public class SqlCriteriaHelperTest {
      */
     @Test
     public void like() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
@@ -78,6 +85,8 @@ public class SqlCriteriaHelperTest {
                             .orLike(Country::getCountryname, "A")).build());
             //判断两个结果数组内容是否相同
             Assertions.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());*/
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -86,12 +95,13 @@ public class SqlCriteriaHelperTest {
      */
     @Test
     public void list() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
-                            .andIn(Country::getCountryname, new ArrayList<>())
+                            .andIn(Country::getCountryname, new ArrayList())
                             .orLike(Country::getCountryname, "A")).build());
             Assertions.assertNotNull(selectBySqlCriteriaHelper);
             Assertions.assertEquals(17, selectBySqlCriteriaHelper.size());
@@ -104,6 +114,8 @@ public class SqlCriteriaHelperTest {
              */
             //判断两个结果数组内容是否相同
             //Assertions.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());
+        } finally {
+            sqlSession.close();
         }
     }
 }

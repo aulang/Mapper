@@ -34,7 +34,8 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
 
     @Test
     public void testSelect() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             List<User> users = userMapper.selectAll();
             Assertions.assertNotNull(users);
@@ -52,12 +53,15 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             Assertions.assertEquals("abel533", user.getName());
             Assertions.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
             Assertions.assertEquals(StateDictEnum.enabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsert() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
             User user = new User();
@@ -72,12 +76,15 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             Assertions.assertEquals("liuzh", user.getName());
             Assertions.assertEquals(LockDictEnum.unlocked, user.getLock());
             Assertions.assertEquals(StateDictEnum.enabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdate() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             User user = userMapper.selectByPrimaryKey(1);
             Assertions.assertEquals("abel533", user.getName());
@@ -92,12 +99,15 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             Assertions.assertEquals("abel533", user.getName());
             Assertions.assertEquals(LockDictEnum.locked, user.getLock());
             Assertions.assertEquals(StateDictEnum.disabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testDelete() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             Assertions.assertEquals(1, userMapper.deleteByPrimaryKey(1));
 
@@ -113,6 +123,9 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             user.setLock(LockDictEnum.locked);
             user.setState(StateDictEnum.disabled);
             Assertions.assertEquals(1, userMapper.delete(user));
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

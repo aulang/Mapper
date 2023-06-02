@@ -52,6 +52,7 @@ public class OracleTest extends BaseTest {
         return toReader(url);
     }
 
+    ;
 
     @Override
     protected void runSql(Reader reader) {
@@ -59,24 +60,30 @@ public class OracleTest extends BaseTest {
 
     @Test
     public void testSelect() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             DemoCountryMapper mapper = sqlSession.getMapper(DemoCountryMapper.class);
             List<DemoCountry> countries = mapper.selectAll();
             System.out.println(countries.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsertList() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             DemoCountryMapper mapper = sqlSession.getMapper(DemoCountryMapper.class);
-            List<DemoCountry> countryList = new ArrayList<>();
+            List<DemoCountry> countryList = new ArrayList<DemoCountry>();
             countryList.add(new DemoCountry("20", "Zimbabwe", "ZW"));
             countryList.add(new DemoCountry("21", "Zaire", "ZR"));
             countryList.add(new DemoCountry("22", "Zambia", "ZM"));
             int updates = mapper.insertList(countryList);
             Assertions.assertEquals(3, updates);
+        } finally {
+            //sqlSession.commit();
+            sqlSession.close();
         }
-        //sqlSession.commit();
     }
 }

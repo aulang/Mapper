@@ -24,12 +24,13 @@
 
 package tk.mybatis.mapper.helper;
 
-import jakarta.persistence.Id;
 import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.EntityField;
 import tk.mybatis.mapper.mapperhelper.FieldHelper;
 import tk.mybatis.mapper.model.Country;
 
+import jakarta.persistence.Id;
+import java.beans.IntrospectionException;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ import java.util.List;
 public class FieldHelperTest {
 
     @Test
-    public void test1() {
+    public void test1() throws IntrospectionException {
         List<EntityField> fields = FieldHelper.getFields(Country.class);
         for (EntityField field : fields) {
             System.out.println(field.getName() + "  -  @Id:" + field.isAnnotationPresent(Id.class) + "  -  javaType:" + field.getJavaType());
@@ -54,12 +55,31 @@ public class FieldHelperTest {
     }
 
     @Test
-    public void test2() {
-        Thread t1 = new Thread(() -> FieldHelper.getFields(Country.class));
-        Thread t2 = new Thread(() -> FieldHelper.getFields(Country.class));
-        Thread t3 = new Thread(() -> FieldHelper.getFields(Country.class));
-        Thread t4 = new Thread(() -> FieldHelper.getFields(Country.class));
-
+    public void test2() throws IntrospectionException {
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FieldHelper.getFields(Country.class);
+            }
+        });
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FieldHelper.getFields(Country.class);
+            }
+        });
+        Thread t3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FieldHelper.getFields(Country.class);
+            }
+        });
+        Thread t4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FieldHelper.getFields(Country.class);
+            }
+        });
         t1.start();
         t2.start();
         t3.start();

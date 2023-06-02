@@ -43,9 +43,10 @@ public class TestMap {
     /**
      * 新增
      */
-    // @Test
+//    @Test
     public void testInsert() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = new UserInfoMap();
             userInfoMap.setUserName("abel533");
@@ -58,15 +59,18 @@ public class TestMap {
             Assertions.assertEquals(6, (int) userInfoMap.getId());
 
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userInfoMap));
+        } finally {
+            sqlSession.close();
         }
     }
 
     /**
      * 主要测试删除
      */
-    // @Test
+//    @Test
     public void testDelete() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             //查询总数
             Assertions.assertEquals(5, mapper.selectCount(new UserInfoMap()));
@@ -80,6 +84,8 @@ public class TestMap {
             Assertions.assertEquals(4, mapper.selectCount(new UserInfoMap()));
             //插入
             Assertions.assertEquals(1, mapper.insert(userInfoMap));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -87,23 +93,27 @@ public class TestMap {
     /**
      * 查询
      */
-    // @Test
+//    @Test
     public void testSelect() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = new UserInfoMap();
             userInfoMap.setUserType("1");
             List<UserInfoMap> UserInfoMaps = mapper.select(userInfoMap);
             Assertions.assertEquals(3, UserInfoMaps.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     /**
      * 根据主键全更新
      */
-    // @Test
+//    @Test
     public void testUpdateByPrimaryKey() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = mapper.selectByPrimaryKey(2);
             Assertions.assertNotNull(userInfoMap);
@@ -115,15 +125,18 @@ public class TestMap {
             userInfoMap = mapper.selectByPrimaryKey(userInfoMap);
             Assertions.assertNull(userInfoMap.getUserType());
             Assertions.assertEquals("liuzh", userInfoMap.getRealName());
+        } finally {
+            sqlSession.close();
         }
     }
 
     /**
      * 根据主键更新非null
      */
-    // @Test
+//    @Test
     public void testUpdateByPrimaryKeySelective() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
             UserInfoMap userInfoMap = mapper.selectByPrimaryKey(1);
             Assertions.assertNotNull(userInfoMap);
@@ -135,6 +148,10 @@ public class TestMap {
             userInfoMap = mapper.selectByPrimaryKey(1);
             Assertions.assertEquals("1", userInfoMap.getUserType());
             Assertions.assertEquals("liuzh", userInfoMap.getRealName());
+        } finally {
+            sqlSession.close();
         }
     }
+
+
 }

@@ -46,14 +46,17 @@ public class TestSelectByPrimaryKey {
      */
     @Test
     public void testDynamicSelectByPrimaryKey2() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = mapper.selectByPrimaryKey(35);
 
             Assertions.assertNotNull(country);
-            Assertions.assertEquals(35, (int) country.getId());
+            Assertions.assertEquals(true, country.getId() == 35);
             Assertions.assertEquals("China", country.getCountryname());
             Assertions.assertEquals("CN", country.getCountrycode());
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -62,15 +65,18 @@ public class TestSelectByPrimaryKey {
      */
     @Test
     public void testDynamicSelectByPrimaryKey() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(35);
             country = mapper.selectByPrimaryKey(country);
             Assertions.assertNotNull(country);
-            Assertions.assertEquals(35, (int) country.getId());
+            Assertions.assertEquals(true, country.getId() == 35);
             Assertions.assertEquals("China", country.getCountryname());
             Assertions.assertEquals("CN", country.getCountrycode());
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -79,7 +85,8 @@ public class TestSelectByPrimaryKey {
      */
     @Test
     public void testDynamicSelectByPrimaryKeyZero() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Assertions.assertNull(mapper.selectByPrimaryKey(new Country()));
             Assertions.assertNull(mapper.selectByPrimaryKey(new HashMap<String, Object>()));
@@ -87,6 +94,8 @@ public class TestSelectByPrimaryKey {
             Assertions.assertNull(mapper.selectByPrimaryKey(0));
             Assertions.assertNull(mapper.selectByPrimaryKey(1000));
             Assertions.assertNull(mapper.selectByPrimaryKey(null));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -95,20 +104,23 @@ public class TestSelectByPrimaryKey {
      */
     @Test
     public void testSelectByPrimaryKeyMap() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            Map<String, Object> map = new HashMap<>();
+            Map map = new HashMap();
             map.put("id", 35);
             Country country = mapper.selectByPrimaryKey(map);
             Assertions.assertNotNull(country);
-            Assertions.assertEquals(35, (int) country.getId());
+            Assertions.assertEquals(true, country.getId() == 35);
             Assertions.assertEquals("China", country.getCountryname());
             Assertions.assertEquals("CN", country.getCountrycode());
 
-            map = new HashMap<>();
+            map = new HashMap();
             map.put("countryname", "China");
             Assertions.assertNull(mapper.selectByPrimaryKey(map));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -118,9 +130,12 @@ public class TestSelectByPrimaryKey {
     @Test
     public void testDynamicDeleteNotFoundKeyProperties() {
         Assertions.assertThrows(Exception.class, () -> {
-            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.selectByPrimaryKey(new Key());
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -130,12 +145,15 @@ public class TestSelectByPrimaryKey {
      */
     @Test
     public void testDynamicDeleteException() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             mapper.selectByPrimaryKey(100);
+        } finally {
+            sqlSession.close();
         }
     }
 
-    static class Key {
+    class Key {
     }
 }

@@ -47,11 +47,14 @@ public class TestInsertSelective {
     @Test
     public void testDynamicInsertAll() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.insertSelective(new Country());
+            } finally {
+                sqlSession.close();
             }
-        });
+        });        
     }
 
     /**
@@ -60,12 +63,15 @@ public class TestInsertSelective {
     @Test
     public void testDynamicInsertSelectiveAllByNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.insertSelective(null);
+            } finally {
+                sqlSession.close();
             }
         });
-
+        
     }
 
     /**
@@ -73,7 +79,8 @@ public class TestInsertSelective {
      */
     @Test
     public void testDynamicInsertSelective() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(10086);
@@ -89,6 +96,8 @@ public class TestInsertSelective {
             Assertions.assertEquals(2, list.size());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -97,7 +106,8 @@ public class TestInsertSelective {
      */
     @Test
     public void testDynamicInsertSelectiveNull() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(10086);
@@ -115,6 +125,9 @@ public class TestInsertSelective {
             Assertions.assertEquals("HH", list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

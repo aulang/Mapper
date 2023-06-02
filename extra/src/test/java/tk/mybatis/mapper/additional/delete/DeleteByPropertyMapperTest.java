@@ -35,7 +35,8 @@ public class DeleteByPropertyMapperTest extends BaseTest {
 
     @Test
     public void deleteByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             Course beforeDelete = mapper.selectByPrimaryKey(2);
@@ -47,12 +48,15 @@ public class DeleteByPropertyMapperTest extends BaseTest {
 
             Course afterDelete = mapper.selectByPrimaryKey(2);
             Assertions.assertNull(afterDelete);
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void deleteInByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             List<Course> beforeDelete = mapper.selectAll();
@@ -64,12 +68,15 @@ public class DeleteByPropertyMapperTest extends BaseTest {
 
             List<Course> afterDelete = mapper.selectAll();
             Assertions.assertEquals(0, afterDelete.size());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void deleteBetweenByPropertyTest() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
             List<Course> beforeDelete = mapper.selectAll();
@@ -81,6 +88,8 @@ public class DeleteByPropertyMapperTest extends BaseTest {
 
             List<Course> afterDelete = mapper.selectAll();
             Assertions.assertEquals(2, afterDelete.size());
+        } finally {
+            sqlSession.close();
         }
     }
 }

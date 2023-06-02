@@ -1,5 +1,6 @@
 package tk.mybatis.mapper.annotation;
 
+import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,13 +21,17 @@ public class VersionTest {
 
     private Config config;
 
+    private Configuration configuration;
+
     @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
+
+        configuration = new Configuration();
     }
 
-    static class UserVersion {
+    class UserVersion {
         @Version
         private String name;
     }
@@ -48,7 +53,7 @@ public class VersionTest {
     /**
      * 一个实体类中只能有一个 @Version 注解
      */
-    static class UserVersionError {
+    class UserVersionError {
         @Version
         private Long id;
 

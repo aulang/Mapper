@@ -41,7 +41,8 @@ public class DateTimeTest extends BaseTest {
 
     @Test
     public void testSelect() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModelMapper mapper = sqlSession.getMapper(TimeModelMapper.class);
             List<TimeModel> list = mapper.selectAll();
             Assertions.assertEquals(2, list.size());
@@ -53,12 +54,15 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals("2018-11-11", toDate(list.get(1).getTestDate()));
             Assertions.assertEquals("01:59:11", toTime(list.get(1).getTestTime()));
             Assertions.assertEquals("2018-02-12 17:58:12", toDatetime(list.get(1).getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsert() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModelMapper mapper = sqlSession.getMapper(TimeModelMapper.class);
             TimeModel timeModel = new TimeModel();
             timeModel.setId(3);
@@ -79,12 +83,15 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals(toDatetime(now), toDatetime(timeModel.getTestTime()));
 
             Assertions.assertEquals(toDatetime(now), toDatetime(timeModel.getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testSelect2() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModel2Mapper mapper = sqlSession.getMapper(TimeModel2Mapper.class);
             List<TimeModel2> list = mapper.selectAll();
             Assertions.assertEquals(2, list.size());
@@ -96,12 +103,15 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals("2018-11-11", toDate(list.get(1).getTestDate()));
             Assertions.assertEquals("01:59:11", toTime(list.get(1).getTestTime()));
             Assertions.assertEquals("2018-02-12 17:58:12", toDatetime(list.get(1).getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsert2() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModel2Mapper mapper = sqlSession.getMapper(TimeModel2Mapper.class);
             TimeModel2 timeModel = new TimeModel2();
             timeModel.setId(3);
@@ -123,12 +133,15 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals(toDatetime(now), toDatetime(timeModel.getTestTime()));
 
             Assertions.assertEquals(toDatetime(now), toDatetime(timeModel.getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testSelect3() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModel3Mapper mapper = sqlSession.getMapper(TimeModel3Mapper.class);
             List<TimeModel3> list = mapper.selectAll();
             Assertions.assertEquals(2, list.size());
@@ -140,12 +153,15 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals("2018-11-11", toDate(list.get(1).getTestDate()));
             Assertions.assertEquals("01:59:11", toTime(list.get(1).getTestTime()));
             Assertions.assertEquals("2018-02-12 17:58:12", toDatetime(list.get(1).getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsert3() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             TimeModel3Mapper mapper = sqlSession.getMapper(TimeModel3Mapper.class);
             TimeModel3 timeModel = new TimeModel3();
             timeModel.setId(3);
@@ -173,6 +189,8 @@ public class DateTimeTest extends BaseTest {
             Assertions.assertEquals("1970-01-01 " + toTime(now), toDatetime(timeModel.getTestTime()));
 
             Assertions.assertEquals(toDatetime(now), toDatetime(timeModel.getTestDatetime()));
+        } finally {
+            sqlSession.close();
         }
     }
 

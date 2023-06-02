@@ -27,7 +27,8 @@ public class KeySqlTest extends BaseTest {
 
     @Test
     public void testUserAutoIncrement() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserAutoIncrementMapper mapper = sqlSession.getMapper(UserAutoIncrementMapper.class);
 
             UserAutoIncrement user = new UserAutoIncrement();
@@ -37,12 +38,15 @@ public class KeySqlTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testUserAutoIncrementIdentity() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserAutoIncrementIdentityMapper mapper = sqlSession.getMapper(UserAutoIncrementIdentityMapper.class);
 
             UserAutoIncrementIdentity user = new UserAutoIncrementIdentity();
@@ -52,12 +56,15 @@ public class KeySqlTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testUserSqlAfter() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserSqlAfterMapper mapper = sqlSession.getMapper(UserSqlAfterMapper.class);
 
             UserSqlAfter user = new UserSqlAfter();
@@ -67,12 +74,15 @@ public class KeySqlTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testUserSqlBefore() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserSqlBeforeMapper mapper = sqlSession.getMapper(UserSqlBeforeMapper.class);
 
             UserSqlBefore user = new UserSqlBefore();
@@ -82,6 +92,9 @@ public class KeySqlTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(12345);
             Assertions.assertEquals("liuzh", user.getName());
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

@@ -45,12 +45,15 @@ public class TestSelectOne {
     @Test
     public void testDynamicSelectAll() {
         Assertions.assertThrows(TooManyResultsException.class, () -> {
-            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 Country country = mapper.selectOne(new Country());
+            } finally {
+                sqlSession.close();
             }
         });
-
+        
     }
 
     /**
@@ -59,9 +62,12 @@ public class TestSelectOne {
     @Test
     public void testDynamicSelectAllByNull() {
         Assertions.assertThrows(TooManyResultsException.class, () -> {
-            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.selectOne(null);
+            } finally {
+                sqlSession.close();
             }
         });
     }
@@ -71,14 +77,17 @@ public class TestSelectOne {
      */
     @Test
     public void testDynamicSelect() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
             Country result = mapper.selectOne(country);
 
-            Assertions.assertEquals(35, (int) result.getId());
+            Assertions.assertEquals(true, result.getId() == 35);
             Assertions.assertEquals("China", result.getCountryname());
+        } finally {
+            sqlSession.close();
         }
     }
 
@@ -87,7 +96,8 @@ public class TestSelectOne {
      */
     @Test
     public void testDynamicSelectZero() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
@@ -95,6 +105,9 @@ public class TestSelectOne {
             Country result = mapper.selectOne(country);
 
             Assertions.assertNull(result);
+        } finally {
+            sqlSession.close();
         }
     }
+
 }

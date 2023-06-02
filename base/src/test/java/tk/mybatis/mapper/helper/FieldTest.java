@@ -24,13 +24,13 @@
 
 package tk.mybatis.mapper.helper;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.EntityField;
 import tk.mybatis.mapper.mapperhelper.FieldHelper;
 import tk.mybatis.mapper.model.Country;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -39,11 +39,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author liuzh_3nofxnp
@@ -59,8 +55,8 @@ public class FieldTest {
      */
     private static List<EntityField> _getProperties(Class<?> entityClass) {
         Map<String, Class<?>> genericMap = _getGenericTypeMap(entityClass);
-        List<EntityField> entityFields = new ArrayList<>();
-        BeanInfo beanInfo;
+        List<EntityField> entityFields = new ArrayList<EntityField>();
+        BeanInfo beanInfo = null;
         try {
             beanInfo = Introspector.getBeanInfo(entityClass);
         } catch (IntrospectionException e) {
@@ -70,15 +66,15 @@ public class FieldTest {
         for (PropertyDescriptor desc : descriptors) {
             if (desc != null && !"class".equals(desc.getName())) {
                 EntityField entityField = new EntityField(null, desc);
-                if (desc.getReadMethod() != null && desc.getReadMethod().getGenericReturnType() instanceof TypeVariable) {
+                if (desc.getReadMethod() != null
+                        && desc.getReadMethod().getGenericReturnType() != null
+                        && desc.getReadMethod().getGenericReturnType() instanceof TypeVariable) {
                     entityField.setJavaType(genericMap.get(((TypeVariable) desc.getReadMethod().getGenericReturnType()).getName()));
-                } else {
-                    if (desc.getWriteMethod() != null) {
-                        desc.getWriteMethod();
-                        if (desc.getWriteMethod().getGenericParameterTypes().length == 1 && desc.getWriteMethod().getGenericParameterTypes()[0] instanceof TypeVariable) {
-                            entityField.setJavaType(genericMap.get(((TypeVariable) desc.getWriteMethod().getGenericParameterTypes()[0]).getName()));
-                        }
-                    }
+                } else if (desc.getWriteMethod() != null
+                        && desc.getWriteMethod().getGenericParameterTypes() != null
+                        && desc.getWriteMethod().getGenericParameterTypes().length == 1
+                        && desc.getWriteMethod().getGenericParameterTypes()[0] instanceof TypeVariable) {
+                    entityField.setJavaType(genericMap.get(((TypeVariable) desc.getWriteMethod().getGenericParameterTypes()[0]).getName()));
                 }
                 entityFields.add(entityField);
             }
@@ -90,7 +86,7 @@ public class FieldTest {
      * @param entityClass
      */
     private static Map<String, Class<?>> _getGenericTypeMap(Class<?> entityClass) {
-        Map<String, Class<?>> genericMap = new HashMap<>();
+        Map<String, Class<?>> genericMap = new HashMap<String, Class<?>>();
         if (entityClass == Object.class) {
             return genericMap;
         }
@@ -120,7 +116,7 @@ public class FieldTest {
 
     private static void processAllColumns(Class<?> entityClass, List<EntityField> fieldList, Map<String, Class<?>> genericMap) {
         if (fieldList == null) {
-            fieldList = new ArrayList<>();
+            fieldList = new ArrayList<EntityField>();
         }
         if (entityClass == Object.class) {
             return;
@@ -128,7 +124,7 @@ public class FieldTest {
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
             EntityField entityField = new EntityField(field, null);
-            if (field.getGenericType() instanceof TypeVariable) {
+            if (field.getGenericType() != null && field.getGenericType() instanceof TypeVariable) {
                 if (genericMap == null || !genericMap.containsKey(((TypeVariable) field.getGenericType()).getName())) {
                     throw new RuntimeException(entityClass + "字段" + field.getName() + "的泛型类型无法获取!");
                 } else {
@@ -146,7 +142,7 @@ public class FieldTest {
             Type[] types = ((ParameterizedType) entityClass.getGenericSuperclass()).getActualTypeArguments();
             TypeVariable[] typeVariables = superClass.getTypeParameters();
             if (typeVariables.length > 0) {
-                _genericMap = new HashMap<>();
+                _genericMap = new HashMap<String, Class<?>>();
                 for (int i = 0; i < typeVariables.length; i++) {
                     _genericMap.put(typeVariables[i].getName(), (Class<?>) types[i]);
                 }
@@ -155,8 +151,8 @@ public class FieldTest {
         processAllColumns(superClass, fieldList, _genericMap);
     }
 
-    // @Test
-    public void test1() {
+    //    @Test
+    public void test1() throws IntrospectionException {
         List<EntityField> fields = null;// = new ArrayList<EntityField>();
         processAllColumns(Country.class, fields, null);
         for (EntityField field : fields) {

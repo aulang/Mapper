@@ -72,12 +72,12 @@ public class TestUpdateByExampleSelective {
             Country country = new Country();
             country.setCountryname("天朝");
             int count = mapper.updateByExampleSelective(country, example);
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
 
             example = new Example(Country.class);
             example.createCriteria().andEqualTo("countryname", "天朝");
             count = mapper.selectCountByExample(example);
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -96,15 +96,16 @@ public class TestUpdateByExampleSelective {
             Country country = new Country();
             country.setCountryname("天朝");
             int count = mapper.updateByExampleSelective(country, example);
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
 
             example = new CountryExample();
             example.createCriteria().andCountrynameEqualTo("天朝");
             count = mapper.selectCountByExample(example);
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.rollback();
             sqlSession.close();
         }
     }
+
 }

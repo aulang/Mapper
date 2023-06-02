@@ -43,14 +43,17 @@ public class TestExistsWithPrimaryKey {
      */
     @Test
     public void testDynamicExistsWithPrimaryKey() {
-        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(35);
-            Assertions.assertTrue(mapper.existsWithPrimaryKey(country));
+            Assertions.assertEquals(true, mapper.existsWithPrimaryKey(country));
 
             country.setId(0);
-            Assertions.assertFalse(mapper.existsWithPrimaryKey(country));
+            Assertions.assertEquals(false, mapper.existsWithPrimaryKey(country));
+        } finally {
+            sqlSession.close();
         }
     }
 }

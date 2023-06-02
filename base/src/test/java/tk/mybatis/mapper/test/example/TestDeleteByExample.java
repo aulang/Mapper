@@ -65,7 +65,7 @@ public class TestDeleteByExample {
             example.setDistinct(true);
             int count = mapper.deleteByExample(example);
             //查询总数
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -83,10 +83,11 @@ public class TestDeleteByExample {
             example.setDistinct(true);
             int count = mapper.deleteByExample(example);
             //查询总数
-            Assertions.assertTrue(count > 83);
+            Assertions.assertEquals(true, count > 83);
         } finally {
             sqlSession.rollback();
             sqlSession.close();
         }
     }
+
 }

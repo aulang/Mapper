@@ -34,7 +34,8 @@ public class TypeHandlerTest extends BaseTest {
 
     @Test
     public void testSelect() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             List<User> users = userMapper.selectAll();
             Assertions.assertNotNull(users);
@@ -54,12 +55,15 @@ public class TypeHandlerTest extends BaseTest {
             Assertions.assertEquals("Hebei", user.getAddress().getProvince());
             Assertions.assertEquals("Shijiazhuang", user.getAddress().getCity());
             Assertions.assertEquals(StateEnum.enabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testInsert() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 
             User user = new User();
@@ -78,12 +82,15 @@ public class TypeHandlerTest extends BaseTest {
             Assertions.assertEquals("Hebei", user.getAddress().getProvince());
             Assertions.assertEquals("Qinhuangdao", user.getAddress().getCity());
             Assertions.assertEquals(StateEnum.enabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdate() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             User user = userMapper.selectByPrimaryKey(1);
             Assertions.assertEquals("abel533", user.getName());
@@ -100,12 +107,15 @@ public class TypeHandlerTest extends BaseTest {
             Assertions.assertEquals("Hebei", user.getAddress().getProvince());
             Assertions.assertEquals("Handan", user.getAddress().getCity());
             Assertions.assertEquals(StateEnum.disabled, user.getState());
+        } finally {
+            sqlSession.close();
         }
     }
 
     @Test
     public void testDelete() {
-        try (SqlSession sqlSession = getSqlSession()) {
+        SqlSession sqlSession = getSqlSession();
+        try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             Assertions.assertEquals(1, userMapper.deleteByPrimaryKey(1));
 
@@ -119,6 +129,9 @@ public class TypeHandlerTest extends BaseTest {
 
             user.setState(StateEnum.disabled);
             Assertions.assertEquals(1, userMapper.delete(user));
+        } finally {
+            sqlSession.close();
         }
     }
+
 }
