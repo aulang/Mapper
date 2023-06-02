@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.transientc;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryTMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.CountryT;
@@ -49,18 +49,18 @@ public class TestTransient {
             country.setId(10086);
             country.setCountrycode("CN");
             country.setCountryname("天朝");
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
 
             //查询CN结果
             country = new CountryT();
             country.setCountrycode("CN");
             List<CountryT> list = mapper.select(country);
 
-            Assert.assertEquals(2, list.size());
+            Assertions.assertEquals(2, list.size());
             //屏蔽的数据是null
-            Assert.assertNull(list.get(0).getCountrycode());
+            Assertions.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
         } finally {
             sqlSession.close();
         }
@@ -78,13 +78,13 @@ public class TestTransient {
             country.setId(174);
             country.setCountryname("美国");
             country.setCountrycode("US");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.updateByPrimaryKey(country));
 
             country = mapper.selectByPrimaryKey(174);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(174, (int) country.getId());
-            Assert.assertEquals("美国", country.getCountryname());
-            Assert.assertNull(country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(174, (int) country.getId());
+            Assertions.assertEquals("美国", country.getCountryname());
+            Assertions.assertNull(country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -103,10 +103,10 @@ public class TestTransient {
             country.setCountrycode("US");
             List<CountryT> countryList = mapper.select(country);
 
-            Assert.assertEquals(1, countryList.size());
-            Assert.assertEquals(true, countryList.get(0).getId() == 174);
-            Assert.assertNotNull(countryList.get(0).getCountryname());
-            Assert.assertNull(countryList.get(0).getCountrycode());
+            Assertions.assertEquals(1, countryList.size());
+            Assertions.assertEquals(true, countryList.get(0).getId() == 174);
+            Assertions.assertNotNull(countryList.get(0).getCountryname());
+            Assertions.assertNull(countryList.get(0).getCountrycode());
         } finally {
             sqlSession.close();
         }

@@ -1,0 +1,10 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-spring-boot-samples-xml')
+
+dependencies {
+
+    implementation (project(':spring-boot-starter:mapper-spring-boot-starter'))
+
+    testImplementation 'com.h2database:h2:2.1.214'
+}

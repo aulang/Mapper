@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -48,10 +48,10 @@ public class TestExistsWithPrimaryKey {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(35);
-            Assert.assertEquals(true, mapper.existsWithPrimaryKey(country));
+            Assertions.assertEquals(true, mapper.existsWithPrimaryKey(country));
 
             country.setId(0);
-            Assert.assertEquals(false, mapper.existsWithPrimaryKey(country));
+            Assertions.assertEquals(false, mapper.existsWithPrimaryKey(country));
         } finally {
             sqlSession.close();
         }

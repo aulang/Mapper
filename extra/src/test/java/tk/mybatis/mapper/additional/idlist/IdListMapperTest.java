@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.idlist;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 import tk.mybatis.mapper.additional.Country;
 import tk.mybatis.mapper.entity.Config;
@@ -41,28 +41,31 @@ public class IdListMapperTest extends BaseTest {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             List<Long> idList = Arrays.asList(1L, 2L, 3L);
             List<Country> countryList = mapper.selectByIdList(idList);
-            Assert.assertEquals(3, countryList.size());
-            Assert.assertEquals(1L, (long) countryList.get(0).getId());
-            Assert.assertEquals(2L, (long) countryList.get(1).getId());
-            Assert.assertEquals(3L, (long) countryList.get(2).getId());
+            Assertions.assertEquals(3, countryList.size());
+            Assertions.assertEquals(1L, (long) countryList.get(0).getId());
+            Assertions.assertEquals(2L, (long) countryList.get(1).getId());
+            Assertions.assertEquals(3L, (long) countryList.get(2).getId());
             //删除
-            Assert.assertEquals(3, mapper.deleteByIdList(idList));
+            Assertions.assertEquals(3, mapper.deleteByIdList(idList));
             //查询结果0
-            Assert.assertEquals(0, mapper.selectByIdList(idList).size());
+            Assertions.assertEquals(0, mapper.selectByIdList(idList).size());
         } finally {
             sqlSession.close();
         }
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testDeleteByEmptyIdList() {
-        SqlSession sqlSession = getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.deleteByIdList(new ArrayList<Long>());
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(Exception.class, () -> {
+            SqlSession sqlSession = getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.deleteByIdList(new ArrayList<Long>());
+            } finally {
+                sqlSession.close();
+            }
+        });
+
     }
 
     @Test
@@ -70,7 +73,7 @@ public class IdListMapperTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertEquals(183, mapper.selectByIdList(new ArrayList<Long>()).size());
+            Assertions.assertEquals(183, mapper.selectByIdList(new ArrayList<Long>()).size());
         } finally {
             sqlSession.close();
         }

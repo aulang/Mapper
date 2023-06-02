@@ -25,9 +25,9 @@
 package tk.mybatis.mapper.additional.dialect.oracle;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Oracle测试类
  */
-@Ignore("需要Oracle数据源")
+@Disabled("需要Oracle数据源")
 public class OracleTest extends BaseTest {
 
     /**
@@ -80,7 +80,7 @@ public class OracleTest extends BaseTest {
             countryList.add(new DemoCountry("21", "Zaire", "ZR"));
             countryList.add(new DemoCountry("22", "Zambia", "ZM"));
             int updates = mapper.insertList(countryList);
-            Assert.assertEquals(3, updates);
+            Assertions.assertEquals(3, updates);
         } finally {
             //sqlSession.commit();
             sqlSession.close();

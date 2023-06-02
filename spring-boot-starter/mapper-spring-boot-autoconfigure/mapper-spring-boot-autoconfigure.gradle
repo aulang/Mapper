@@ -1,0 +1,14 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-spring-boot-autoconfigure')
+
+dependencies {
+
+    api(project(':extra'))
+    api(project(':spring'))
+
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+
+    optional 'jakarta.annotation:jakarta.annotation-api'
+    optional 'org.springframework.boot:spring-boot-configuration-processor'
+}

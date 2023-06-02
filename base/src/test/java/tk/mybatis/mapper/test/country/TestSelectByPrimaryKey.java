@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -51,10 +51,10 @@ public class TestSelectByPrimaryKey {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = mapper.selectByPrimaryKey(35);
 
-            Assert.assertNotNull(country);
-            Assert.assertEquals(true, country.getId() == 35);
-            Assert.assertEquals("China", country.getCountryname());
-            Assert.assertEquals("CN", country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(true, country.getId() == 35);
+            Assertions.assertEquals("China", country.getCountryname());
+            Assertions.assertEquals("CN", country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -71,10 +71,10 @@ public class TestSelectByPrimaryKey {
             Country country = new Country();
             country.setId(35);
             country = mapper.selectByPrimaryKey(country);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(true, country.getId() == 35);
-            Assert.assertEquals("China", country.getCountryname());
-            Assert.assertEquals("CN", country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(true, country.getId() == 35);
+            Assertions.assertEquals("China", country.getCountryname());
+            Assertions.assertEquals("CN", country.getCountrycode());
         } finally {
             sqlSession.close();
         }
@@ -88,12 +88,12 @@ public class TestSelectByPrimaryKey {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertNull(mapper.selectByPrimaryKey(new Country()));
-            Assert.assertNull(mapper.selectByPrimaryKey(new HashMap<String, Object>()));
-            Assert.assertNull(mapper.selectByPrimaryKey(-10));
-            Assert.assertNull(mapper.selectByPrimaryKey(0));
-            Assert.assertNull(mapper.selectByPrimaryKey(1000));
-            Assert.assertNull(mapper.selectByPrimaryKey(null));
+            Assertions.assertNull(mapper.selectByPrimaryKey(new Country()));
+            Assertions.assertNull(mapper.selectByPrimaryKey(new HashMap<String, Object>()));
+            Assertions.assertNull(mapper.selectByPrimaryKey(-10));
+            Assertions.assertNull(mapper.selectByPrimaryKey(0));
+            Assertions.assertNull(mapper.selectByPrimaryKey(1000));
+            Assertions.assertNull(mapper.selectByPrimaryKey(null));
         } finally {
             sqlSession.close();
         }
@@ -111,14 +111,14 @@ public class TestSelectByPrimaryKey {
             Map map = new HashMap();
             map.put("id", 35);
             Country country = mapper.selectByPrimaryKey(map);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(true, country.getId() == 35);
-            Assert.assertEquals("China", country.getCountryname());
-            Assert.assertEquals("CN", country.getCountrycode());
+            Assertions.assertNotNull(country);
+            Assertions.assertEquals(true, country.getId() == 35);
+            Assertions.assertEquals("China", country.getCountryname());
+            Assertions.assertEquals("CN", country.getCountrycode());
 
             map = new HashMap();
             map.put("countryname", "China");
-            Assert.assertNull(mapper.selectByPrimaryKey(map));
+            Assertions.assertNull(mapper.selectByPrimaryKey(map));
         } finally {
             sqlSession.close();
         }
@@ -127,15 +127,17 @@ public class TestSelectByPrimaryKey {
     /**
      * 对象不包含主键
      */
-    @Test(expected = Exception.class)
+    @Test
     public void testDynamicDeleteNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.selectByPrimaryKey(new Key());
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(Exception.class, () -> {
+            SqlSession sqlSession = MybatisHelper.getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.selectByPrimaryKey(new Key());
+            } finally {
+                sqlSession.close();
+            }
+        });
     }
 
     /**

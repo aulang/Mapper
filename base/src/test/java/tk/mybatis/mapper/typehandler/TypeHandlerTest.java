@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.typehandler;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.entity.Config;
 
@@ -38,23 +38,23 @@ public class TypeHandlerTest extends BaseTest {
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             List<User> users = userMapper.selectAll();
-            Assert.assertNotNull(users);
-            Assert.assertEquals(2, users.size());
+            Assertions.assertNotNull(users);
+            Assertions.assertEquals(2, users.size());
 
-            Assert.assertEquals("abel533", users.get(0).getName());
-            Assert.assertEquals("Hebei", users.get(0).getAddress().getProvince());
-            Assert.assertEquals("Shijiazhuang", users.get(0).getAddress().getCity());
-            Assert.assertEquals(StateEnum.enabled, users.get(0).getState());
+            Assertions.assertEquals("abel533", users.get(0).getName());
+            Assertions.assertEquals("Hebei", users.get(0).getAddress().getProvince());
+            Assertions.assertEquals("Shijiazhuang", users.get(0).getAddress().getCity());
+            Assertions.assertEquals(StateEnum.enabled, users.get(0).getState());
 
-            Assert.assertEquals("isea533", users.get(1).getName());
-            Assert.assertEquals("Hebei/Handan", users.get(1).getAddress().toString());
-            Assert.assertEquals(StateEnum.disabled, users.get(1).getState());
+            Assertions.assertEquals("isea533", users.get(1).getName());
+            Assertions.assertEquals("Hebei/Handan", users.get(1).getAddress().toString());
+            Assertions.assertEquals(StateEnum.disabled, users.get(1).getState());
 
             User user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals("Hebei", user.getAddress().getProvince());
-            Assert.assertEquals("Shijiazhuang", user.getAddress().getCity());
-            Assert.assertEquals(StateEnum.enabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals("Hebei", user.getAddress().getProvince());
+            Assertions.assertEquals("Shijiazhuang", user.getAddress().getCity());
+            Assertions.assertEquals(StateEnum.enabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -75,13 +75,13 @@ public class TypeHandlerTest extends BaseTest {
             user.setAddress(address);
             user.setState(StateEnum.enabled);
 
-            Assert.assertEquals(1, userMapper.insert(user));
+            Assertions.assertEquals(1, userMapper.insert(user));
 
             user = userMapper.selectByPrimaryKey(3);
-            Assert.assertEquals("liuzh", user.getName());
-            Assert.assertEquals("Hebei", user.getAddress().getProvince());
-            Assert.assertEquals("Qinhuangdao", user.getAddress().getCity());
-            Assert.assertEquals(StateEnum.enabled, user.getState());
+            Assertions.assertEquals("liuzh", user.getName());
+            Assertions.assertEquals("Hebei", user.getAddress().getProvince());
+            Assertions.assertEquals("Qinhuangdao", user.getAddress().getCity());
+            Assertions.assertEquals(StateEnum.enabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -93,20 +93,20 @@ public class TypeHandlerTest extends BaseTest {
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             User user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals("Hebei", user.getAddress().getProvince());
-            Assert.assertEquals("Shijiazhuang", user.getAddress().getCity());
-            Assert.assertEquals(StateEnum.enabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals("Hebei", user.getAddress().getProvince());
+            Assertions.assertEquals("Shijiazhuang", user.getAddress().getCity());
+            Assertions.assertEquals(StateEnum.enabled, user.getState());
 
             user.setState(StateEnum.disabled);
             user.getAddress().setCity("Handan");
-            Assert.assertEquals(1, userMapper.updateByPrimaryKey(user));
+            Assertions.assertEquals(1, userMapper.updateByPrimaryKey(user));
 
             user = userMapper.selectByPrimaryKey(1);
-            Assert.assertEquals("abel533", user.getName());
-            Assert.assertEquals("Hebei", user.getAddress().getProvince());
-            Assert.assertEquals("Handan", user.getAddress().getCity());
-            Assert.assertEquals(StateEnum.disabled, user.getState());
+            Assertions.assertEquals("abel533", user.getName());
+            Assertions.assertEquals("Hebei", user.getAddress().getProvince());
+            Assertions.assertEquals("Handan", user.getAddress().getCity());
+            Assertions.assertEquals(StateEnum.disabled, user.getState());
         } finally {
             sqlSession.close();
         }
@@ -117,7 +117,7 @@ public class TypeHandlerTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            Assert.assertEquals(1, userMapper.deleteByPrimaryKey(1));
+            Assertions.assertEquals(1, userMapper.deleteByPrimaryKey(1));
 
             User user = new User();
             Address address = new Address();
@@ -125,10 +125,10 @@ public class TypeHandlerTest extends BaseTest {
             address.setCity("Handan");
             user.setAddress(address);
             user.setState(StateEnum.enabled);
-            Assert.assertEquals(0, userMapper.delete(user));
+            Assertions.assertEquals(0, userMapper.delete(user));
 
             user.setState(StateEnum.disabled);
-            Assert.assertEquals(1, userMapper.delete(user));
+            Assertions.assertEquals(1, userMapper.delete(user));
         } finally {
             sqlSession.close();
         }

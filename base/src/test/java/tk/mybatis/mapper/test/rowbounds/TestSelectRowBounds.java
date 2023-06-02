@@ -26,8 +26,8 @@ package tk.mybatis.mapper.test.rowbounds;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -50,7 +50,7 @@ public class TestSelectRowBounds {
             example.or().andLessThan("id", 41);
             List<Country> countries = mapper.selectByExampleAndRowBounds(example, new RowBounds(10, 20));
             //查询总数
-            Assert.assertEquals(20, countries.size());
+            Assertions.assertEquals(20, countries.size());
         } finally {
             sqlSession.close();
         }

@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.test.example;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -26,13 +26,13 @@ public class TestExampleBuilder {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = Example.builder(Country.class).build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(183, countries.size());
+            Assertions.assertEquals(183, countries.size());
 
             // 下面的查询会有缓存
             Example example0 = Example.builder(Country.class)
                     .select().build();
             List<Country> countries0 = mapper.selectByExample(example0);
-            Assert.assertEquals(183, countries0.size());
+            Assertions.assertEquals(183, countries0.size());
         } finally {
             sqlSession.close();
         }
@@ -47,13 +47,13 @@ public class TestExampleBuilder {
                     .distinct()
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(183, countries.size());
+            Assertions.assertEquals(183, countries.size());
 
             // distinct和order by冲突问题
             Example example0 = Example.builder(Country.class)
                     .selectDistinct("id", "countryname").build();
             List<Country> countries0 = mapper.selectByExample(example0);
-            Assert.assertEquals(183, countries0.size());
+            Assertions.assertEquals(183, countries0.size());
         } finally {
             sqlSession.close();
         }
@@ -71,7 +71,7 @@ public class TestExampleBuilder {
                     .forUpdate()
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(83, countries.size());
+            Assertions.assertEquals(83, countries.size());
         } finally {
             sqlSession.close();
         }
@@ -87,9 +87,9 @@ public class TestExampleBuilder {
                     .build();
             List<Country> countries = mapper.selectByExample(example);
             Country country = countries.get(0);
-            Assert.assertEquals(Integer.valueOf(35), country.getId());
-            Assert.assertEquals("China", country.getCountryname());
-            Assert.assertEquals("CN", country.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(35), country.getId());
+            Assertions.assertEquals("China", country.getCountryname());
+            Assertions.assertEquals("CN", country.getCountrycode());
 
         } finally {
             sqlSession.close();
@@ -106,14 +106,14 @@ public class TestExampleBuilder {
                     .build();
             List<Country> countries = mapper.selectByExample(example);
             Country country35 = countries.get(0);
-            Assert.assertEquals(Integer.valueOf(35), country35.getId());
-            Assert.assertEquals("China", country35.getCountryname());
-            Assert.assertEquals("CN", country35.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(35), country35.getId());
+            Assertions.assertEquals("China", country35.getCountryname());
+            Assertions.assertEquals("CN", country35.getCountrycode());
 
             Country country34 = countries.get(1);
-            Assert.assertEquals(Integer.valueOf(34), country34.getId());
-            Assert.assertEquals("Chile", country34.getCountryname());
-            Assert.assertEquals("CL", country34.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(34), country34.getId());
+            Assertions.assertEquals("Chile", country34.getCountryname());
+            Assertions.assertEquals("CL", country34.getCountrycode());
 
         } finally {
             sqlSession.close();
@@ -130,14 +130,14 @@ public class TestExampleBuilder {
                     .build();
             List<Country> countries = mapper.selectByExample(example);
             Country country35 = countries.get(1);
-            Assert.assertEquals(Integer.valueOf(35), country35.getId());
-            Assert.assertEquals("China", country35.getCountryname());
-            Assert.assertEquals("CN", country35.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(35), country35.getId());
+            Assertions.assertEquals("China", country35.getCountryname());
+            Assertions.assertEquals("CN", country35.getCountrycode());
 
             Country country183 = countries.get(0);
-            Assert.assertEquals(Integer.valueOf(183), country183.getId());
-            Assert.assertEquals("Zambia", country183.getCountryname());
-            Assert.assertEquals("ZM", country183.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(183), country183.getId());
+            Assertions.assertEquals("Zambia", country183.getCountryname());
+            Assertions.assertEquals("ZM", country183.getCountrycode());
 
         } finally {
             sqlSession.close();
@@ -163,19 +163,19 @@ public class TestExampleBuilder {
                             )
                             .build());
             Country country35 = countries.get(2);
-            Assert.assertEquals(Integer.valueOf(35), country35.getId());
-            Assert.assertEquals("China", country35.getCountryname());
-            Assert.assertEquals("CN", country35.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(35), country35.getId());
+            Assertions.assertEquals("China", country35.getCountryname());
+            Assertions.assertEquals("CN", country35.getCountrycode());
 
             Country country183 = countries.get(0);
-            Assert.assertEquals(Integer.valueOf(183), country183.getId());
-            Assert.assertEquals("Zambia", country183.getCountryname());
-            Assert.assertEquals("ZM", country183.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(183), country183.getId());
+            Assertions.assertEquals("Zambia", country183.getCountryname());
+            Assertions.assertEquals("ZM", country183.getCountrycode());
 
             Country country179 = countries.get(1);
-            Assert.assertEquals(Integer.valueOf(179), country179.getId());
-            Assert.assertEquals("Yemen", country179.getCountryname());
-            Assert.assertEquals("YE", country179.getCountrycode());
+            Assertions.assertEquals(Integer.valueOf(179), country179.getId());
+            Assertions.assertEquals("Yemen", country179.getCountryname());
+            Assertions.assertEquals("YE", country179.getCountrycode());
 
         } finally {
             sqlSession.close();
@@ -198,7 +198,7 @@ public class TestExampleBuilder {
                     )
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(50, countries.size());
+            Assertions.assertEquals(50, countries.size());
         } finally {
             sqlSession.close();
         }
@@ -222,7 +222,7 @@ public class TestExampleBuilder {
                     )
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(0, countries.size());
+            Assertions.assertEquals(0, countries.size());
 
         } finally {
             sqlSession.close();
@@ -247,7 +247,7 @@ public class TestExampleBuilder {
                     )
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(2, countries.size());
+            Assertions.assertEquals(2, countries.size());
 
         } finally {
             sqlSession.close();
@@ -284,7 +284,7 @@ public class TestExampleBuilder {
                     .forUpdate()
                     .build();
             List<Country> countries = mapper.selectByExample(example);
-            Assert.assertEquals(35, countries.size());
+            Assertions.assertEquals(35, countries.size());
 
         } finally {
             sqlSession.close();
@@ -308,7 +308,7 @@ public class TestExampleBuilder {
             for (Country country : countries) {
                 System.out.println(country.getId() + " " + country.getCountryname() + " " + country.getCountrycode());
             }
-            Assert.assertEquals(6, countries.size());
+            Assertions.assertEquals(6, countries.size());
         } finally {
             sqlSession.close();
         }

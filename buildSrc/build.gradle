@@ -1,0 +1,21 @@
+plugins {
+    id 'java-gradle-plugin'
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation 'me.champeau.gradle:japicmp-gradle-plugin:0.4.1'
+}
+
+gradlePlugin {
+    plugins {
+        optionalDependenciesPlugin {
+            id = "com.unicloud.swater.build.optional-dependencies"
+            implementationClass = "com.unicloud.swater.build.optional.OptionalDependenciesPlugin"
+        }
+    }
+}

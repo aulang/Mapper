@@ -29,7 +29,7 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
 
@@ -46,7 +46,7 @@ import java.sql.Connection;
 public abstract class BaseTest {
     private SqlSessionFactory sqlSessionFactory;
 
-    @Before
+    @BeforeEach
     public final void init() {
         try {
             Reader reader = getConfigFileAsReader();
@@ -117,7 +117,7 @@ public abstract class BaseTest {
      * @return
      */
     protected Reader getConfigFileAsReader() throws IOException {
-        URL url = BaseTest.class.getResource("mybatis-config.xml");
+        URL url = BaseTest.class.getResource("/mybatis-config.xml");
         return toReader(url);
     }
 
@@ -129,7 +129,7 @@ public abstract class BaseTest {
      * @return
      */
     protected Reader getSqlFileAsReader() throws IOException {
-        URL url = BaseTest.class.getResource("CreateDB.sql");
+        URL url = BaseTest.class.getResource("/CreateDB.sql");
         return toReader(url);
     }
 

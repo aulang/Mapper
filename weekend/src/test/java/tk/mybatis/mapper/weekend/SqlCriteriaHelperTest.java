@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.weekend;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.entity.Country;
 import tk.mybatis.mapper.weekend.mapper.CountryMapper;
@@ -27,8 +27,8 @@ public class SqlCriteriaHelperTest {
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andEqualTo(Country::getCountryname, null)
                             .andLike(Country::getCountryname, "China")).build());
-            Assert.assertNotNull(selectBySqlCriteriaHelper);
-            Assert.assertEquals(1, selectBySqlCriteriaHelper.size());
+            Assertions.assertNotNull(selectBySqlCriteriaHelper);
+            Assertions.assertEquals(1, selectBySqlCriteriaHelper.size());
             /* 不支持忽略 null
             List<Country> selectByWeekendSqls = mapper.selectByExample(new Example.Builder(Country.class)
                     .where(WeekendSqls.<Country>custom()
@@ -55,7 +55,7 @@ public class SqlCriteriaHelperTest {
                     .where(SqlCriteriaHelper.custom(Country.class)
                             // required = true 则继续查询
                             .andEqualTo(Country::getCountryname, null, true)).build());
-            Assert.assertEquals(0, selectBySqlCriteriaHelper.size());
+            Assertions.assertEquals(0, selectBySqlCriteriaHelper.size());
             /*List<Country> selectByWeekendSqls = mapper.selectByExample(new Example.Builder(Country.class)
                     .where(WeekendSqls.<Country>custom()
                             .andEqualTo(Country::getCountryname, null)).build());*/
@@ -77,14 +77,14 @@ public class SqlCriteriaHelperTest {
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andLike(Country::getCountryname, "Chin")
                             .orLike(Country::getCountryname, "A")).build());
-            Assert.assertEquals(18, selectBySqlCriteriaHelper.size());
+            Assertions.assertEquals(18, selectBySqlCriteriaHelper.size());
             /* 不支持自动带 %
             List<Country> selectByWeekendSqls = mapper.selectByExample(new Example.Builder(Country.class)
                     .where(WeekendSqls.<Country>custom()
                             .andLike(Country::getCountryname, "Chin")
                             .orLike(Country::getCountryname, "A")).build());
             //判断两个结果数组内容是否相同
-            Assert.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());*/
+            Assertions.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());*/
         } finally {
             sqlSession.close();
         }
@@ -103,8 +103,8 @@ public class SqlCriteriaHelperTest {
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andIn(Country::getCountryname, new ArrayList())
                             .orLike(Country::getCountryname, "A")).build());
-            Assert.assertNotNull(selectBySqlCriteriaHelper);
-            Assert.assertEquals(17, selectBySqlCriteriaHelper.size());
+            Assertions.assertNotNull(selectBySqlCriteriaHelper);
+            Assertions.assertEquals(17, selectBySqlCriteriaHelper.size());
             //WeekendSqls 不支持空集合
             /*
             List<Country> selectByWeekendSqls = mapper.selectByExample(new Example.Builder(Country.class)
@@ -113,7 +113,7 @@ public class SqlCriteriaHelperTest {
                             .orLike(Country::getCountryname, "A")).build());
              */
             //判断两个结果数组内容是否相同
-            //Assert.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());
+            //Assertions.assertArrayEquals(selectBySqlCriteriaHelper.toArray(), selectByWeekendSqls.toArray());
         } finally {
             sqlSession.close();
         }

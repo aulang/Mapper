@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.additional.insertlist;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.additional.BaseTest;
 
 import java.io.IOException;
@@ -84,9 +84,9 @@ public class InsertListMapperTest extends BaseTest {
             for (int i = 0; i < countries.length; i++) {
                 userList.add(new User(countries[i][0], countries[i][1]));
             }
-            Assert.assertEquals(countries.length, mapper.insertList(userList));
+            Assertions.assertEquals(countries.length, mapper.insertList(userList));
             for (User user : userList) {
-                Assert.assertNotNull(user.getId());
+                Assertions.assertNotNull(user.getId());
                 System.out.println(user.getId());
             }
         } finally {

@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.country;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -53,12 +53,12 @@ public class TestSelect {
             //country.setDynamicTableName123("country_123");
             //countryList = mapper.select(country);
             //查询总数
-            //Assert.assertEquals(2, countryList.size());
+            //Assertions.assertEquals(2, countryList.size());
 
             country.setDynamicTableName123(null);
             countryList = mapper.select(country);
             //查询总数
-            Assert.assertEquals(183, countryList.size());
+            Assertions.assertEquals(183, countryList.size());
         } finally {
             sqlSession.close();
         }
@@ -76,11 +76,11 @@ public class TestSelect {
             country.setCountrycode("US");
             List<Country> countryList = mapper.selectPage(country, 0, 10);
             //查询总数
-            Assert.assertEquals(1, countryList.size());
+            Assertions.assertEquals(1, countryList.size());
 
             countryList = mapper.selectPage(null, 100, 10);
             //查询总数
-            Assert.assertEquals(10, countryList.size());
+            Assertions.assertEquals(10, countryList.size());
         } finally {
             sqlSession.close();
         }
@@ -100,7 +100,7 @@ public class TestSelect {
             country.setId(35);
             country.setCountryname("China");
             List<Country> countryList = mapper.select(country);
-            Assert.assertEquals(1, countryList.size());
+            Assertions.assertEquals(1, countryList.size());
         } finally {
             sqlSession.close();
         }
@@ -132,9 +132,9 @@ public class TestSelect {
             country.setCountrycode("CN");
             List<Country> countryList = mapper.select(country);
 
-            Assert.assertEquals(1, countryList.size());
-            Assert.assertEquals(true, countryList.get(0).getId() == 35);
-            Assert.assertEquals("China", countryList.get(0).getCountryname());
+            Assertions.assertEquals(1, countryList.size());
+            Assertions.assertEquals(true, countryList.get(0).getId() == 35);
+            Assertions.assertEquals("China", countryList.get(0).getCountryname());
         } finally {
             sqlSession.close();
         }
@@ -153,7 +153,7 @@ public class TestSelect {
             country.setCountryname("天朝");//实际上是 China
             List<Country> countryList = mapper.select(country);
 
-            Assert.assertEquals(0, countryList.size());
+            Assertions.assertEquals(0, countryList.size());
         } finally {
             sqlSession.close();
         }
@@ -168,12 +168,12 @@ public class TestSelect {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //根据主键删除
-            Assert.assertEquals(183, mapper.select(new Key()).size());
+            Assertions.assertEquals(183, mapper.select(new Key()).size());
 
             Key key = new Key();
             key.setCountrycode("CN");
             key.setCountrytel("+86");
-            Assert.assertEquals(1, mapper.select(key).size());
+            Assertions.assertEquals(1, mapper.select(key).size());
         } finally {
             sqlSession.close();
         }

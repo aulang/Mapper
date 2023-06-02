@@ -26,9 +26,8 @@
 package tk.mybatis.mapper.weekend;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.weekend.entity.Country;
 import tk.mybatis.mapper.weekend.entity.User;
 import tk.mybatis.mapper.weekend.mapper.CountryMapper;
@@ -41,9 +40,6 @@ import java.util.List;
  * @author Frank
  */
 public class UserMapperTest {
-
-    @Rule
-    public TestRule runJava8 = new UseJava8Rule();
 
     /**
      * 执行，然后看日志打出来的SQL

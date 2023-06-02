@@ -1,9 +1,10 @@
 package tk.mybatis.mapper.annotation;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,7 @@ public class SpringAnnotationTest {
 
     private AnnotationConfigApplicationContext applicationContext;
 
-    @Before
+    @BeforeEach
     public void setupContext() {
         applicationContext = new AnnotationConfigApplicationContext();
     }
@@ -46,8 +47,8 @@ public class SpringAnnotationTest {
         startContext();
         CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         List<Country> countries = countryMapper.selectAll();
-        Assert.assertNotNull(countries);
-        Assert.assertEquals(183, countries.size());
+        Assertions.assertNotNull(countries);
+        Assertions.assertEquals(183, countries.size());
     }
 
     @Test
@@ -56,8 +57,8 @@ public class SpringAnnotationTest {
         startContext();
         CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         List<Country> countries = countryMapper.selectAll();
-        Assert.assertNotNull(countries);
-        Assert.assertEquals(183, countries.size());
+        Assertions.assertNotNull(countries);
+        Assertions.assertEquals(183, countries.size());
     }
 
     @Test
@@ -66,18 +67,20 @@ public class SpringAnnotationTest {
         startContext();
         CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
         List<Country> countries = countryMapper.selectAll();
-        Assert.assertNotNull(countries);
-        Assert.assertEquals(183, countries.size());
+        Assertions.assertNotNull(countries);
+        Assertions.assertEquals(183, countries.size());
     }
 
-    @Test(expected = MapperException.class)
+    @Test
     public void testMyBatisConfigPropertiesError() {
-        applicationContext.register(MyBatisConfigPropertiesError.class);
-        startContext();
-        CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
-        List<Country> countries = countryMapper.selectAll();
-        Assert.assertNotNull(countries);
-        Assert.assertEquals(183, countries.size());
+        Assertions.assertThrows(MapperException.class, () -> {
+            applicationContext.register(MyBatisConfigPropertiesError.class);
+            startContext();
+            CountryMapper countryMapper = applicationContext.getBean(CountryMapper.class);
+            List<Country> countries = countryMapper.selectAll();
+            Assertions.assertNotNull(countries);
+            Assertions.assertEquals(183, countries.size());
+        });
     }
 
     @Configuration

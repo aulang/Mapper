@@ -4,16 +4,16 @@ import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.ResultMapping;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.StringTypeHandler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.util.Set;
 
 /**
@@ -25,7 +25,7 @@ public class ColumnTest {
 
     private Configuration configuration;
 
-    @Before
+    @BeforeEach
     public void beforeTest() {
         config = new Config();
         config.setStyle(Style.normal);
@@ -42,34 +42,34 @@ public class ColumnTest {
     public void testColumn() {
         EntityHelper.initEntityNameMap(UserColumn.class, config);
         EntityTable entityTable = EntityHelper.getEntityTable(UserColumn.class);
-        Assert.assertNotNull(entityTable);
+        Assertions.assertNotNull(entityTable);
 
         Set<EntityColumn> columns = entityTable.getEntityClassColumns();
-        Assert.assertEquals(1, columns.size());
+        Assertions.assertEquals(1, columns.size());
 
         for (EntityColumn column : columns) {
-            Assert.assertEquals("user_name", column.getColumn());
-            Assert.assertEquals("name", column.getProperty());
+            Assertions.assertEquals("user_name", column.getColumn());
+            Assertions.assertEquals("name", column.getProperty());
 
-            Assert.assertEquals("user_name = #{name}", column.getColumnEqualsHolder());
-            Assert.assertEquals("user_name = #{record.name}", column.getColumnEqualsHolder("record"));
-            Assert.assertEquals("#{name}", column.getColumnHolder());
-            Assert.assertEquals("#{record.name}", column.getColumnHolder("record"));
-            Assert.assertEquals("#{record.name}", column.getColumnHolder("record", "suffix"));
-            Assert.assertEquals("#{record.namesuffix},", column.getColumnHolder("record", "suffix", ","));
-            Assert.assertNull(column.getTypeHandler());
+            Assertions.assertEquals("user_name = #{name}", column.getColumnEqualsHolder());
+            Assertions.assertEquals("user_name = #{record.name}", column.getColumnEqualsHolder("record"));
+            Assertions.assertEquals("#{name}", column.getColumnHolder());
+            Assertions.assertEquals("#{record.name}", column.getColumnHolder("record"));
+            Assertions.assertEquals("#{record.name}", column.getColumnHolder("record", "suffix"));
+            Assertions.assertEquals("#{record.namesuffix},", column.getColumnHolder("record", "suffix", ","));
+            Assertions.assertNull(column.getTypeHandler());
         }
 
         ResultMap resultMap = entityTable.getResultMap(configuration);
-        Assert.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
+        Assertions.assertEquals("[USER_NAME]", resultMap.getMappedColumns().toString());
 
-        Assert.assertEquals(1, resultMap.getResultMappings().size());
+        Assertions.assertEquals(1, resultMap.getResultMappings().size());
 
         ResultMapping resultMapping = resultMap.getResultMappings().get(0);
-        Assert.assertEquals("user_name", resultMapping.getColumn());
-        Assert.assertEquals("name", resultMapping.getProperty());
-        Assert.assertNull(resultMapping.getJdbcType());
-        Assert.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
+        Assertions.assertEquals("user_name", resultMapping.getColumn());
+        Assertions.assertEquals("name", resultMapping.getProperty());
+        Assertions.assertNull(resultMapping.getJdbcType());
+        Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
 }

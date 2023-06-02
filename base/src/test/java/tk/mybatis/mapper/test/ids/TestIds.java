@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.ids;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -47,7 +47,7 @@ public class TestIds {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             List<Country> countryList = mapper.selectByIds("1,2,3");
             //查询总数
-            Assert.assertEquals(3, countryList.size());
+            Assertions.assertEquals(3, countryList.size());
         } finally {
             sqlSession.close();
         }
@@ -60,8 +60,8 @@ public class TestIds {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             int count = mapper.deleteByIds("1,2,3");
             //查询总数
-            Assert.assertEquals(3, count);
-            Assert.assertEquals(180, mapper.selectCount(null));
+            Assertions.assertEquals(3, count);
+            Assertions.assertEquals(180, mapper.selectCount(null));
         } finally {
             sqlSession.rollback();
             sqlSession.close();

@@ -25,12 +25,15 @@
 
 package tk.mybatis.mapper.weekend.entity;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 @Table()
 public class Country implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     private Integer id;

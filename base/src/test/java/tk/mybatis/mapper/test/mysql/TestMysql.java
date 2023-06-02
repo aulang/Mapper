@@ -25,7 +25,7 @@
 package tk.mybatis.mapper.test.mysql;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -57,9 +57,9 @@ public class TestMysql {
                 countryList.add(country);
             }
             int count = mapper.insertList(countryList);
-            Assert.assertEquals(10, count);
+            Assertions.assertEquals(10, count);
             for (Country country : countryList) {
-                Assert.assertNotNull(country.getId());
+                Assertions.assertNotNull(country.getId());
             }
         } finally {
             sqlSession.rollback();
@@ -80,8 +80,8 @@ public class TestMysql {
             country.setCountrycode("CN");
             country.setCountryname("天朝");
             int count = mapper.insertUseGeneratedKeys(country);
-            Assert.assertEquals(1, count);
-            Assert.assertNotNull(country.getId());
+            Assertions.assertEquals(1, count);
+            Assertions.assertNotNull(country.getId());
         } finally {
             sqlSession.rollback();
             sqlSession.close();

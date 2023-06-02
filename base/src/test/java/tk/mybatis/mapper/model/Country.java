@@ -27,8 +27,10 @@ package tk.mybatis.mapper.model;
 import tk.mybatis.mapper.annotation.Order;
 import tk.mybatis.mapper.entity.IDynamicTableName;
 
-import javax.persistence.Column;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Transient;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -38,6 +40,7 @@ import java.util.List;
  * Update: liuzh(2014-06-06 13:38)
  */
 public class Country extends Entity<Integer, String> implements Serializable, IDynamicTableName {
+    @Serial
     private static final long serialVersionUID = -1626761012846137805L;
     List<Country> list;
     @Column

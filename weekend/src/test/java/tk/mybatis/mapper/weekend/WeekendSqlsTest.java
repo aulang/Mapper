@@ -26,10 +26,8 @@
 package tk.mybatis.mapper.weekend;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestRule;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.weekend.entity.Country;
@@ -44,9 +42,6 @@ import java.util.List;
  */
 public class WeekendSqlsTest {
 
-    @Rule
-    public TestRule runJava8 = new UseJava8Rule();
-
     @Test
     public void testWeekend() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
@@ -60,7 +55,7 @@ public class WeekendSqlsTest {
                     new Example.Builder(Country.class).where(Sqls.custom().andLike("countryname", "China")).build());
 
             //判断两个结果数组内容是否相同
-            Assert.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
+            Assertions.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
         } finally {
             sqlSession.close();
         }
@@ -82,7 +77,7 @@ public class WeekendSqlsTest {
                     .where(Sqls.custom().andLike("countryname", "%a%").andGreaterThan("countrycode", "123")).build());
 
             // 判断两个结果数组内容是否相同
-            Assert.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
+            Assertions.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
         } finally {
             sqlSession.close();
         }

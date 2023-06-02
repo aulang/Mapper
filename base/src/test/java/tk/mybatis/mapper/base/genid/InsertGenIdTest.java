@@ -1,8 +1,8 @@
 package tk.mybatis.mapper.base.genid;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 
 import java.io.IOException;
@@ -82,8 +82,8 @@ public class InsertGenIdTest extends BaseTest {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             for (int i = 0; i < countries.length; i++) {
                 Country country = new Country(countries[i][0], countries[i][1]);
-                Assert.assertEquals(1, mapper.insert(country));
-                Assert.assertNotNull(country.getId());
+                Assertions.assertEquals(1, mapper.insert(country));
+                Assertions.assertNotNull(country.getId());
                 System.out.println(country.getId());
             }
         } finally {
@@ -98,9 +98,9 @@ public class InsertGenIdTest extends BaseTest {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country("test", "T");
             country.setId(9999L);
-            Assert.assertEquals(1, mapper.insert(country));
-            Assert.assertNotNull(country.getId());
-            Assert.assertEquals(new Long(9999), country.getId());
+            Assertions.assertEquals(1, mapper.insert(country));
+            Assertions.assertNotNull(country.getId());
+            Assertions.assertEquals(Long.valueOf(9999), country.getId());
             System.out.println(country.getId());
         } finally {
             sqlSession.close();
@@ -115,8 +115,8 @@ public class InsertGenIdTest extends BaseTest {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             for (int i = 0; i < countries.length; i++) {
                 User user = new User(countries[i][0], countries[i][1]);
-                Assert.assertEquals(1, mapper.insert(user));
-                Assert.assertNotNull(user.getId());
+                Assertions.assertEquals(1, mapper.insert(user));
+                Assertions.assertNotNull(user.getId());
                 System.out.println(user.getId());
             }
         } finally {

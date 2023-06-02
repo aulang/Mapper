@@ -25,8 +25,8 @@
 package tk.mybatis.mapper.test.example;
 
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
@@ -52,12 +52,12 @@ public class TestUpdateByExample {
             country.setCountryname("天朝");
             country.setId(1000);
             int count = mapper.updateByExample(country, example);
-            Assert.assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             example = new Example(Country.class);
             example.createCriteria().andIsNull("countrycode");
             count = mapper.selectCountByExample(example);
-            Assert.assertEquals(1, count);
+            Assertions.assertEquals(1, count);
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -77,12 +77,12 @@ public class TestUpdateByExample {
             CountryExample example = new CountryExample();
             example.createCriteria().andIdEqualTo(35);
             int count = mapper.updateByExample(country, example);
-            Assert.assertEquals(1, count);
+            Assertions.assertEquals(1, count);
 
             example = new CountryExample();
             example.createCriteria().andCountrycodeIsNull();
             count = mapper.selectCountByExample(example);
-            Assert.assertEquals(1, count);
+            Assertions.assertEquals(1, count);
         } finally {
             sqlSession.rollback();
             sqlSession.close();

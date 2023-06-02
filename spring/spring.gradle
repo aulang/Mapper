@@ -1,0 +1,22 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-spring')
+
+dependencies {
+
+    api(project(':base'))
+
+    api 'org.springframework:spring-context'
+    api 'org.springframework:spring-jdbc'
+    api 'org.springframework:spring-tx'
+
+    api 'org.mybatis:mybatis-spring'
+
+    testImplementation 'org.hsqldb:hsqldb'
+}
+
+processTestResources {
+    from('src/test/java') {
+        include '**/*.xml', '**/*.sql'
+    }
+}

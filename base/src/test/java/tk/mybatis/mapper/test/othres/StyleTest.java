@@ -24,8 +24,8 @@
 
 package tk.mybatis.mapper.test.othres;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.util.StringUtil;
 
@@ -46,21 +46,21 @@ public class StyleTest {
     @Test
     public void testNormal() {
         for (String field : fields) {
-            Assert.assertEquals(field, StringUtil.convertByStyle(field, Style.normal));
+            Assertions.assertEquals(field, StringUtil.convertByStyle(field, Style.normal));
         }
     }
 
     @Test
     public void testUppercase() {
         for (String field : fields) {
-            Assert.assertEquals(field.toUpperCase(), StringUtil.convertByStyle(field, Style.uppercase));
+            Assertions.assertEquals(field.toUpperCase(), StringUtil.convertByStyle(field, Style.uppercase));
         }
     }
 
     @Test
     public void testLowercase() {
         for (String field : fields) {
-            Assert.assertEquals(field.toLowerCase(), StringUtil.convertByStyle(field, Style.lowercase));
+            Assertions.assertEquals(field.toLowerCase(), StringUtil.convertByStyle(field, Style.lowercase));
         }
     }
 

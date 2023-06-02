@@ -2,7 +2,8 @@ package tk.mybatis.mapper.base.delete;
 
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.base.Country;
 import tk.mybatis.mapper.base.CountryMapper;
@@ -20,49 +21,59 @@ public class SafeDeleteByMethodTest extends BaseTest {
         return config;
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testSafeDelete() {
-        SqlSession sqlSession = getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.delete(new Country());
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.delete(new Country());
+            } finally {
+                sqlSession.close();
+            }
+        });
+
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testSafeDeleteNull() {
-        SqlSession sqlSession = getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.delete(null);
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.delete(null);
+            } finally {
+                sqlSession.close();
+            }
+        });
     }
 
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testSafeDeleteByExample() {
-        SqlSession sqlSession = getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.deleteByExample(new Example(Country.class));
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.deleteByExample(new Example(Country.class));
+            } finally {
+                sqlSession.close();
+            }
+        });
     }
 
-    @Test(expected = PersistenceException.class)
+    @Test
     public void testSafeDeleteByExampleNull() {
-        SqlSession sqlSession = getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.deleteByExample(null);
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(PersistenceException.class, () -> {
+            SqlSession sqlSession = getSqlSession();
+            try {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                mapper.deleteByExample(null);
+            } finally {
+                sqlSession.close();
+            }
+        });
+
     }
 
 }

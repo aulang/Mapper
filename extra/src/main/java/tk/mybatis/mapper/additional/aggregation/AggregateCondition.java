@@ -3,6 +3,7 @@ package tk.mybatis.mapper.additional.aggregation;
 import tk.mybatis.mapper.util.Assert;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author liuzh
  */
 public class AggregateCondition implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     // 聚合属性
     private String aggregateProperty;

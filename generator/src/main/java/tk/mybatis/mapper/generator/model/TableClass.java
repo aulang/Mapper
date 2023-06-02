@@ -35,6 +35,7 @@ import java.util.List;
  * @since 3.4.5
  */
 public class TableClass implements Serializable {
+    @java.io.Serial
     private static final long serialVersionUID = -746251813735169289L;
 
     private IntrospectedTable introspectedTable;

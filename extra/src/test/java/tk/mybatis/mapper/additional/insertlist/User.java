@@ -26,13 +26,16 @@ package tk.mybatis.mapper.additional.insertlist;
 
 import tk.mybatis.mapper.annotation.KeySql;
 
-import javax.persistence.Id;
+import jakarta.persistence.Id;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * @author liuzh
  */
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @KeySql(genId = UUIdGenId.class)

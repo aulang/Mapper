@@ -27,9 +27,9 @@ package tk.mybatis.mapper.test.country;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public class TestDeleteByPrimaryKey {
 
-    @Before
+    @BeforeEach
     public void setupDB() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
@@ -62,7 +62,7 @@ public class TestDeleteByPrimaryKey {
             sqlSession.close();
         }
     }
-	
+
     /**
      * 主要测试删除
      */
@@ -72,15 +72,15 @@ public class TestDeleteByPrimaryKey {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
-            Assert.assertEquals(183, mapper.selectCount(new Country()));
+            Assertions.assertEquals(183, mapper.selectCount(new Country()));
             //查询100
             Country country = mapper.selectByPrimaryKey(100);
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(100));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(100));
             //查询总数
-            Assert.assertEquals(182, mapper.selectCount(new Country()));
+            Assertions.assertEquals(182, mapper.selectCount(new Country()));
             //插入
-            Assert.assertEquals(1, mapper.insert(country));
+            Assertions.assertEquals(1, mapper.insert(country));
         } finally {
             sqlSession.close();
         }
@@ -95,10 +95,10 @@ public class TestDeleteByPrimaryKey {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //根据主键删除
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(null));
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(-100));
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(0));
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(1000));
+            Assertions.assertEquals(0, mapper.deleteByPrimaryKey(null));
+            Assertions.assertEquals(0, mapper.deleteByPrimaryKey(-100));
+            Assertions.assertEquals(0, mapper.deleteByPrimaryKey(0));
+            Assertions.assertEquals(0, mapper.deleteByPrimaryKey(1000));
         } finally {
             sqlSession.close();
         }
@@ -115,7 +115,7 @@ public class TestDeleteByPrimaryKey {
 
             Country country = new Country();
             country.setId(100);
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country));
         } finally {
             sqlSession.close();
         }
@@ -132,11 +132,11 @@ public class TestDeleteByPrimaryKey {
 
             Map map = new HashMap();
             map.put("id", 100);
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(map));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(map));
 
             map = new HashMap();
             map.put("countryname", "China");
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(map));
+            Assertions.assertEquals(0, mapper.deleteByPrimaryKey(map));
         } finally {
             sqlSession.close();
         }
@@ -145,16 +145,15 @@ public class TestDeleteByPrimaryKey {
     /**
      * 对象不包含主键
      */
-    @Test(expected = Exception.class)
+    @Test
     public void testDynamicDeleteNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            //根据主键删除
-            Assert.assertEquals(0, mapper.deleteByPrimaryKey(new Key()));
-        } finally {
-            sqlSession.close();
-        }
+        Assertions.assertThrows(Exception.class, () -> {
+            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
+                CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+                //根据主键删除
+                Assertions.assertEquals(0, mapper.deleteByPrimaryKey(new Key()));
+            }
+        });
     }
 
     /**
@@ -166,7 +165,7 @@ public class TestDeleteByPrimaryKey {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(100));
+            Assertions.assertEquals(1, mapper.deleteByPrimaryKey(100));
         } finally {
             sqlSession.rollback();
             sqlSession.close();

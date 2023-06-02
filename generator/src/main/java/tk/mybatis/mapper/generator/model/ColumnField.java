@@ -34,6 +34,7 @@ import java.io.Serializable;
  */
 public class ColumnField implements Serializable {
 
+    @java.io.Serial
     private static final long serialVersionUID = -435113788623615260L;
     private TableClass tableClass;
     private String columnName;
