@@ -108,7 +108,7 @@ public class SpringAnnotationTest {
         @Bean
         public MapperHelper mapperHelper() {
             Config config = new Config();
-            List<Class> mappers = new ArrayList<Class>();
+            List<Class> mappers = new ArrayList<>();
             mappers.add(Mapper.class);
             config.setMappers(mappers);
 
