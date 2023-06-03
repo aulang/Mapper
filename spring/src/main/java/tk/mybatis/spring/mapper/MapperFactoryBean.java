@@ -116,7 +116,7 @@ public class MapperFactoryBean<T> extends SqlSessionDaoSupport implements Factor
      * {@inheritDoc}
      */
     @Override
-    public T getObject() throws Exception {
+    public T getObject() {
         return getSqlSession().getMapper(this.mapperInterface);
     }
 

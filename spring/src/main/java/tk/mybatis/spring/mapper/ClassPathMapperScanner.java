@@ -27,17 +27,13 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.env.Environment;
-import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Properties;
@@ -80,7 +76,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
     private String mapperHelperBeanName;
 
-    private MapperFactoryBean<?> mapperFactoryBean = new MapperFactoryBean<Object>();
+    private MapperFactoryBean<?> mapperFactoryBean = new MapperFactoryBean<>();
 
     public ClassPathMapperScanner(BeanDefinitionRegistry registry) {
         super(registry, false);
@@ -113,25 +109,17 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
 
         if (acceptAllInterfaces) {
             // default include filter that accepts all classes
-            addIncludeFilter(new TypeFilter() {
-                @Override
-                public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException {
-                    return true;
-                }
-            });
+            addIncludeFilter((metadataReader, metadataReaderFactory) -> true);
         }
 
         // exclude package-info.java
-        addExcludeFilter(new TypeFilter() {
-            @Override
-            public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException {
-                String className = metadataReader.getClassMetadata().getClassName();
-                if (className.endsWith("package-info")) {
-                    return true;
-                }
-                return metadataReader.getAnnotationMetadata()
-                        .hasAnnotation("tk.mybatis.mapper.annotation.RegisterMapper");
+        addExcludeFilter((metadataReader, metadataReaderFactory) -> {
+            String className = metadataReader.getClassMetadata().getClassName();
+            if (className.endsWith("package-info")) {
+                return true;
             }
+            return metadataReader.getAnnotationMetadata()
+                    .hasAnnotation("tk.mybatis.mapper.annotation.RegisterMapper");
         });
     }
 
@@ -270,7 +258,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
     }
 
     public void setMapperFactoryBean(MapperFactoryBean<?> mapperFactoryBean) {
-        this.mapperFactoryBean = mapperFactoryBean != null ? mapperFactoryBean : new MapperFactoryBean<Object>();
+        this.mapperFactoryBean = mapperFactoryBean != null ? mapperFactoryBean : new MapperFactoryBean<>();
     }
 
     public void setMapperHelperBeanName(String mapperHelperBeanName) {
