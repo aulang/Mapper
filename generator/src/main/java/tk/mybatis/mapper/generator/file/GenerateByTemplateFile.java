@@ -38,17 +38,17 @@ import java.util.Properties;
 public class GenerateByTemplateFile extends GeneratedJavaFile {
     public static final String ENCODING = "UTF-8";
 
-    private String targetPackage;
+    private final String targetPackage;
 
-    private String fileName;
+    private final String fileName;
 
-    private String templateContent;
+    private final String templateContent;
 
-    private Properties properties;
+    private final Properties properties;
 
-    private TableClass tableClass;
+    private final TableClass tableClass;
 
-    private TemplateFormatter templateFormatter;
+    private final TemplateFormatter templateFormatter;
 
     public GenerateByTemplateFile(TableClass tableClass, TemplateFormatter templateFormatter, Properties properties, String targetProject, String targetPackage, String fileName, String templateContent) {
         super(null, targetProject, ENCODING, null);

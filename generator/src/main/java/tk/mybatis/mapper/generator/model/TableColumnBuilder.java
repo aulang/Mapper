@@ -60,10 +60,10 @@ public class TableColumnBuilder {
         tableClass.setFullClassName(type.getFullyQualifiedName());
         tableClass.setPackageName(type.getPackageName());
 
-        List<ColumnField> pkFields = new ArrayList<ColumnField>();
-        List<ColumnField> baseFields = new ArrayList<ColumnField>();
-        List<ColumnField> blobFields = new ArrayList<ColumnField>();
-        List<ColumnField> allFields = new ArrayList<ColumnField>();
+        List<ColumnField> pkFields = new ArrayList<>();
+        List<ColumnField> baseFields = new ArrayList<>();
+        List<ColumnField> blobFields = new ArrayList<>();
+        List<ColumnField> allFields = new ArrayList<>();
         for (IntrospectedColumn column : introspectedTable.getPrimaryKeyColumns()) {
             ColumnField field = build(column);
             field.setTableClass(tableClass);

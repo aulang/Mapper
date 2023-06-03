@@ -43,11 +43,11 @@ import java.util.*;
  */
 public class FreemarkerTemplateFormatter implements TemplateFormatter, ListTemplateFormatter {
     private final Configuration configuration = new Configuration(Configuration.VERSION_2_3_23);
-    private final StringTemplateLoader templateLoader = new StringTemplateLoader();
 
     public FreemarkerTemplateFormatter() {
         configuration.setLocale(Locale.CHINA);
         configuration.setDefaultEncoding("UTF-8");
+        StringTemplateLoader templateLoader = new StringTemplateLoader();
         configuration.setTemplateLoader(templateLoader);
         configuration.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_23));
     }
@@ -73,7 +73,7 @@ public class FreemarkerTemplateFormatter implements TemplateFormatter, ListTempl
 
     @Override
     public String getFormattedContent(TableClass tableClass, Properties properties, String targetPackage, String templateContent) {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         for (Object o : properties.keySet()) {
             params.put(String.valueOf(o), properties.get(o));
         }
@@ -85,7 +85,7 @@ public class FreemarkerTemplateFormatter implements TemplateFormatter, ListTempl
 
     @Override
     public String getFormattedContent(Set<TableClass> tableClassSet, Properties properties, String targetPackage, String templateContent) {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         for (Object o : properties.keySet()) {
             params.put(String.valueOf(o), properties.get(o));
         }

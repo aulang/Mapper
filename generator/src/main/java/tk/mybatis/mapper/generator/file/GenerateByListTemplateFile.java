@@ -39,17 +39,17 @@ import java.util.Set;
 public class GenerateByListTemplateFile extends GeneratedJavaFile {
     public static final String ENCODING = "UTF-8";
 
-    private String targetPackage;
+    private final String targetPackage;
 
-    private String fileNameTemplate;
+    private final String fileNameTemplate;
 
-    private String templateContent;
+    private final String templateContent;
 
-    private Properties properties;
+    private final Properties properties;
 
-    private Set<TableClass> tableClassSet;
+    private final Set<TableClass> tableClassSet;
 
-    private ListTemplateFormatter templateFormatter;
+    private final ListTemplateFormatter templateFormatter;
 
     public GenerateByListTemplateFile(Set<TableClass> tableClassSet, ListTemplateFormatter templateFormatter, Properties properties, String targetProject, String targetPackage, String fileNameTemplate, String templateContent) {
         super(null, targetProject, ENCODING, null);

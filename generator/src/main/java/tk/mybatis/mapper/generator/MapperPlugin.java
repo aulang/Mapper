@@ -41,7 +41,7 @@ import java.util.*;
  */
 public class MapperPlugin extends FalseMethodPlugin {
 
-    private Set<String> mappers = new HashSet<String>();
+    private final Set<String> mappers = new HashSet<>();
     private boolean caseSensitive = false;
     private boolean useMapperCommentGenerator = true;
     //开始的分隔符，例如mysql为`，sqlserver为[
@@ -420,9 +420,7 @@ public class MapperPlugin extends FalseMethodPlugin {
         super.setProperties(properties);
         String mappers = getProperty("mappers");
         if (StringUtility.stringHasValue(mappers)) {
-            for (String mapper : mappers.split(",")) {
-                this.mappers.add(mapper);
-            }
+            Collections.addAll(this.mappers, mappers.split(","));
         } else {
             throw new RuntimeException("Mapper插件缺少必要的mappers属性!");
         }
@@ -461,7 +459,7 @@ public class MapperPlugin extends FalseMethodPlugin {
             if (StringUtility.stringHasValue(forceAnnotation)) {
                 commentCfg.addProperty("forceAnnotation", forceAnnotation);
             }
-            commentCfg.addProperty("needsSwagger", this.needsSwagger + "");
+            commentCfg.addProperty("needsSwagger", String.valueOf(this.needsSwagger));
         }
         this.generateColumnConsts = getPropertyAsBoolean("generateColumnConsts");
         this.generateDefaultInstanceMethod = getPropertyAsBoolean("generateDefaultInstanceMethod");
