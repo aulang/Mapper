@@ -34,7 +34,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class VersionUtil {
 
-    private static final Map<Class<? extends NextVersion>, NextVersion> CACHE = new ConcurrentHashMap<Class<? extends NextVersion>, NextVersion>();
+    private static final Map<Class<? extends NextVersion>, NextVersion> CACHE = new ConcurrentHashMap<>();
 
     private static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -55,7 +55,7 @@ public class VersionUtil {
                 LOCK.lock();
                 try {
                     if (!CACHE.containsKey(nextVersionClass)) {
-                        CACHE.put(nextVersionClass, nextVersionClass.newInstance());
+                        CACHE.put(nextVersionClass, nextVersionClass.getDeclaredConstructor().newInstance());
                     }
                     nextVersion = CACHE.get(nextVersionClass);
                 } finally {

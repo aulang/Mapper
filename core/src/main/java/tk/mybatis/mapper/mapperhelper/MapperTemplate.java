@@ -59,8 +59,8 @@ import static tk.mybatis.mapper.util.MsUtil.getMethodName;
  */
 public abstract class MapperTemplate {
     private static final XMLLanguageDriver languageDriver = new XMLLanguageDriver();
-    protected Map<String, Method> methodMap = new ConcurrentHashMap<String, Method>();
-    protected Map<String, Class<?>> entityClassMap = new ConcurrentHashMap<String, Class<?>>();
+    protected Map<String, Method> methodMap = new ConcurrentHashMap<>();
+    protected Map<String, Class<?>> entityClassMap = new ConcurrentHashMap<>();
     protected Class<?> mapperClass;
     protected MapperHelper mapperHelper;
 
@@ -107,7 +107,7 @@ public abstract class MapperTemplate {
      */
     public boolean supportMethod(String msId) {
         Class<?> mapperClass = getMapperClass(msId);
-        if (mapperClass != null && this.mapperClass.isAssignableFrom(mapperClass)) {
+        if (this.mapperClass.isAssignableFrom(mapperClass)) {
             String methodName = getMethodName(msId);
             return methodMap.get(methodName) != null;
         }
@@ -122,7 +122,7 @@ public abstract class MapperTemplate {
      */
     protected void setResultType(MappedStatement ms, Class<?> entityClass) {
         EntityTable entityTable = EntityHelper.getEntityTable(entityClass);
-        List<ResultMap> resultMaps = new ArrayList<ResultMap>();
+        List<ResultMap> resultMaps = new ArrayList<>();
         resultMaps.add(entityTable.getResultMap(ms.getConfiguration()));
         MetaObject metaObject = MetaObjectUtil.forObject(ms);
         metaObject.setValue("resultMaps", Collections.unmodifiableList(resultMaps));
@@ -164,8 +164,7 @@ public abstract class MapperTemplate {
             Class<?> mapperClass = getMapperClass(msId);
             Type[] types = mapperClass.getGenericInterfaces();
             for (Type type : types) {
-                if (type instanceof ParameterizedType) {
-                    ParameterizedType t = (ParameterizedType) type;
+                if (type instanceof ParameterizedType t) {
                     if (t.getRawType() == this.mapperClass || this.mapperClass.isAssignableFrom((Class<?>) t.getRawType())) {
                         Class<?> returnType = (Class<?>) t.getActualTypeArguments()[0];
                         //获取该类型后，第一次对该类型进行初始化
@@ -225,7 +224,7 @@ public abstract class MapperTemplate {
      * @throws java.lang.reflect.InvocationTargetException
      * @throws IllegalAccessException
      */
-    public void setSqlSource(MappedStatement ms) throws Exception {
+    public void setSqlSource(MappedStatement ms) {
         if (this.mapperClass == getMapperClass(ms.getId())) {
             throw new MapperException("请不要配置或扫描通用Mapper接口类：" + this.mapperClass);
         }

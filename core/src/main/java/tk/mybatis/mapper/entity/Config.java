@@ -43,7 +43,7 @@ import java.util.Properties;
 public class Config {
     public static final String PREFIX = "mapper";
 
-    private List<Class> mappers = new ArrayList<Class>();
+    private List<Class> mappers = new ArrayList<>();
     private String IDENTITY;
     private boolean BEFORE;
     private String seqFormat;
@@ -355,26 +355,26 @@ public class Config {
         }
         ORDER = properties.getProperty("before");
         if (StringUtil.isNotEmpty(ORDER)) {
-            setBefore(Boolean.valueOf(ORDER));
+            setBefore(Boolean.parseBoolean(ORDER));
         }
 
 
-        this.notEmpty = Boolean.valueOf(properties.getProperty("notEmpty"));
-        this.enableMethodAnnotation = Boolean.valueOf(properties.getProperty("enableMethodAnnotation"));
-        this.checkExampleEntityClass = Boolean.valueOf(properties.getProperty("checkExampleEntityClass"));
+        this.notEmpty = Boolean.parseBoolean(properties.getProperty("notEmpty"));
+        this.enableMethodAnnotation = Boolean.parseBoolean(properties.getProperty("enableMethodAnnotation"));
+        this.checkExampleEntityClass = Boolean.parseBoolean(properties.getProperty("checkExampleEntityClass"));
         //默认值 true，所以要特殊判断
         String useSimpleTypeStr = properties.getProperty("useSimpleType");
         if (StringUtil.isNotEmpty(useSimpleTypeStr)) {
-            this.useSimpleType = Boolean.valueOf(useSimpleTypeStr);
+            this.useSimpleType = Boolean.parseBoolean(useSimpleTypeStr);
         }
-        this.enumAsSimpleType = Boolean.valueOf(properties.getProperty("enumAsSimpleType"));
+        this.enumAsSimpleType = Boolean.parseBoolean(properties.getProperty("enumAsSimpleType"));
         //注册新的基本类型，以逗号隔开，使用全限定类名
         String simpleTypes = properties.getProperty("simpleTypes");
         if (StringUtil.isNotEmpty(simpleTypes)) {
             SimpleTypeUtil.registerSimpleType(simpleTypes);
         }
         //使用 8 种基本类型
-        if (Boolean.valueOf(properties.getProperty("usePrimitiveType"))) {
+        if (Boolean.parseBoolean(properties.getProperty("usePrimitiveType"))) {
             SimpleTypeUtil.registerPrimitiveTypes();
         }
         String styleStr = properties.getProperty("style");
@@ -394,10 +394,10 @@ public class Config {
             this.wrapKeyword = wrapKeyword;
         }
         //安全删除
-        this.safeDelete = Boolean.valueOf(properties.getProperty("safeDelete"));
+        this.safeDelete = Boolean.parseBoolean(properties.getProperty("safeDelete"));
         //安全更新
-        this.safeUpdate = Boolean.valueOf(properties.getProperty("safeUpdate"));
+        this.safeUpdate = Boolean.parseBoolean(properties.getProperty("safeUpdate"));
         //是否设置 javaType，true 时如 {id, javaType=java.lang.Long}
-        this.useJavaType = Boolean.valueOf(properties.getProperty("useJavaType"));
+        this.useJavaType = Boolean.parseBoolean(properties.getProperty("useJavaType"));
     }
 }

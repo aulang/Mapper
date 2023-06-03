@@ -38,7 +38,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class GenIdUtil {
 
-    public static final Map<Class<? extends GenId>, GenId> CACHE = new ConcurrentHashMap<Class<? extends GenId>, GenId>();
+    public static final Map<Class<? extends GenId>, GenId> CACHE = new ConcurrentHashMap<>();
 
     public static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -61,7 +61,7 @@ public class GenIdUtil {
                 LOCK.lock();
                 try {
                     if (!CACHE.containsKey(genClass)) {
-                        CACHE.put(genClass, genClass.newInstance());
+                        CACHE.put(genClass, genClass.getDeclaredConstructor().newInstance());
                     }
                     genId = CACHE.get(genClass);
                 } finally {

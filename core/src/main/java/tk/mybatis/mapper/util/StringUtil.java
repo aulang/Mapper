@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * Created by liuzh_3nofxnp on 2015/8/26.
  */
 public class StringUtil {
-    private static Pattern UNDERLINE_TO_CAMELHUMP_PATTERN = Pattern.compile("_[a-z]");
+    private static final Pattern UNDERLINE_TO_CAMELHUMP_PATTERN = Pattern.compile("_[a-z]");
 
     /**
      * 空
@@ -64,21 +64,14 @@ public class StringUtil {
      * @return
      */
     public static String convertByStyle(String str, Style style) {
-        switch (style) {
-            case camelhump:
-                return camelhumpToUnderline(str);
-            case uppercase:
-                return str.toUpperCase();
-            case lowercase:
-                return str.toLowerCase();
-            case camelhumpAndLowercase:
-                return camelhumpToUnderline(str).toLowerCase();
-            case camelhumpAndUppercase:
-                return camelhumpToUnderline(str).toUpperCase();
-            case normal:
-            default:
-                return str;
-        }
+        return switch (style) {
+            case camelhump -> camelhumpToUnderline(str);
+            case uppercase -> str.toUpperCase();
+            case lowercase -> str.toLowerCase();
+            case camelhumpAndLowercase -> camelhumpToUnderline(str).toLowerCase();
+            case camelhumpAndUppercase -> camelhumpToUnderline(str).toUpperCase();
+            default -> str;
+        };
     }
 
     /**

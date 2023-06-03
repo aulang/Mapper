@@ -29,6 +29,8 @@ import tk.mybatis.mapper.code.ORDER;
 import tk.mybatis.mapper.genid.GenId;
 import tk.mybatis.mapper.util.StringUtil;
 
+import java.util.Objects;
+
 /**
  * 数据库表对应的列
  *
@@ -122,7 +124,7 @@ public class EntityColumn {
      * @return
      */
     public String getColumnHolder(String entityName, String suffix, String separator) {
-        StringBuffer sb = new StringBuffer("#{");
+        StringBuilder sb = new StringBuilder("#{");
         if (StringUtil.isNotEmpty(entityName)) {
             sb.append(entityName);
             sb.append(".");
@@ -134,7 +136,7 @@ public class EntityColumn {
         //如果 null 被当作值来传递，对于所有可能为空的列，JDBC Type 是需要的
         if (this.jdbcType != null) {
             sb.append(", jdbcType=");
-            sb.append(this.jdbcType.toString());
+            sb.append(this.jdbcType);
         }
         //为了以后定制类型处理方式，你也可以指定一个特殊的类型处理器类，例如枚举
         if (this.typeHandler != null) {
@@ -163,15 +165,14 @@ public class EntityColumn {
 
         if (id != that.id) return false;
         if (identity != that.identity) return false;
-        if (table != null ? !table.equals(that.table) : that.table != null) return false;
-        if (property != null ? !property.equals(that.property) : that.property != null) return false;
-        if (column != null ? !column.equals(that.column) : that.column != null) return false;
-        if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) return false;
+        if (!Objects.equals(table, that.table)) return false;
+        if (!Objects.equals(property, that.property)) return false;
+        if (!Objects.equals(column, that.column)) return false;
+        if (!Objects.equals(javaType, that.javaType)) return false;
         if (jdbcType != that.jdbcType) return false;
-        if (typeHandler != null ? !typeHandler.equals(that.typeHandler) : that.typeHandler != null) return false;
-        if (generator != null ? !generator.equals(that.generator) : that.generator != null) return false;
-        return !(orderBy != null ? !orderBy.equals(that.orderBy) : that.orderBy != null);
-
+        if (!Objects.equals(typeHandler, that.typeHandler)) return false;
+        if (!Objects.equals(generator, that.generator)) return false;
+        return Objects.equals(orderBy, that.orderBy);
     }
 
     @Override

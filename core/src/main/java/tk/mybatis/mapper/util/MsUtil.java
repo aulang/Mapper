@@ -45,7 +45,7 @@ public class MsUtil {
      * @return
      */
     public static Class<?> getMapperClass(String msId) {
-        if (msId.indexOf(".") == -1) {
+        if (!msId.contains(".")) {
             throw new MapperException("当前MappedStatement的id=" + msId + ",不符合MappedStatement的规则!");
         }
         String mapperClassStr = msId.substring(0, msId.lastIndexOf("."));
@@ -60,9 +60,7 @@ public class MsUtil {
             if (null != cl) {
                 try {
                     mapperClass = Class.forName(mapperClassStr, true, cl);
-                    if (mapperClass != null) {
-                        break;
-                    }
+                    break;
                 } catch (ClassNotFoundException e) {
                     // we'll ignore this until all class loaders fail to locate the class
                 }

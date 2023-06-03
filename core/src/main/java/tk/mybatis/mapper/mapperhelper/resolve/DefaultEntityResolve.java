@@ -62,10 +62,10 @@ public class DefaultEntityResolve implements EntityResolve {
             }
             entityTable.setName(tableName);
         }
-        entityTable.setEntityClassColumns(new LinkedHashSet<EntityColumn>());
-        entityTable.setEntityClassPKColumns(new LinkedHashSet<EntityColumn>());
+        entityTable.setEntityClassColumns(new LinkedHashSet<>());
+        entityTable.setEntityClassPKColumns(new LinkedHashSet<>());
         //处理所有列
-        List<EntityField> fields = null;
+        List<EntityField> fields;
         if (config.isEnableMethodAnnotation()) {
             fields = FieldHelper.getAll(entityClass);
         } else {
@@ -228,7 +228,7 @@ public class DefaultEntityResolve implements EntityResolve {
                 //mysql的自动增长
                 entityColumn.setIdentity(true);
                 if (!"".equals(generatedValue.generator())) {
-                    String generator = null;
+                    String generator;
                     IdentityDialect identityDialect = IdentityDialect.getDatabaseDialect(generatedValue.generator());
                     if (identityDialect != null) {
                         generator = identityDialect.getIdentityRetrievalStatement();
@@ -276,7 +276,7 @@ public class DefaultEntityResolve implements EntityResolve {
             entityColumn.setIdentity(true);
             entityColumn.setOrder(keySql.order());
             try {
-                GenSql genSql = keySql.genSql().newInstance();
+                GenSql genSql = keySql.genSql().getDeclaredConstructor().newInstance();
                 entityColumn.setGenerator(genSql.genSql(entityTable, entityColumn));
             } catch (Exception e) {
                 log.error("实例化 GenSql 失败: " + e, e);

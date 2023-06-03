@@ -48,7 +48,7 @@ public class EntityHelper {
     /**
      * 实体类 => 表对象
      */
-    private static final Map<Class<?>, EntityTable> entityTableMap = new ConcurrentHashMap<Class<?>, EntityTable>();
+    private static final Map<Class<?>, EntityTable> entityTableMap = new ConcurrentHashMap<>();
 
     private static final EntityResolve DEFAULT = new DefaultEntityResolve();
 
@@ -83,19 +83,14 @@ public class EntityHelper {
             return table.getOrderByClause();
         }
 
-        List<EntityColumn> orderEntityColumns = new ArrayList<EntityColumn>();
+        List<EntityColumn> orderEntityColumns = new ArrayList<>();
         for (EntityColumn column : table.getEntityClassColumns()) {
             if (column.getOrderBy() != null) {
                 orderEntityColumns.add(column);
             }
         }
 
-        Collections.sort(orderEntityColumns, new Comparator<EntityColumn>() {
-            @Override
-            public int compare(EntityColumn o1, EntityColumn o2) {
-                return o1.getOrderPriority() - o2.getOrderPriority();
-            }
-        });
+        orderEntityColumns.sort(Comparator.comparingInt(EntityColumn::getOrderPriority));
 
         StringBuilder orderBy = new StringBuilder();
         for (EntityColumn column : orderEntityColumns) {
@@ -194,7 +189,7 @@ public class EntityHelper {
             return;
         }
 
-        List<String> keyProperties = new ArrayList<String>(pkColumns.size());
+        List<String> keyProperties = new ArrayList<>(pkColumns.size());
         for (EntityColumn column : pkColumns) {
             keyProperties.add(column.getProperty());
         }
