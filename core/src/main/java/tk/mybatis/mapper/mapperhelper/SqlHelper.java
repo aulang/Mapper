@@ -51,17 +51,15 @@ public class SqlHelper {
      */
     public static String getDynamicTableName(Class<?> entityClass, String tableName) {
         if (IDynamicTableName.class.isAssignableFrom(entityClass)) {
-            StringBuilder sql = new StringBuilder();
-            sql.append("<choose>");
-            sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(_parameter) and dynamicTableName != null and dynamicTableName != ''\">");
-            sql.append("${dynamicTableName}\n");
-            sql.append("</when>");
-            //不支持指定列的时候查询全部列
-            sql.append("<otherwise>");
-            sql.append(tableName);
-            sql.append("</otherwise>");
-            sql.append("</choose>");
-            return sql.toString();
+            return "<choose>" +
+                    "<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(_parameter) and dynamicTableName != null and dynamicTableName != ''\">" +
+                    "${dynamicTableName}\n" +
+                    "</when>" +
+                    //不支持指定列的时候查询全部列
+                    "<otherwise>" +
+                    tableName +
+                    "</otherwise>" +
+                    "</choose>";
         } else {
             return tableName;
         }
@@ -78,17 +76,15 @@ public class SqlHelper {
     public static String getDynamicTableName(Class<?> entityClass, String tableName, String parameterName) {
         if (IDynamicTableName.class.isAssignableFrom(entityClass)) {
             if (StringUtil.isNotEmpty(parameterName)) {
-                StringBuilder sql = new StringBuilder();
-                sql.append("<choose>");
-                sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(" + parameterName + ") and " + parameterName + ".dynamicTableName != null and " + parameterName + ".dynamicTableName != ''\">");
-                sql.append("${" + parameterName + ".dynamicTableName}");
-                sql.append("</when>");
-                //不支持指定列的时候查询全部列
-                sql.append("<otherwise>");
-                sql.append(tableName);
-                sql.append("</otherwise>");
-                sql.append("</choose>");
-                return sql.toString();
+                return "<choose>" +
+                        "<when test=\"@tk.mybatis.mapper.util.OGNL@isDynamicParameter(" + parameterName + ") and " + parameterName + ".dynamicTableName != null and " + parameterName + ".dynamicTableName != ''\">" +
+                        "${" + parameterName + ".dynamicTableName}" +
+                        "</when>" +
+                        //不支持指定列的时候查询全部列
+                        "<otherwise>" +
+                        tableName +
+                        "</otherwise>" +
+                        "</choose>";
             } else {
                 return getDynamicTableName(entityClass, tableName);
             }
@@ -105,11 +101,9 @@ public class SqlHelper {
      * @return
      */
     public static String getBindCache(EntityColumn column) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"");
-        sql.append(column.getProperty()).append("_cache\" ");
-        sql.append("value=\"").append(column.getProperty()).append("\"/>");
-        return sql.toString();
+        return "<bind name=\"" +
+                column.getProperty() + "_cache\" " +
+                "value=\"" + column.getProperty() + "\"/>";
     }
 
     /**
@@ -119,11 +113,9 @@ public class SqlHelper {
      * @return
      */
     public static String getBindValue(EntityColumn column, String value) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"");
-        sql.append(column.getProperty()).append("_bind\" ");
-        sql.append("value='").append(value).append("'/>");
-        return sql.toString();
+        return "<bind name=\"" +
+                column.getProperty() + "_bind\" " +
+                "value='" + value + "'/>";
     }
 
     /**
@@ -133,11 +125,9 @@ public class SqlHelper {
      * @return
      */
     public static String getIfCacheNotNull(EntityColumn column, String contents) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<if test=\"").append(column.getProperty()).append("_cache != null\">");
-        sql.append(contents);
-        sql.append("</if>");
-        return sql.toString();
+        return "<if test=\"" + column.getProperty() + "_cache != null\">" +
+                contents +
+                "</if>";
     }
 
     /**
@@ -147,11 +137,9 @@ public class SqlHelper {
      * @return
      */
     public static String getIfCacheIsNull(EntityColumn column, String contents) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<if test=\"").append(column.getProperty()).append("_cache == null\">");
-        sql.append(contents);
-        sql.append("</if>");
-        return sql.toString();
+        return "<if test=\"" + column.getProperty() + "_cache == null\">" +
+                contents +
+                "</if>";
     }
 
     /**
@@ -258,11 +246,9 @@ public class SqlHelper {
      * @return
      */
     public static String selectAllColumns(Class<?> entityClass) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ");
-        sql.append(getAllColumns(entityClass));
-        sql.append(" ");
-        return sql.toString();
+        return "SELECT " +
+                getAllColumns(entityClass) +
+                " ";
     }
 
     /**
@@ -310,11 +296,9 @@ public class SqlHelper {
      * @return
      */
     public static String fromTable(Class<?> entityClass, String defaultTableName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" FROM ");
-        sql.append(getDynamicTableName(entityClass, defaultTableName));
-        sql.append(" ");
-        return sql.toString();
+        return " FROM " +
+                getDynamicTableName(entityClass, defaultTableName) +
+                " ";
     }
 
     /**
@@ -337,11 +321,9 @@ public class SqlHelper {
      * @return
      */
     public static String updateTable(Class<?> entityClass, String defaultTableName, String entityName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE ");
-        sql.append(getDynamicTableName(entityClass, defaultTableName, entityName));
-        sql.append(" ");
-        return sql.toString();
+        return "UPDATE " +
+                getDynamicTableName(entityClass, defaultTableName, entityName) +
+                " ";
     }
 
     /**
@@ -352,11 +334,9 @@ public class SqlHelper {
      * @return
      */
     public static String deleteFromTable(Class<?> entityClass, String defaultTableName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("DELETE FROM ");
-        sql.append(getDynamicTableName(entityClass, defaultTableName));
-        sql.append(" ");
-        return sql.toString();
+        return "DELETE FROM " +
+                getDynamicTableName(entityClass, defaultTableName) +
+                " ";
     }
 
     /**
@@ -367,11 +347,9 @@ public class SqlHelper {
      * @return
      */
     public static String insertIntoTable(Class<?> entityClass, String defaultTableName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO ");
-        sql.append(getDynamicTableName(entityClass, defaultTableName));
-        sql.append(" ");
-        return sql.toString();
+        return "INSERT INTO " +
+                getDynamicTableName(entityClass, defaultTableName) +
+                " ";
     }
 
     /**
@@ -383,11 +361,9 @@ public class SqlHelper {
      * @return
      */
     public static String insertIntoTable(Class<?> entityClass, String defaultTableName, String parameterName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("INSERT INTO ");
-        sql.append(getDynamicTableName(entityClass, defaultTableName, parameterName));
-        sql.append(" ");
-        return sql.toString();
+        return "INSERT INTO " +
+                getDynamicTableName(entityClass, defaultTableName, parameterName) +
+                " ";
     }
 
     /**
@@ -415,7 +391,7 @@ public class SqlHelper {
             if (notNull) {
                 sql.append(SqlHelper.getIfNotNull(column, column.getColumn() + ",", notEmpty));
             } else {
-                sql.append(column.getColumn() + ",");
+                sql.append(column.getColumn()).append(",");
             }
         }
         sql.append("</trim>");
@@ -447,7 +423,7 @@ public class SqlHelper {
             if (notNull) {
                 sql.append(SqlHelper.getIfNotNull(column, column.getColumnHolder() + ",", notEmpty));
             } else {
-                sql.append(column.getColumnHolder() + ",");
+                sql.append(column.getColumnHolder()).append(",");
             }
         }
         sql.append("</trim>");
@@ -504,7 +480,7 @@ public class SqlHelper {
                 } else if (notNull) {
                     sql.append(SqlHelper.getIfNotNull(entityName, column, column.getColumnEqualsHolder(entityName) + ",", notEmpty));
                 } else {
-                    sql.append(column.getColumnEqualsHolder(entityName) + ",");
+                    sql.append(column.getColumnEqualsHolder(entityName)).append(",");
                 }
             }
         }
@@ -585,10 +561,8 @@ public class SqlHelper {
      * @return
      */
     public static String exampleHasAtLeastOneCriteriaCheck(String parameterName) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"exampleHasAtLeastOneCriteriaCheck\" value=\"@tk.mybatis.mapper.util.OGNL@exampleHasAtLeastOneCriteriaCheck(");
-        sql.append(parameterName).append(")\"/>");
-        return sql.toString();
+        return "<bind name=\"exampleHasAtLeastOneCriteriaCheck\" value=\"@tk.mybatis.mapper.util.OGNL@exampleHasAtLeastOneCriteriaCheck(" +
+                parameterName + ")\"/>";
     }
 
     /**
@@ -853,19 +827,17 @@ public class SqlHelper {
      * @return
      */
     public static String exampleSelectColumns(Class<?> entityClass) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<choose>");
-        sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@hasSelectColumns(_parameter)\">");
-        sql.append("<foreach collection=\"_parameter.selectColumns\" item=\"selectColumn\" separator=\",\">");
-        sql.append("${selectColumn}");
-        sql.append("</foreach>");
-        sql.append("</when>");
-        //不支持指定列的时候查询全部列
-        sql.append("<otherwise>");
-        sql.append(getAllColumns(entityClass));
-        sql.append("</otherwise>");
-        sql.append("</choose>");
-        return sql.toString();
+        return "<choose>" +
+                "<when test=\"@tk.mybatis.mapper.util.OGNL@hasSelectColumns(_parameter)\">" +
+                "<foreach collection=\"_parameter.selectColumns\" item=\"selectColumn\" separator=\",\">" +
+                "${selectColumn}" +
+                "</foreach>" +
+                "</when>" +
+                //不支持指定列的时候查询全部列
+                "<otherwise>" +
+                getAllColumns(entityClass) +
+                "</otherwise>" +
+                "</choose>";
     }
 
     /**
@@ -874,16 +846,14 @@ public class SqlHelper {
      * @return
      */
     public static String exampleCountColumn(Class<?> entityClass) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<choose>");
-        sql.append("<when test=\"@tk.mybatis.mapper.util.OGNL@hasCountColumn(_parameter)\">");
-        sql.append("COUNT(<if test=\"distinct\">distinct </if>${countColumn})");
-        sql.append("</when>");
-        sql.append("<otherwise>");
-        sql.append("COUNT(*)");
-        sql.append("</otherwise>");
-        sql.append("</choose>");
-        return sql.toString();
+        return "<choose>" +
+                "<when test=\"@tk.mybatis.mapper.util.OGNL@hasCountColumn(_parameter)\">" +
+                "COUNT(<if test=\"distinct\">distinct </if>${countColumn})" +
+                "</when>" +
+                "<otherwise>" +
+                "COUNT(*)" +
+                "</otherwise>" +
+                "</choose>";
     }
 
     /**
@@ -899,7 +869,7 @@ public class SqlHelper {
         String orderByClause = EntityHelper.getOrderByClause(entityClass);
         if (orderByClause.length() > 0) {
             sql.append("<if test=\"orderByClause == null\">");
-            sql.append("ORDER BY " + orderByClause);
+            sql.append("ORDER BY ").append(orderByClause);
             sql.append("</if>");
         }
         return sql.toString();
@@ -918,7 +888,7 @@ public class SqlHelper {
         String orderByClause = EntityHelper.getOrderByClause(entityClass);
         if (orderByClause.length() > 0) {
             sql.append("<if test=\"").append(entityName).append(".orderByClause == null\">");
-            sql.append("ORDER BY " + orderByClause);
+            sql.append("ORDER BY ").append(orderByClause);
             sql.append("</if>");
         }
         return sql.toString();
@@ -930,11 +900,9 @@ public class SqlHelper {
      * @return
      */
     public static String exampleForUpdate() {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<if test=\"@tk.mybatis.mapper.util.OGNL@hasForUpdate(_parameter)\">");
-        sql.append("FOR UPDATE");
-        sql.append("</if>");
-        return sql.toString();
+        return "<if test=\"@tk.mybatis.mapper.util.OGNL@hasForUpdate(_parameter)\">" +
+                "FOR UPDATE" +
+                "</if>";
     }
 
     /**
@@ -943,11 +911,9 @@ public class SqlHelper {
      * @return
      */
     public static String exampleCheck(Class<?> entityClass) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"checkExampleEntityClass\" value=\"@tk.mybatis.mapper.util.OGNL@checkExampleEntityClass(_parameter, '");
-        sql.append(entityClass.getName());
-        sql.append("')\"/>");
-        return sql.toString();
+        return "<bind name=\"checkExampleEntityClass\" value=\"@tk.mybatis.mapper.util.OGNL@checkExampleEntityClass(_parameter, '" +
+                entityClass.getName() +
+                "')\"/>";
     }
 
     /**
@@ -956,39 +922,36 @@ public class SqlHelper {
      * @return
      */
     public static String exampleWhereClause() {
-        return "<if test=\"_parameter != null\">" +
-                "<where>\n" +
-                " ${@tk.mybatis.mapper.util.OGNL@andNotLogicDelete(_parameter)}" +
-                " <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
-                "  <foreach collection=\"oredCriteria\" item=\"criteria\">\n" +
-                "    <if test=\"criteria.valid\">\n" +
-                "      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}" +
-                "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
-                "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n" +
-                "          <choose>\n" +
-                "            <when test=\"criterion.noValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.singleValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.betweenValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.listValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
-                "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n" +
-                "                #{listItem}\n" +
-                "              </foreach>\n" +
-                "            </when>\n" +
-                "          </choose>\n" +
-                "        </foreach>\n" +
-                "      </trim>\n" +
-                "    </if>\n" +
-                "  </foreach>\n" +
-                " </trim>\n" +
-                "</where>" +
-                "</if>";
+        return """
+                <if test="_parameter != null"><where>
+                 ${@tk.mybatis.mapper.util.OGNL@andNotLogicDelete(_parameter)} <trim prefix="(" prefixOverrides="and |or " suffix=")">
+                  <foreach collection="oredCriteria" item="criteria">
+                    <if test="criteria.valid">
+                      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}      <trim prefix="(" prefixOverrides="and |or " suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                          <choose>
+                            <when test="criterion.noValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}
+                              <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                #{listItem}
+                              </foreach>
+                            </when>
+                          </choose>
+                        </foreach>
+                      </trim>
+                    </if>
+                  </foreach>
+                 </trim>
+                </where></if>""";
     }
 
     /**
@@ -997,37 +960,36 @@ public class SqlHelper {
      * @return
      */
     public static String updateByExampleWhereClause() {
-        return "<where>\n" +
-                " ${@tk.mybatis.mapper.util.OGNL@andNotLogicDelete(example)}" +
-                " <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
-                "  <foreach collection=\"example.oredCriteria\" item=\"criteria\">\n" +
-                "    <if test=\"criteria.valid\">\n" +
-                "      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}" +
-                "      <trim prefix=\"(\" prefixOverrides=\"and |or \" suffix=\")\">\n" +
-                "        <foreach collection=\"criteria.criteria\" item=\"criterion\">\n" +
-                "          <choose>\n" +
-                "            <when test=\"criterion.noValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.singleValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.betweenValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}\n" +
-                "            </when>\n" +
-                "            <when test=\"criterion.listValue\">\n" +
-                "              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}\n" +
-                "              <foreach close=\")\" collection=\"criterion.value\" item=\"listItem\" open=\"(\" separator=\",\">\n" +
-                "                #{listItem}\n" +
-                "              </foreach>\n" +
-                "            </when>\n" +
-                "          </choose>\n" +
-                "        </foreach>\n" +
-                "      </trim>\n" +
-                "    </if>\n" +
-                "  </foreach>\n" +
-                " </trim>\n" +
-                "</where>";
+        return """
+                <where>
+                 ${@tk.mybatis.mapper.util.OGNL@andNotLogicDelete(example)} <trim prefix="(" prefixOverrides="and |or " suffix=")">
+                  <foreach collection="example.oredCriteria" item="criteria">
+                    <if test="criteria.valid">
+                      ${@tk.mybatis.mapper.util.OGNL@andOr(criteria)}      <trim prefix="(" prefixOverrides="and |or " suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                          <choose>
+                            <when test="criterion.noValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}
+                            </when>
+                            <when test="criterion.singleValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value}
+                            </when>
+                            <when test="criterion.betweenValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                            </when>
+                            <when test="criterion.listValue">
+                              ${@tk.mybatis.mapper.util.OGNL@andOr(criterion)} ${criterion.condition}
+                              <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                #{listItem}
+                              </foreach>
+                            </when>
+                          </choose>
+                        </foreach>
+                      </trim>
+                    </if>
+                  </foreach>
+                 </trim>
+                </where>""";
     }
 
 }

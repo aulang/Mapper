@@ -8,7 +8,7 @@ import java.util.List;
  * @date 2017/11/18
  */
 public class Sqls {
-    private Criteria criteria;
+    private final Criteria criteria;
 
     private Sqls() {
         this.criteria = new Criteria();
@@ -167,10 +167,10 @@ public class Sqls {
 
     public static class Criteria {
         private String andOr;
-        private List<Criterion> criterions;
+        private final List<Criterion> criterions;
 
         public Criteria() {
-            this.criterions = new ArrayList<Criterion>(2);
+            this.criterions = new ArrayList<>(2);
         }
 
         public List<Criterion> getCriterions() {
@@ -187,11 +187,11 @@ public class Sqls {
     }
 
     public static class Criterion {
-        private String property;
+        private final String property;
         private Object value;
         private Object secondValue;
-        private String condition;
-        private String andOr;
+        private final String condition;
+        private final String andOr;
 
         public Criterion(String property, String condition, String andOr) {
             this.property = property;

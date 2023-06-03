@@ -98,7 +98,7 @@ public class Example implements IDynamicTableName {
     public Example(Class<?> entityClass, boolean exists, boolean notNull) {
         this.exists = exists;
         this.notNull = notNull;
-        oredCriteria = new ArrayList<Criteria>();
+        oredCriteria = new ArrayList<>();
         this.entityClass = entityClass;
         table = EntityHelper.getEntityTable(entityClass);
         //根据李领北建议修改#159
@@ -143,13 +143,13 @@ public class Example implements IDynamicTableName {
     public Example excludeProperties(String... properties) {
         if (properties != null && properties.length > 0) {
             if (this.excludeColumns == null) {
-                this.excludeColumns = new LinkedHashSet<String>();
+                this.excludeColumns = new LinkedHashSet<>();
             }
             for (String property : properties) {
                 if (propertyMap.containsKey(property)) {
                     this.excludeColumns.add(propertyMap.get(property).getColumn());
                 } else {
-                    throw new MapperException("类 " + entityClass.getSimpleName() + " 不包含属性 \'" + property + "\'，或该属性被@Transient注释！");
+                    throw new MapperException("类 " + entityClass.getSimpleName() + " 不包含属性 '" + property + "'，或该属性被@Transient注释！");
                 }
             }
         }
@@ -165,13 +165,13 @@ public class Example implements IDynamicTableName {
     public Example selectProperties(String... properties) {
         if (properties != null && properties.length > 0) {
             if (this.selectColumns == null) {
-                this.selectColumns = new LinkedHashSet<String>();
+                this.selectColumns = new LinkedHashSet<>();
             }
             for (String property : properties) {
                 if (propertyMap.containsKey(property)) {
                     this.selectColumns.add(propertyMap.get(property).getColumn());
                 } else {
-                    throw new MapperException("类 " + entityClass.getSimpleName() + " 不包含属性 \'" + property + "\'，或该属性被@Transient注释！");
+                    throw new MapperException("类 " + entityClass.getSimpleName() + " 不包含属性 '" + property + "'，或该属性被@Transient注释！");
                 }
             }
         }
@@ -212,8 +212,7 @@ public class Example implements IDynamicTableName {
     }
 
     protected Criteria createCriteriaInternal() {
-        Criteria criteria = new Criteria(propertyMap, exists, notNull);
-        return criteria;
+        return new Criteria(propertyMap, exists, notNull);
     }
 
     public void clear() {
@@ -229,7 +228,7 @@ public class Example implements IDynamicTableName {
     public static class OrderBy {
         //属性和列对应
         protected Map<String, EntityColumn> propertyMap;
-        private Example example;
+        private final Example example;
         private Boolean isProperty;
 
         public OrderBy(Example example, Map<String, EntityColumn> propertyMap) {
@@ -295,7 +294,7 @@ public class Example implements IDynamicTableName {
             super();
             this.exists = exists;
             this.notNull = notNull;
-            criteria = new ArrayList<Criterion>();
+            criteria = new ArrayList<>();
             this.propertyMap = propertyMap;
         }
 
@@ -705,7 +704,7 @@ public class Example implements IDynamicTableName {
     }
 
     public static class Criterion {
-        private String condition;
+        private final String condition;
 
         private Object value;
 
@@ -721,7 +720,7 @@ public class Example implements IDynamicTableName {
 
         private boolean listValue;
 
-        private String typeHandler;
+        private final String typeHandler;
 
         protected Criterion(String condition) {
             this(condition, false);
@@ -830,15 +829,15 @@ public class Example implements IDynamicTableName {
         protected Map<String, EntityColumn> propertyMap;
         private StringBuilder orderByClause;
         private boolean distinct;
-        private boolean exists;
-        private boolean notNull;
+        private final boolean exists;
+        private final boolean notNull;
         private boolean forUpdate;
         //查询字段
         private Set<String> selectColumns;
         //排除的查询字段
         private Set<String> excludeColumns;
         private String countColumn;
-        private List<Sqls.Criteria> sqlsCriteria;
+        private final List<Sqls.Criteria> sqlsCriteria;
         //动态表名
         private List<Example.Criteria> exampleCriterias;
         //动态表名
@@ -859,7 +858,7 @@ public class Example implements IDynamicTableName {
             this.orderByClause = new StringBuilder();
             this.table = EntityHelper.getEntityTable(entityClass);
             this.propertyMap = table.getPropertyMap();
-            this.sqlsCriteria = new ArrayList<Sqls.Criteria>(2);
+            this.sqlsCriteria = new ArrayList<>(2);
         }
 
         public Builder distinct() {
@@ -879,7 +878,7 @@ public class Example implements IDynamicTableName {
         public Builder select(String... properties) {
             if (properties != null && properties.length > 0) {
                 if (this.selectColumns == null) {
-                    this.selectColumns = new LinkedHashSet<String>();
+                    this.selectColumns = new LinkedHashSet<>();
                 }
                 for (String property : properties) {
                     if (this.propertyMap.containsKey(property)) {
@@ -895,7 +894,7 @@ public class Example implements IDynamicTableName {
         public Builder notSelect(String... properties) {
             if (properties != null && properties.length > 0) {
                 if (this.excludeColumns == null) {
-                    this.excludeColumns = new LinkedHashSet<String>();
+                    this.excludeColumns = new LinkedHashSet<>();
                 }
                 for (String property : properties) {
                     if (propertyMap.containsKey(property)) {
@@ -976,14 +975,14 @@ public class Example implements IDynamicTableName {
                     columns.append(",").append(column).append(order);
                 }
             }
-            ;
+
             if (columns.length() > 0) {
                 orderByClause.append(columns);
             }
         }
 
         public Example build() {
-            this.exampleCriterias = new ArrayList<Criteria>();
+            this.exampleCriterias = new ArrayList<>();
             for (Sqls.Criteria criteria : sqlsCriteria) {
                 Example.Criteria exampleCriteria = new Example.Criteria(this.propertyMap, this.exists, this.notNull);
                 exampleCriteria.setAndOr(criteria.getAndOr());
@@ -1103,7 +1102,7 @@ public class Example implements IDynamicTableName {
             //不需要处理
         } else if (excludeColumns != null && excludeColumns.size() > 0) {
             Collection<EntityColumn> entityColumns = propertyMap.values();
-            selectColumns = new LinkedHashSet<String>(entityColumns.size() - excludeColumns.size());
+            selectColumns = new LinkedHashSet<>(entityColumns.size() - excludeColumns.size());
             for (EntityColumn column : entityColumns) {
                 if (!excludeColumns.contains(column.getColumn())) {
                     selectColumns.add(column.getColumn());

@@ -40,9 +40,9 @@ public enum IdentityDialect {
     DEFAULT(""),
     NULL("");
 
-    private String identityRetrievalStatement;
+    private final String identityRetrievalStatement;
 
-    private IdentityDialect(String identityRetrievalStatement) {
+    IdentityDialect(String identityRetrievalStatement) {
         this.identityRetrievalStatement = identityRetrievalStatement;
     }
 

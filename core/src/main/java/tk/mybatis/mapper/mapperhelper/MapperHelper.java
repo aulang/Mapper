@@ -60,12 +60,12 @@ public class MapperHelper {
     /**
      * 注册的接口
      */
-    private List<Class<?>> registerClass = new ArrayList<Class<?>>();
+    private final List<Class<?>> registerClass = new ArrayList<>();
 
     /**
      * 注册的通用Mapper接口
      */
-    private Map<Class<?>, MapperTemplate> registerMapper = new ConcurrentHashMap<Class<?>, MapperTemplate>();
+    private final Map<Class<?>, MapperTemplate> registerMapper = new ConcurrentHashMap<>();
 
     /**
      * 通用Mapper配置
@@ -99,7 +99,7 @@ public class MapperHelper {
         Method[] methods = mapperClass.getDeclaredMethods();
         Class<?> templateClass = null;
         Class<?> tempClass = null;
-        Set<String> methodSet = new HashSet<String>();
+        Set<String> methodSet = new HashSet<>();
         for (Method method : methods) {
             if (method.isAnnotationPresent(SelectProvider.class)) {
                 SelectProvider provider = method.getAnnotation(SelectProvider.class);
@@ -128,7 +128,7 @@ public class MapperHelper {
         if (templateClass == null || !MapperTemplate.class.isAssignableFrom(templateClass)) {
             templateClass = EmptyProvider.class;
         }
-        MapperTemplate mapperTemplate = null;
+        MapperTemplate mapperTemplate;
         try {
             mapperTemplate = (MapperTemplate) templateClass.getConstructor(Class.class, MapperHelper.class).newInstance(mapperClass, this);
         } catch (Exception e) {
@@ -159,10 +159,8 @@ public class MapperHelper {
         }
         //自动注册继承的接口
         Class<?>[] interfaces = mapperClass.getInterfaces();
-        if (interfaces != null && interfaces.length > 0) {
-            for (Class<?> anInterface : interfaces) {
-                registerMapper(anInterface);
-            }
+        for (Class<?> anInterface : interfaces) {
+            registerMapper(anInterface);
         }
     }
 
@@ -243,20 +241,18 @@ public class MapperHelper {
         //如果一个都没匹配上，很可能是还没有注册 mappers，此时通过 @RegisterMapper 注解进行判断
         Class<?>[] interfaces = mapperInterface.getInterfaces();
         boolean hasRegisterMapper = false;
-        if (interfaces != null && interfaces.length > 0) {
-            for (Class<?> anInterface : interfaces) {
-                //自动注册标记了 @RegisterMapper 的接口
-                if (anInterface.isAnnotationPresent(RegisterMapper.class)) {
-                    hasRegisterMapper = true;
-                    //如果已经注册过，就避免在反复调用下面会迭代的方法
-                    if (!registerMapper.containsKey(anInterface)) {
-                        registerMapper(anInterface);
-                    }
+        for (Class<?> anInterface : interfaces) {
+            //自动注册标记了 @RegisterMapper 的接口
+            if (anInterface.isAnnotationPresent(RegisterMapper.class)) {
+                hasRegisterMapper = true;
+                //如果已经注册过，就避免在反复调用下面会迭代的方法
+                if (!registerMapper.containsKey(anInterface)) {
+                    registerMapper(anInterface);
                 }
-                //如果父接口的父接口存在注解，也可以注册
-                else if (hasRegisterMapper(anInterface)) {
-                    hasRegisterMapper = true;
-                }
+            }
+            //如果父接口的父接口存在注解，也可以注册
+            else if (hasRegisterMapper(anInterface)) {
+                hasRegisterMapper = true;
             }
         }
         return hasRegisterMapper;
@@ -286,8 +282,7 @@ public class MapperHelper {
             prefix = "";
         }
         for (Object object : new ArrayList<Object>(configuration.getMappedStatements())) {
-            if (object instanceof MappedStatement) {
-                MappedStatement ms = (MappedStatement) object;
+            if (object instanceof MappedStatement ms) {
                 if (ms.getId().startsWith(prefix)) {
                     processMappedStatement(ms);
                 }
@@ -325,7 +320,7 @@ public class MapperHelper {
         this.config = config;
         if (config.getResolveClass() != null) {
             try {
-                EntityHelper.setResolve(config.getResolveClass().newInstance());
+                EntityHelper.setResolve(config.getResolveClass().getDeclaredConstructor().newInstance());
             } catch (Exception e) {
                 log.error("创建 " + config.getResolveClass().getName()
                         + " 实例失败，请保证该类有默认的构造方法!", e);
@@ -352,7 +347,7 @@ public class MapperHelper {
             String resolveClass = properties.getProperty("resolveClass");
             if (StringUtil.isNotEmpty(resolveClass)) {
                 try {
-                    EntityHelper.setResolve((EntityResolve) Class.forName(resolveClass).newInstance());
+                    EntityHelper.setResolve((EntityResolve) Class.forName(resolveClass).getDeclaredConstructor().newInstance());
                 } catch (Exception e) {
                     log.error("创建 " + resolveClass + " 实例失败!", e);
                     throw new MapperException("创建 " + resolveClass + " 实例失败!", e);

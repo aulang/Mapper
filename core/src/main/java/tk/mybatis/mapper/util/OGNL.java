@@ -52,8 +52,7 @@ public abstract class OGNL {
      * @return
      */
     public static boolean checkExampleEntityClass(Object parameter, String entityFullName) {
-        if (parameter != null && parameter instanceof Example && StringUtil.isNotEmpty(entityFullName)) {
-            Example example = (Example) parameter;
+        if (parameter instanceof Example example && StringUtil.isNotEmpty(entityFullName)) {
             Class<?> entityClass = example.getEntityClass();
             if (!entityClass.getName().equals(entityFullName)) {
                 throw new MapperException("当前 Example 方法对应实体为:" + entityFullName
@@ -74,7 +73,7 @@ public abstract class OGNL {
         if (parameter != null) {
             try {
                 Set<EntityColumn> columns = EntityHelper.getColumns(parameter.getClass());
-                Set<String> fieldSet = new HashSet<String>(Arrays.asList(fields.split(",")));
+                Set<String> fieldSet = new HashSet<>(Arrays.asList(fields.split(",")));
                 for (EntityColumn column : columns) {
                     if (fieldSet.contains(column.getProperty())) {
                         Object value = column.getEntityField().getValue(parameter);
@@ -121,7 +120,7 @@ public abstract class OGNL {
                 } else {
                     Method getter = parameter.getClass().getDeclaredMethod("getOredCriteria");
                     Object list = getter.invoke(parameter);
-                    if (list != null && list instanceof List && ((List) list).size() > 0) {
+                    if (list instanceof List && ((List) list).size() > 0) {
                         return true;
                     }
                 }
@@ -139,11 +138,8 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasSelectColumns(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
-            if (example.getSelectColumns() != null && example.getSelectColumns().size() > 0) {
-                return true;
-            }
+        if (parameter instanceof Example example) {
+            return example.getSelectColumns() != null && example.getSelectColumns().size() > 0;
         }
         return false;
     }
@@ -155,8 +151,7 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasCountColumn(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter instanceof Example example) {
             return StringUtil.isNotEmpty(example.getCountColumn());
         }
         return false;
@@ -169,8 +164,7 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasForUpdate(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter instanceof Example example) {
             return example.isForUpdate();
         }
         return false;
@@ -193,10 +187,7 @@ public abstract class OGNL {
      * @return true支持，false不支持
      */
     public static boolean isDynamicParameter(Object parameter) {
-        if (parameter != null && parameter instanceof IDynamicTableName) {
-            return true;
-        }
-        return false;
+        return parameter instanceof IDynamicTableName;
     }
 
     /**
@@ -235,8 +226,7 @@ public abstract class OGNL {
      */
     public static String andNotLogicDelete(Object parameter) {
         String result = "";
-        if (parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter instanceof Example example) {
             Map<String, EntityColumn> propertyMap = example.getPropertyMap();
 
             for (Map.Entry<String, EntityColumn> entry : propertyMap.entrySet()) {
