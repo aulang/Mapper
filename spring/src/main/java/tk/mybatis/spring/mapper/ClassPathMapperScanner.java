@@ -29,7 +29,6 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.entity.Config;
@@ -101,7 +100,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
         if (this.markerInterface != null) {
             addIncludeFilter(new AssignableTypeFilter(this.markerInterface) {
                 @Override
-                protected boolean matchClassName(@NonNull String className) {
+                protected boolean matchClassName(String className) {
                     return false;
                 }
             });
@@ -130,8 +129,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
      * MapperFactoryBeans
      */
     @Override
-    @NonNull
-    public Set<BeanDefinitionHolder> doScan(@NonNull String... basePackages) {
+    public Set<BeanDefinitionHolder> doScan(String... basePackages) {
         Set<BeanDefinitionHolder> beanDefinitions = super.doScan(basePackages);
 
         if (beanDefinitions.isEmpty()) {
@@ -216,7 +214,7 @@ public class ClassPathMapperScanner extends ClassPathBeanDefinitionScanner {
      * {@inheritDoc}
      */
     @Override
-    protected boolean checkCandidate(@NonNull String beanName, @NonNull BeanDefinition beanDefinition) {
+    protected boolean checkCandidate(String beanName, BeanDefinition beanDefinition) {
         if (super.checkCandidate(beanName, beanDefinition)) {
             return true;
         } else {

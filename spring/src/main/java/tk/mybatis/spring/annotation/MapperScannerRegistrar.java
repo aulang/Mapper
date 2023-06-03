@@ -28,7 +28,6 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.lang.NonNull;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import tk.mybatis.spring.mapper.ClassPathMapperScanner;
@@ -46,13 +45,14 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
     private Environment environment;
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, @NonNull BeanDefinitionRegistry registry) {
+    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
         if (annoAttrs == null) {
             return;
         }
 
         ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
+        // this check is needed in Spring 3.1
         if (resourceLoader != null) {
             scanner.setResourceLoader(resourceLoader);
         }
@@ -72,7 +72,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
             scanner.setBeanNameGenerator(BeanUtils.instantiateClass(generatorClass));
         }
 
-        Class<? extends MapperFactoryBean<?>> mapperFactoryBeanClass = annoAttrs.getClass("factoryBean");
+        Class<? extends MapperFactoryBean> mapperFactoryBeanClass = annoAttrs.getClass("factoryBean");
         if (!MapperFactoryBean.class.equals(mapperFactoryBeanClass)) {
             scanner.setMapperFactoryBean(BeanUtils.instantiateClass(mapperFactoryBeanClass));
         }
@@ -121,12 +121,12 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
     }
 
     @Override
-    public void setEnvironment(@NonNull Environment environment) {
+    public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
 
     @Override
-    public void setResourceLoader(@NonNull ResourceLoader resourceLoader) {
+    public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 }
