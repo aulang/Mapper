@@ -51,7 +51,7 @@ public class UpdateByPrimaryKeySelectiveForceProvider extends MapperTemplate {
 
 
     public String updateByPrimaryKeySelectiveForce(MappedStatement ms) {
-        Class<?> entityClass = getEntityClass(ms);
+        Class entityClass = getEntityClass(ms);
 
         return SqlHelper.updateTable(entityClass, tableName(entityClass), "record") +
                 this.updateSetColumnsForce(entityClass, "record", true, isNotEmpty()) +
