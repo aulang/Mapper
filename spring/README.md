@@ -1,59 +1,5 @@
 # Mybatis 通用 Mapper 和 Spring 集成
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring)
-
-## 依赖
-
-项目自身依赖不传递(`<scope>provided</scope>`)，因此需要自己提供其他依赖：
-
-> 正常情况下，也是在这些依赖基础上增加的 mapper-spring
-
-```xml
-<!-- 需要添加的依赖 -->
-<dependency>
-    <groupId>tk.mybatis</groupId>
-    <artifactId>mapper-spring</artifactId>
-    <version>版本号</version>
-</dependency>
-```
-
-其他依赖
-
-```xml
-<dependency>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis</artifactId>
-    <version>版本号</version>
-</dependency>
-<dependency>
-    <groupId>tk.mybatis</groupId>
-    <artifactId>mapper</artifactId>
-    <version>版本号</version>
-</dependency>
-<dependency>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis-spring</artifactId>
-    <version>版本号</version>
-</dependency>
-
-<!-- Spring -->
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context</artifactId>
-    <version>版本号</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-tx</artifactId>
-    <version>版本号</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-jdbc</artifactId>
-    <version>版本号</version>
-</dependency>
-```
-
 ## 配置
 
 本项目主要提供了两种大的配置方式。
@@ -68,10 +14,6 @@
 ### 初次使用通用 Mapper 请注意
 
 下面的示例只是演示如何进行配置，具体配置那些参数要自己选择！
-
-所有可配置参数请参考通用 Mapper 文档：
-
-> https://github.com/abel533/Mapper/blob/master/wiki/mapper3/2.Integration.md
 
 ### 一、`MapperScannerConfigurer` xml bean 配置
 
