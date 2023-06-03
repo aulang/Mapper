@@ -1,7 +1,5 @@
 # Mybatis 通用 Mapper 扩展方法
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-extra/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-extra)
-
 ## 扩展方法介绍
 
 ### InsertListMapper
@@ -33,5 +31,3 @@
 空字段强制更新
 
 针对`UpdateByPrimaryKeySelectiveMapper`中， 空值也需要设置的场景提供的解决方案。
-
-参见: [https://github.com/abel533/Mapper/issues/133](https://github.com/abel533/Mapper/issues/133)

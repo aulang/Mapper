@@ -10,6 +10,7 @@ include 'core'
 include 'extra'
 include 'spring'
 include 'weekend'
+include 'generator'
 
 include 'spring-boot-starter'
 include 'spring-boot-starter:mapper-spring-boot-autoconfigure', 'spring-boot-starter:mapper-spring-boot-starter'

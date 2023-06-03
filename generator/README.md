@@ -1,7 +1,5 @@
 # Mybatis 通用 Mapper 代码生成器
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-generator/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-generator)
-
 整个插件只有很少代码是和通用 Mapper 相关的，并且也没有直接的依赖关系。
 
 这个代码生成器实际上是对 MyBatis Generator 的一个扩展，使用这个扩展可以很方便的使用 Freemarker 模板语言编写代码。
@@ -605,17 +603,4 @@ Blob列：
 
 基础的代码生成器是很简单的，和 Java 拼字符串输出很像，这里只是使用了模板。
 
-几乎所有人都在 JSP 中用过的 EL 就是一种模板，可能你会 `<c:forEach ` 这种，但是联想不到这里的代码生成器而已。
-
-后续会在 https://github.com/abel533/Mybatis-Spring 项目中提供一套模板做为示例。
-
-> 项目的发展离不开你的支持，请作者喝杯咖啡吧！
->
->支付宝
->
-><img width="360" src="https://camo.githubusercontent.com/4af3ab81f88d87abfb9c67f9c6bba84047b079e1/68747470733a2f2f6d7962617469732e746b2f696d672f616c695f7061792e706e67" alt="支付宝" data-canonical-src="https://mybatis.io/img/ali_pay.png">
->
->微信
->
-><img width="360" src="https://camo.githubusercontent.com/56a0b0aa0c09116cb0ef2f3ebe7f6d7103705a98/68747470733a2f2f6d7962617469732e746b2f696d672f77785f7061792e706e67" alt="微信" data-canonical-src="https://mybatis.io/img/wx_pay.png">
-
+几乎所有人都在 JSP 中用过的 EL 就是一种模板，可能你会 `<c:forEach>` 这种，但是联想不到这里的代码生成器而已。

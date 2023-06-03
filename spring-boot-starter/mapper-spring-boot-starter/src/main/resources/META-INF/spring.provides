@@ -1,1 +1,0 @@
-provides: mapper-spring-boot-autoconfigure,mapper,mybatis-spring-boot-autoconfigure,mybatis,mybatis-spring
