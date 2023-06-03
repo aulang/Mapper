@@ -224,7 +224,7 @@ public class MapperAutoConfiguration implements InitializingBean {
 
                 String lazyInitialization = environment.getProperty("mybatis.lazy-initialization");
                 if (StringUtils.hasText(lazyInitialization)) {
-                    scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
+                    scanner.setLazyInitialization(Boolean.parseBoolean(lazyInitialization));
                 }
 
                 scanner.registerFilters();

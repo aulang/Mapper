@@ -35,6 +35,7 @@ public class MapperCacheDisabler implements InitializingBean {
 
             removeEntityHelperCache(ClassUtils.forName("tk.mybatis.mapper.mapperhelper.EntityHelper", appClassLoader));
         } catch (Exception ex) {
+            logger.error("Disable caching error", ex);
         }
     }
 
@@ -83,7 +84,7 @@ public class MapperCacheDisabler implements InitializingBean {
                 logger.info("Clear EntityHelper entityTableMap cache.");
             }
         } catch (Exception ex) {
-            logger.warn("Failed to disable Mapper MsUtil cache. ClassCastExceptions may occur", ex);
+            logger.error("Failed to disable Mapper MsUtil cache. ClassCastExceptions may occur", ex);
         }
     }
 

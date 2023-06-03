@@ -190,13 +190,13 @@ public class MybatisProperties extends BaseProperties {
     }
 
     public Resource[] resolveMapperLocations() {
-        List<Resource> resources = new ArrayList<Resource>();
+        List<Resource> resources = new ArrayList<>();
         if (this.mapperLocations != null) {
             for (String mapperLocation : this.mapperLocations) {
                 resources.addAll(Arrays.asList(getResources(mapperLocation)));
             }
         }
-        return resources.toArray(new Resource[resources.size()]);
+        return resources.toArray(new Resource[0]);
     }
 
     private Resource[] getResources(String location) {
