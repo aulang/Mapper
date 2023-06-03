@@ -46,8 +46,11 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
+        if (annoAttrs == null) {
+            return;
+        }
+
         ClassPathMapperScanner scanner = new ClassPathMapperScanner(registry);
         // this check is needed in Spring 3.1
         if (resourceLoader != null) {
@@ -77,7 +80,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
         scanner.setSqlSessionTemplateBeanName(annoAttrs.getString("sqlSessionTemplateRef"));
         scanner.setSqlSessionFactoryBeanName(annoAttrs.getString("sqlSessionFactoryRef"));
 
-        List<String> basePackages = new ArrayList<String>();
+        List<String> basePackages = new ArrayList<>();
         for (String pkg : annoAttrs.getStringArray("value")) {
             if (StringUtils.hasText(pkg)) {
                 basePackages.add(pkg);
@@ -96,7 +99,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
         String[] properties = annoAttrs.getStringArray("properties");
         if (StringUtils.hasText(mapperHelperRef)) {
             scanner.setMapperHelperBeanName(mapperHelperRef);
-        } else if (properties != null && properties.length > 0) {
+        } else if (properties.length > 0) {
             scanner.setMapperProperties(properties);
         } else {
             try {
@@ -110,7 +113,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
         String lazyInitialization = annoAttrs.getString("lazyInitialization");
         if (StringUtils.hasText(lazyInitialization)) {
-            scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
+            scanner.setLazyInitialization(Boolean.parseBoolean(lazyInitialization));
         }
 
         scanner.registerFilters();

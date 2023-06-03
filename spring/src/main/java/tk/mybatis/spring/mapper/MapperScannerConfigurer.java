@@ -138,7 +138,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         notNull(this.basePackage, "Property 'basePackage' is required");
     }
 
@@ -171,7 +171,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
         scanner.setResourceLoader(this.applicationContext);
         scanner.setBeanNameGenerator(this.nameGenerator);
         if (StringUtils.hasText(lazyInitialization)) {
-            scanner.setLazyInitialization(Boolean.valueOf(lazyInitialization));
+            scanner.setLazyInitialization(Boolean.parseBoolean(lazyInitialization));
         }
         scanner.registerFilters();
         //设置通用 Mapper
