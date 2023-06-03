@@ -33,10 +33,10 @@ public class SaveProvider extends MapperTemplate {
 
         Set<EntityColumn> columnList = EntityHelper.getPKColumns(entityClass);
         if (columnList.size() == 1) {
-            EntityColumn column = (EntityColumn)columnList.iterator().next();
+            EntityColumn column = columnList.iterator().next();
             String id = column.getColumn();
             sql.append("<choose>");
-            sql.append("<when test='" + id + "!=null'>");
+            sql.append("<when test='").append(id).append("!=null'>");
             sql.append(updateByPrimaryKey(ms));
             sql.append("</when>");
             sql.append("<otherwise>");
@@ -55,11 +55,9 @@ public class SaveProvider extends MapperTemplate {
      */
     public String updateByPrimaryKey(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.updateSetColumns(entityClass, null, false, false));
-        sql.append(SqlHelper.wherePKColumns(entityClass, true));
-        return sql.toString();
+        return SqlHelper.updateTable(entityClass, tableName(entityClass)) +
+                SqlHelper.updateSetColumns(entityClass, null, false, false) +
+                SqlHelper.wherePKColumns(entityClass, true);
     }
 
     public String insert(MappedStatement ms) {
@@ -97,7 +95,7 @@ public class SaveProvider extends MapperTemplate {
 
     private void processKey(StringBuilder sql, Class<?> entityClass, MappedStatement ms, Set<EntityColumn> columnList){
         //Identity列只能有一个
-        Boolean hasIdentityKey = false;
+        boolean hasIdentityKey = false;
         //先处理cache或bind节点
         for (EntityColumn column : columnList) {
             if (column.isIdentity()) {

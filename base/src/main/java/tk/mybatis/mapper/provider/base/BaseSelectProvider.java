@@ -50,11 +50,9 @@ public class BaseSelectProvider extends MapperTemplate {
         Class<?> entityClass = getEntityClass(ms);
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
-        return sql.toString();
+        return SqlHelper.selectAllColumns(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                SqlHelper.whereAllIfColumns(entityClass, isNotEmpty());
     }
 
     /**
@@ -67,12 +65,10 @@ public class BaseSelectProvider extends MapperTemplate {
         Class<?> entityClass = getEntityClass(ms);
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
-        sql.append(SqlHelper.orderByDefault(entityClass));
-        return sql.toString();
+        return SqlHelper.selectAllColumns(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()) +
+                SqlHelper.orderByDefault(entityClass);
     }
 
     /**
@@ -94,11 +90,9 @@ public class BaseSelectProvider extends MapperTemplate {
         final Class<?> entityClass = getEntityClass(ms);
         //将返回值修改为实体类型
         setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
+        return SqlHelper.selectAllColumns(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                SqlHelper.wherePKColumns(entityClass);
     }
 
     /**
@@ -109,11 +103,9 @@ public class BaseSelectProvider extends MapperTemplate {
      */
     public String selectCount(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectCount(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.whereAllIfColumns(entityClass, isNotEmpty()));
-        return sql.toString();
+        return SqlHelper.selectCount(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                SqlHelper.whereAllIfColumns(entityClass, isNotEmpty());
     }
 
     /**
@@ -124,11 +116,9 @@ public class BaseSelectProvider extends MapperTemplate {
      */
     public String existsWithPrimaryKey(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectCountExists(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.wherePKColumns(entityClass));
-        return sql.toString();
+        return SqlHelper.selectCountExists(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                SqlHelper.wherePKColumns(entityClass);
     }
 
     /**
@@ -141,16 +131,13 @@ public class BaseSelectProvider extends MapperTemplate {
         final Class<?> entityClass = getEntityClass(ms);
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.selectAllColumns(entityClass));
-        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
 
-        // 逻辑删除的未删除查询条件
-        sql.append("<where>");
-        sql.append(SqlHelper.whereLogicDelete(entityClass, false));
-        sql.append("</where>");
-
-        sql.append(SqlHelper.orderByDefault(entityClass));
-        return sql.toString();
+        return SqlHelper.selectAllColumns(entityClass) +
+                SqlHelper.fromTable(entityClass, tableName(entityClass)) +
+                // 逻辑删除的未删除查询条件
+                "<where>" +
+                SqlHelper.whereLogicDelete(entityClass, false) +
+                "</where>" +
+                SqlHelper.orderByDefault(entityClass);
     }
 }

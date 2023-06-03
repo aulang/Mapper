@@ -49,15 +49,14 @@ public class SqlServerProvider extends MapperTemplate {
     public String insert(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         //开始拼sql
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.insertColumns(entityClass, true, false, false));
-        sql.append(SqlHelper.insertValuesColumns(entityClass, true, false, false));
+        String sql = SqlHelper.insertIntoTable(entityClass, tableName(entityClass)) +
+                SqlHelper.insertColumns(entityClass, true, false, false) +
+                SqlHelper.insertValuesColumns(entityClass, true, false, false);
 
         // 反射把MappedStatement中的设置主键名
         EntityHelper.setKeyProperties(EntityHelper.getPKColumns(entityClass), ms);
 
-        return sql.toString();
+        return sql;
     }
 
     /**
@@ -68,14 +67,13 @@ public class SqlServerProvider extends MapperTemplate {
      */
     public String insertSelective(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.insertColumns(entityClass, true, true, isNotEmpty()));
-        sql.append(SqlHelper.insertValuesColumns(entityClass, true, true, isNotEmpty()));
+        String sql = SqlHelper.insertIntoTable(entityClass, tableName(entityClass)) +
+                SqlHelper.insertColumns(entityClass, true, true, isNotEmpty()) +
+                SqlHelper.insertValuesColumns(entityClass, true, true, isNotEmpty());
 
         // 反射把MappedStatement中的设置主键名
         EntityHelper.setKeyProperties(EntityHelper.getPKColumns(entityClass), ms);
 
-        return sql.toString();
+        return sql;
     }
 }
