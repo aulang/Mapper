@@ -41,7 +41,7 @@ public class OracleProvider extends MapperTemplate {
         final Class<?> entityClass = getEntityClass(ms);
         //开始拼sql
         StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"listNotEmptyCheck\" value=\"@tk.mybatis.mapper.util.OGNL@notEmptyCollectionCheck(list, '" + ms.getId() + " 方法参数为空')\"/>\n");
+        sql.append("<bind name=\"listNotEmptyCheck\" value=\"@tk.mybatis.mapper.util.OGNL@notEmptyCollectionCheck(list, '").append(ms.getId()).append(" 方法参数为空')\"/>\n");
 
         sql.append("INSERT ALL\n");
         sql.append("<foreach collection=\"list\" item=\"record\">\n");
@@ -68,7 +68,7 @@ public class OracleProvider extends MapperTemplate {
         //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             if (column.isInsertable()) {
-                sql.append(column.getColumnHolder("record") + ",");
+                sql.append(column.getColumnHolder("record")).append(",");
             }
         }
         sql.append("</trim>\n");

@@ -53,11 +53,9 @@ public class UpdateByDifferProvider extends MapperTemplate {
      */
     public String updateByDiffer(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
-        sql.append(updateSetColumnsByDiffer(entityClass));
-        sql.append(wherePKColumns(entityClass, true));
-        return sql.toString();
+        return SqlHelper.updateTable(entityClass, tableName(entityClass)) +
+                updateSetColumnsByDiffer(entityClass) +
+                wherePKColumns(entityClass, true);
     }
 
     /**
@@ -73,7 +71,7 @@ public class UpdateByDifferProvider extends MapperTemplate {
         Set<EntityColumn> columnSet = EntityHelper.getPKColumns(entityClass);
         //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnSet) {
-            sql.append(" AND " + column.getColumnEqualsHolder(NEWER));
+            sql.append(" AND ").append(column.getColumnEqualsHolder(NEWER));
         }
         if (useVersion) {
             sql.append(whereVersion(entityClass));
@@ -153,12 +151,10 @@ public class UpdateByDifferProvider extends MapperTemplate {
      * @return
      */
     public String getIfNotEqual(EntityColumn column, String contents) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("<if test=\"").append(OLD).append(".").append(column.getProperty());
-        sql.append(" != ").append(NEWER).append(".").append(column.getProperty()).append("\">");
-        sql.append(contents);
-        sql.append("</if>");
-        return sql.toString();
+        return "<if test=\"" + OLD + "." + column.getProperty() +
+                " != " + NEWER + "." + column.getProperty() + "\">" +
+                contents +
+                "</if>";
     }
 
 }

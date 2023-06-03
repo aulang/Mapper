@@ -51,7 +51,7 @@ public class InsertListProvider extends MapperTemplate {
         final Class<?> entityClass = getEntityClass(ms);
         //开始拼sql
         StringBuilder sql = new StringBuilder();
-        sql.append("<bind name=\"listNotEmptyCheck\" value=\"@tk.mybatis.mapper.util.OGNL@notEmptyCollectionCheck(list, '" + ms.getId() + " 方法参数为空')\"/>");
+        sql.append("<bind name=\"listNotEmptyCheck\" value=\"@tk.mybatis.mapper.util.OGNL@notEmptyCollectionCheck(list, '").append(ms.getId()).append(" 方法参数为空')\"/>");
         sql.append(SqlHelper.insertIntoTable(entityClass, tableName(entityClass), "list[0]"));
         sql.append(SqlHelper.insertColumns(entityClass, false, false, false));
         sql.append(" VALUES ");
@@ -81,7 +81,7 @@ public class InsertListProvider extends MapperTemplate {
                 sql.append(SqlHelper.getLogicDeletedValue(column, false)).append(",");
                 continue;
             }
-            sql.append(column.getColumnHolder("record") + ",");
+            sql.append(column.getColumnHolder("record")).append(",");
         }
         sql.append("</trim>");
         sql.append("</foreach>");
