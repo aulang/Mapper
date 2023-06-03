@@ -47,7 +47,7 @@ public class SpringBootVFS extends VFS {
     @Override
     protected List<String> list(URL url, String path) throws IOException {
         Resource[] resources = resourceResolver.getResources("classpath*:" + path + "/**/*.class");
-        List<String> resourcePaths = new ArrayList<String>();
+        List<String> resourcePaths = new ArrayList<>();
         for (Resource resource : resources) {
             resourcePaths.add(preserveSubpackageName(resource.getURI(), path));
         }
