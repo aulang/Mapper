@@ -34,14 +34,14 @@ import tk.mybatis.mapper.weekend.reflection.Reflections;
  * @author XuYin
  */
 public class WeekendSqls<T> implements tk.mybatis.mapper.entity.SqlsCriteria {
-    private Criteria criteria;
+    private final Criteria criteria;
 
     private WeekendSqls() {
         this.criteria = new Sqls.Criteria();
     }
 
     public static <T> WeekendSqls<T> custom() {
-        return new WeekendSqls<T>();
+        return new WeekendSqls<>();
     }
 
     public WeekendSqls<T> andIsNull(String property) {
