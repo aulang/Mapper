@@ -54,11 +54,6 @@ public class MapperCommentGenerator implements CommentGenerator {
         super();
     }
 
-    @Override
-    public void addJavaFileComment(CompilationUnit compilationUnit) {
-        return;
-    }
-
     /**
      * xml中的注释
      *
@@ -67,16 +62,10 @@ public class MapperCommentGenerator implements CommentGenerator {
     @Override
     public void addComment(XmlElement xmlElement) {
         xmlElement.addElement(new TextElement("<!--"));
-        StringBuilder sb = new StringBuilder();
-        sb.append("  WARNING - ");
-        sb.append(MergeConstants.NEW_ELEMENT_TAG);
-        xmlElement.addElement(new TextElement(sb.toString()));
+        String sb = "  WARNING - " +
+                MergeConstants.NEW_ELEMENT_TAG;
+        xmlElement.addElement(new TextElement(sb));
         xmlElement.addElement(new TextElement("-->"));
-    }
-
-    @Override
-    public void addRootComment(XmlElement rootElement) {
-        return;
     }
 
     @Override
@@ -104,11 +93,9 @@ public class MapperCommentGenerator implements CommentGenerator {
     }
 
     public String getDelimiterName(String name) {
-        StringBuilder nameBuilder = new StringBuilder();
-        nameBuilder.append(beginningDelimiter);
-        nameBuilder.append(name);
-        nameBuilder.append(endingDelimiter);
-        return nameBuilder.toString();
+        return beginningDelimiter +
+                name +
+                endingDelimiter;
     }
 
     /**
@@ -137,10 +124,6 @@ public class MapperCommentGenerator implements CommentGenerator {
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
     }
 
-    @Override
-    public void addEnumComment(InnerEnum innerEnum, IntrospectedTable introspectedTable) {
-    }
-
     /**
      * 给字段添加数据库备注
      *
@@ -152,10 +135,9 @@ public class MapperCommentGenerator implements CommentGenerator {
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
         if (StringUtility.stringHasValue(introspectedColumn.getRemarks())) {
             field.addJavaDocLine("/**");
-            StringBuilder sb = new StringBuilder();
-            sb.append(" * ");
-            sb.append(introspectedColumn.getRemarks());
-            field.addJavaDocLine(sb.toString());
+            String sb = " * " +
+                    introspectedColumn.getRemarks();
+            field.addJavaDocLine(sb);
             field.addJavaDocLine(" */");
         }
         //添加注解
@@ -222,11 +204,6 @@ public class MapperCommentGenerator implements CommentGenerator {
      */
     @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable) {
-    }
-
-    @Override
-    public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-
     }
 
     /**
