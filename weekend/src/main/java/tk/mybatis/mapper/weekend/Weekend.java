@@ -47,20 +47,19 @@ public class Weekend<T> extends tk.mybatis.mapper.entity.Example {
     }
 
     public static <A> Weekend<A> of(Class<A> clazz, Boolean exists, boolean notNull) {
-        return new Weekend<A>(clazz, exists, notNull);
+        return new Weekend<>(clazz, exists, notNull);
     }
 
     public static <A> Weekend<A> of(Class<A> clazz, Boolean exists) {
-        return new Weekend<A>(clazz, exists, Boolean.FALSE);
+        return new Weekend<>(clazz, exists, Boolean.FALSE);
     }
 
     public static <A> Weekend<A> of(Class<A> clazz) {
-        return new Weekend<A>(clazz, Boolean.TRUE);
+        return new Weekend<>(clazz, Boolean.TRUE);
     }
 
     public WeekendCriteria<T, Object> createCriteriaAddOn() {
-        WeekendCriteria<T, Object> weekendCriteria = new WeekendCriteria<>(this.propertyMap, this.exists, this.notNull);
-        return weekendCriteria;
+        return new WeekendCriteria<>(this.propertyMap, this.exists, this.notNull);
     }
 
     @Override

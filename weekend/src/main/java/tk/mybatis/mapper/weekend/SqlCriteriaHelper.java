@@ -12,14 +12,14 @@ import java.util.Optional;
  * @date 2019-04-15 10:26
  */
 public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriteria {
-    private Sqls.Criteria criteria;
+    private final Sqls.Criteria criteria;
 
     private SqlCriteriaHelper() {
         this.criteria = new Sqls.Criteria();
     }
 
     public static <T> SqlCriteriaHelper<T> custom(Class<T> clazz) {
-        return new SqlCriteriaHelper<T>();
+        return new SqlCriteriaHelper<>();
     }
 
     /**
