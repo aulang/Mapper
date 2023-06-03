@@ -13,23 +13,19 @@ public class BatchUpdateProvider extends MapperTemplate {
 
     public String batchUpdate(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append("<foreach collection=\"list\" item=\"record\" separator=\";\" >");
-        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.updateSetColumns(entityClass, "record", false, false));
-        sql.append(SqlHelper.wherePKColumns(entityClass, "record", true));
-        sql.append("</foreach>");
-        return sql.toString();
+        return "<foreach collection=\"list\" item=\"record\" separator=\";\" >" +
+                SqlHelper.updateTable(entityClass, tableName(entityClass)) +
+                SqlHelper.updateSetColumns(entityClass, "record", false, false) +
+                SqlHelper.wherePKColumns(entityClass, "record", true) +
+                "</foreach>";
     }
 
     public String batchUpdateSelective(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
-        StringBuilder sql = new StringBuilder();
-        sql.append("<foreach collection=\"list\" item=\"record\" separator=\";\" >");
-        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
-        sql.append(SqlHelper.updateSetColumns(entityClass, "record", true, isNotEmpty()));
-        sql.append(SqlHelper.wherePKColumns(entityClass, "record", true));
-        sql.append("</foreach>");
-        return sql.toString();
+        return "<foreach collection=\"list\" item=\"record\" separator=\";\" >" +
+                SqlHelper.updateTable(entityClass, tableName(entityClass)) +
+                SqlHelper.updateSetColumns(entityClass, "record", true, isNotEmpty()) +
+                SqlHelper.wherePKColumns(entityClass, "record", true) +
+                "</foreach>";
     }
 }

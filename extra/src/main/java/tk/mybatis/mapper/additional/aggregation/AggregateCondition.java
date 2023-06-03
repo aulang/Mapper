@@ -22,7 +22,7 @@ public class AggregateCondition implements Serializable {
     private String aggregateProperty;
     private String aggregateAliasName;
     // groupBy 查询列
-    private List<String> groupByProperties;
+    private final List<String> groupByProperties;
     // 聚合函数
     private AggregateType aggregateType;
 
@@ -66,7 +66,7 @@ public class AggregateCondition implements Serializable {
      */
     public AggregateCondition(String aggregateProperty, AggregateType aggregateType,
                               String[] groupByProperties) {
-        this.groupByProperties = new ArrayList<String>();
+        this.groupByProperties = new ArrayList<>();
         // 需要放在propertyMap初始化完成后执行
         aggregateType(aggregateType);
         if (StringUtil.isNotEmpty(aggregateProperty)) {

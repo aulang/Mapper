@@ -30,7 +30,7 @@ public class BatchUpsertProvider extends MapperTemplate {
                 primaryKeyColumn = column.getColumn();
             }
             if (column.isInsertable()) {
-                sql.append(column.getColumn() + ",");
+                sql.append(column.getColumn()).append(",");
             }
         }
         sql.append("</trim>");
@@ -54,10 +54,10 @@ public class BatchUpsertProvider extends MapperTemplate {
                 sql.append(SqlHelper.getLogicDeletedValue(column, false)).append(",");
                 continue;
             }
-            sql.append(column.getColumnHolder("record") + ",");
+            sql.append(column.getColumnHolder("record")).append(",");
         }
         sql.append("</trim>");
-        sql.append(" ON CONFLICT (" + primaryKeyColumn + ") DO UPDATE ");
+        sql.append(" ON CONFLICT (").append(primaryKeyColumn).append(") DO UPDATE ");
         sql.append(SqlHelper.updateSetColumns(entityClass, "record", true, isNotEmpty()));
         sql.append("</foreach>");
         return sql.toString();

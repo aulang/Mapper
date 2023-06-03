@@ -51,12 +51,12 @@ public class DeletePropertyProvider extends MapperTemplate {
         sql.append("\">\n");
         String entityClassName = entityClass.getName();
         //通过实体类名获取运行时属性对应的字段
-        String ognl = new StringBuilder("${@")
-                .append(propertyHelper)
-                .append("@getColumnByProperty(@java.lang.Class@forName(\"")
-                .append(entityClassName)
-                .append("\"), @tk.mybatis.mapper.weekend.reflection.Reflections@fnToFieldName(fn))}").toString();
-        sql.append(ognl + " = #{value}\n");
+        String ognl = "${@" +
+                propertyHelper +
+                "@getColumnByProperty(@java.lang.Class@forName(\"" +
+                entityClassName +
+                "\"), @tk.mybatis.mapper.weekend.reflection.Reflections@fnToFieldName(fn))}";
+        sql.append(ognl).append(" = #{value}\n");
         sql.append("</if>\n");
         sql.append("</where>");
         return sql.toString();
