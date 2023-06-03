@@ -134,7 +134,7 @@ public class BaseInsertProvider extends MapperTemplate {
 
     private void processKey(StringBuilder sql, Class<?> entityClass, MappedStatement ms, Set<EntityColumn> columnList) {
         //Identity列只能有一个
-        Boolean hasIdentityKey = false;
+        boolean hasIdentityKey = false;
         //先处理cache或bind节点
         for (EntityColumn column : columnList) {
             if (column.isIdentity()) {

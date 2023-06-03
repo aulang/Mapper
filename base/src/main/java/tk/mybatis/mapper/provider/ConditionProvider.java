@@ -35,7 +35,7 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
  */
 public class ConditionProvider extends MapperTemplate {
 
-    private ExampleProvider exampleProvider;
+    private final ExampleProvider exampleProvider;
 
     public ConditionProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
         super(mapperClass, mapperHelper);
