@@ -43,7 +43,7 @@ import java.util.Properties;
 public class Config {
     public static final String PREFIX = "mapper";
 
-    private List<Class<?>> mappers = new ArrayList<>();
+    private List<Class> mappers = new ArrayList<>();
     private String IDENTITY;
     private boolean BEFORE;
     private String seqFormat;
@@ -268,11 +268,11 @@ public class Config {
         setIDENTITY(identity);
     }
 
-    public List<Class<?>> getMappers() {
+    public List<Class> getMappers() {
         return mappers;
     }
 
-    public void setMappers(List<Class<?>> mappers) {
+    public void setMappers(List<Class> mappers) {
         this.mappers = mappers;
     }
 
