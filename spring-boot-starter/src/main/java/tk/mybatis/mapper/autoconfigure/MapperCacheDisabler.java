@@ -9,6 +9,7 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,11 +50,11 @@ public class MapperCacheDisabler implements InitializingBean {
             Field cacheField = ReflectionUtils.findField(utilClass, fieldName);
             if (cacheField != null) {
                 ReflectionUtils.makeAccessible(cacheField);
-                Object cache = ReflectionUtils.getField(cacheField, null);
-                if (cache instanceof Map) {
-                    ((Map) cache).clear();
-                } else if (cache instanceof Cache) {
-                    ((Cache) cache).clear();
+                Object field = ReflectionUtils.getField(cacheField, null);
+                if (field instanceof Map<?, ?> map) {
+                    map.clear();
+                } else if (field instanceof Cache cache) {
+                    cache.clear();
                 } else {
                     throw new UnsupportedOperationException("cache field must be a java.util.Map " +
                             "or org.apache.ibatis.cache.Cache instance");
@@ -71,13 +72,21 @@ public class MapperCacheDisabler implements InitializingBean {
             Field cacheField = ReflectionUtils.findField(entityHelper, "entityTableMap");
             if (cacheField != null) {
                 ReflectionUtils.makeAccessible(cacheField);
-                Map cache = (Map) ReflectionUtils.getField(cacheField, null);
+
+                Object obj = ReflectionUtils.getField(cacheField, null);
+                if (!(obj instanceof Map<?, ?> cache)) {
+                    return;
+                }
+
                 //如果使用了 Devtools，这里获取的就是当前的 RestartClassLoader
                 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                for (Object key : new ArrayList(cache.keySet())) {
-                    Class entityClass = (Class) key;
+
+                List<?> list = new ArrayList<>(cache.keySet());
+                for (Object key : list) {
+                    Class<?> entityClass = (Class<?>) key;
                     //清理老的ClassLoader缓存的数据，避免测试环境溢出
-                    if (!(entityClass.getClassLoader().equals(classLoader) || entityClass.getClassLoader().equals(classLoader.getParent()))) {
+                    ClassLoader entityClassLoader = entityClass.getClassLoader();
+                    if (!(entityClassLoader.equals(classLoader) || entityClassLoader.equals(classLoader.getParent()))) {
                         cache.remove(entityClass);
                     }
                 }
@@ -87,5 +96,4 @@ public class MapperCacheDisabler implements InitializingBean {
             logger.error("Failed to disable Mapper MsUtil cache. ClassCastExceptions may occur", ex);
         }
     }
-
 }
