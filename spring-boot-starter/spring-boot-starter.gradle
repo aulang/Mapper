@@ -1,0 +1,15 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('spring-boot-starter')
+
+dependencies {
+
+    api(project(':extra'))
+    api(project(':spring'))
+
+    api 'org.springframework.boot:spring-boot-starter'
+    api 'org.springframework.boot:spring-boot-starter-jdbc'
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+}
