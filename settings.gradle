@@ -11,11 +11,9 @@ include 'extra'
 include 'spring'
 include 'weekend'
 include 'generator'
-
 include 'spring-boot-starter'
-include 'spring-boot-starter:mapper-spring-boot-autoconfigure', 'spring-boot-starter:mapper-spring-boot-starter'
 
-rootProject.name = "tk.mybatis-jdk17"
+rootProject.name = "tk.mybatis-jakarta"
 
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"
