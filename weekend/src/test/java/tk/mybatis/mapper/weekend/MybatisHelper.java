@@ -56,9 +56,7 @@ public class MybatisHelper {
             sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
             reader.close();
             //创建数据库
-            SqlSession session = null;
-            try {
-                session = sqlSessionFactory.openSession();
+            try (SqlSession session = sqlSessionFactory.openSession()) {
                 //创建一个MapperHelper
                 MapperHelper mapperHelper = new MapperHelper();
                 //特殊配置
@@ -104,10 +102,6 @@ public class MybatisHelper {
                 runner.setLogWriter(null);
                 runner.runScript(reader);
                 reader.close();
-            } finally {
-                if (session != null) {
-                    session.close();
-                }
             }
         } catch (IOException e) {
             e.printStackTrace();

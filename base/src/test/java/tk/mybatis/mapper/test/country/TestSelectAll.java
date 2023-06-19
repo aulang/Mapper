@@ -45,15 +45,12 @@ public class TestSelectAll {
      */
     @Test
     public void testDynamicSelectPage() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> countryList = mapper.selectAll();
             //查询总数
             Assertions.assertEquals(183, countryList.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -62,8 +59,7 @@ public class TestSelectAll {
      */
     @Test
     public void testDynamicSelectPage2() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> countryList = mapper.selectAll();
@@ -71,8 +67,6 @@ public class TestSelectAll {
             Assertions.assertEquals(183, countryList.size());
             //selectAll有排序
             Assertions.assertEquals(183, (int) countryList.get(0).getId());
-        } finally {
-            sqlSession.close();
         }
     }
 }

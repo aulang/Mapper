@@ -49,7 +49,7 @@ public class TestMysql {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            List<Country> countryList = new ArrayList<Country>();
+            List<Country> countryList = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
                 Country country = new Country();
                 country.setCountrycode("CN" + i);

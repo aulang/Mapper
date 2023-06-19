@@ -30,7 +30,7 @@ import java.sql.Timestamp;
  * @author liuzh
  * @since 3.5.0
  */
-public class DefaultNextVersion implements NextVersion {
+public class DefaultNextVersion implements NextVersion<Object> {
 
     @Override
     public Object nextVersion(Object current) throws VersionException {
@@ -47,5 +47,4 @@ public class DefaultNextVersion implements NextVersion {
             throw new VersionException("默认的 NextVersion 只支持 Integer, Long 和 java.sql.Timestamp 类型的版本号，如果有需要请自行扩展!");
         }
     }
-
 }

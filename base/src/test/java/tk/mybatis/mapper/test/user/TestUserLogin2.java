@@ -48,8 +48,7 @@ public class TestUserLogin2 {
      */
     @Test
     public void testInsert() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLogin2Mapper mapper = sqlSession.getMapper(UserLogin2Mapper.class);
 
             UserLogin2 userLogin = new UserLogin2();
@@ -63,8 +62,6 @@ public class TestUserLogin2 {
             Assertions.assertTrue(userLogin.getLogid() > 10);
             //这里测了实体类入参的删除
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userLogin));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -73,8 +70,7 @@ public class TestUserLogin2 {
      */
     @Test
     public void testDelete() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLogin2Mapper mapper = sqlSession.getMapper(UserLogin2Mapper.class);
             //查询总数
             Assertions.assertEquals(10, mapper.selectCount(new UserLogin2()));
@@ -90,8 +86,6 @@ public class TestUserLogin2 {
             Assertions.assertEquals(9, mapper.selectCount(new UserLogin2()));
             //插入
             Assertions.assertEquals(1, mapper.insert(userLogin));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -101,15 +95,12 @@ public class TestUserLogin2 {
      */
     @Test
     public void testSelect() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLogin2Mapper mapper = sqlSession.getMapper(UserLogin2Mapper.class);
             UserLogin2 userLogin = new UserLogin2();
             userLogin.setUsername("test1");
             List<UserLogin2> userLogins = mapper.select(userLogin);
             Assertions.assertEquals(5, userLogins.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -118,8 +109,7 @@ public class TestUserLogin2 {
      */
     @Test
     public void testUpdateByPrimaryKey() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLogin2Mapper mapper = sqlSession.getMapper(UserLogin2Mapper.class);
             UserLogin2Key key = new UserLogin2();
             key.setLogid(2);
@@ -134,8 +124,6 @@ public class TestUserLogin2 {
             userLogin = mapper.selectByPrimaryKey(userLogin);
             Assertions.assertNull(userLogin.getLogindate());
             Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -144,8 +132,7 @@ public class TestUserLogin2 {
      */
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLogin2Mapper mapper = sqlSession.getMapper(UserLogin2Mapper.class);
 
             UserLogin2Key key = new UserLogin2();
@@ -162,10 +149,6 @@ public class TestUserLogin2 {
             userLogin = mapper.selectByPrimaryKey(key);
             Assertions.assertNotNull(userLogin.getLogindate());
             Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
-        } finally {
-            sqlSession.close();
         }
     }
-
-
 }

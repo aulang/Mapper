@@ -1,6 +1,5 @@
 package tk.mybatis.mapper.annotation;
 
-import org.apache.ibatis.session.Configuration;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,16 +12,10 @@ import tk.mybatis.mapper.mapperhelper.MapperHelper;
  */
 public class RegisterMapperTest {
 
-    private Config config;
-
-    private Configuration configuration;
-
     @BeforeEach
     public void beforeTest() {
-        config = new Config();
+        Config config = new Config();
         config.setStyle(Style.normal);
-
-        configuration = new Configuration();
     }
 
     @RegisterMapper
@@ -60,5 +53,4 @@ public class RegisterMapperTest {
         MapperHelper mapperHelper = new MapperHelper();
         Assertions.assertFalse(mapperHelper.isExtendCommonMapper(RoleMapper2.class));
     }
-
 }

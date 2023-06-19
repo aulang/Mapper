@@ -49,7 +49,6 @@ public class MetaObjectUtil {
                 throw new MapperException(e2);
             }
         }
-
     }
 
     public static MetaObject forObject(Object object) {
@@ -59,5 +58,4 @@ public class MetaObjectUtil {
             throw new MapperException(e);
         }
     }
-
 }

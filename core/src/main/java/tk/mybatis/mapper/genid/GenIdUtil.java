@@ -38,7 +38,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class GenIdUtil {
 
-    public static final Map<Class<? extends GenId>, GenId> CACHE = new ConcurrentHashMap<>();
+    public static final Map<Class<? extends GenId<?>>, GenId<?>> CACHE = new ConcurrentHashMap<>();
 
     public static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -52,9 +52,9 @@ public class GenIdUtil {
      * @param column
      * @throws MapperException
      */
-    public static void genId(Object target, String property, Class<? extends GenId> genClass, String table, String column) throws MapperException {
+    public static void genId(Object target, String property, Class<? extends GenId<?>> genClass, String table, String column) throws MapperException {
         try {
-            GenId genId;
+            GenId<?> genId;
             if (CACHE.containsKey(genClass)) {
                 genId = CACHE.get(genClass);
             } else {
@@ -77,5 +77,4 @@ public class GenIdUtil {
             throw new MapperException("生成 ID 失败!", e);
         }
     }
-
 }

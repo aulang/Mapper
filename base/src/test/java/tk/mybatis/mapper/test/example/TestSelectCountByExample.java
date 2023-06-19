@@ -40,8 +40,7 @@ public class TestSelectCountByExample {
 
     @Test
     public void testSelectCountByExample() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = new Example(Country.class);
             example.setCountProperty("id");
@@ -49,15 +48,12 @@ public class TestSelectCountByExample {
             int count = mapper.selectCountByExample(example);
             //查询总数
             Assertions.assertEquals(83, count);
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testSelectCountByExampleForUpdate() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = new Example(Country.class);
             example.setForUpdate(true);
@@ -65,15 +61,12 @@ public class TestSelectCountByExample {
             int count = mapper.selectCountByExample(example);
             //查询总数
             Assertions.assertEquals(83, count);
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testSelectCountByExample2() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = new Example(Country.class);
             example.createCriteria().andLike("countryname", "A%");
@@ -81,16 +74,13 @@ public class TestSelectCountByExample {
             example.setDistinct(true);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assertions.assertEquals(true, count > 83);
-        } finally {
-            sqlSession.close();
+            Assertions.assertTrue(count > 83);
         }
     }
 
     @Test
     public void testSelectCountByExample3() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             CountryExample example = new CountryExample();
             example.createCriteria().andCountrynameLike("A%");
@@ -98,10 +88,7 @@ public class TestSelectCountByExample {
             example.setDistinct(true);
             int count = mapper.selectCountByExample(example);
             //查询总数
-            Assertions.assertEquals(true, count > 83);
-        } finally {
-            sqlSession.close();
+            Assertions.assertTrue(count > 83);
         }
     }
-
 }

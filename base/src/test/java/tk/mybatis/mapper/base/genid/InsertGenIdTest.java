@@ -13,7 +13,7 @@ import java.net.URL;
  * @author liuzh
  */
 public class InsertGenIdTest extends BaseTest {
-    private String[][] countries = new String[][]{
+    private final String[][] countries = new String[][]{
             {"Angola", "AO"},
             {"Afghanistan", "AF"},
             {"Albania", "AL"},
@@ -61,8 +61,6 @@ public class InsertGenIdTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     /**
      * 获取初始化 sql
      *
@@ -73,28 +71,22 @@ public class InsertGenIdTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     @Test
     public void testGenId() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            for (int i = 0; i < countries.length; i++) {
-                Country country = new Country(countries[i][0], countries[i][1]);
+            for (String[] strings : countries) {
+                Country country = new Country(strings[0], strings[1]);
                 Assertions.assertEquals(1, mapper.insert(country));
                 Assertions.assertNotNull(country.getId());
                 System.out.println(country.getId());
             }
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testGenIdWithExistsId() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country("test", "T");
             country.setId(9999L);
@@ -102,26 +94,20 @@ public class InsertGenIdTest extends BaseTest {
             Assertions.assertNotNull(country.getId());
             Assertions.assertEquals(Long.valueOf(9999), country.getId());
             System.out.println(country.getId());
-        } finally {
-            sqlSession.close();
         }
     }
 
 
     @Test
     public void testUUID() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            for (int i = 0; i < countries.length; i++) {
-                User user = new User(countries[i][0], countries[i][1]);
+            for (String[] country : countries) {
+                User user = new User(country[0], country[1]);
                 Assertions.assertEquals(1, mapper.insert(user));
                 Assertions.assertNotNull(user.getId());
                 System.out.println(user.getId());
             }
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

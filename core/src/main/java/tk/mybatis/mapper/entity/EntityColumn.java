@@ -45,7 +45,7 @@ public class EntityColumn {
     private Class<?> typeHandler;
     private boolean id = false;
     private boolean identity = false;
-    private Class<? extends GenId> genIdClass;
+    private Class<? extends GenId<?>> genIdClass;
     //字段是否为 blob
     private boolean blob;
     private String generator;
@@ -296,11 +296,11 @@ public class EntityColumn {
         this.identity = identity;
     }
 
-    public Class<? extends GenId> getGenIdClass() {
+    public Class<? extends GenId<?>> getGenIdClass() {
         return genIdClass;
     }
 
-    public void setGenIdClass(Class<? extends GenId> genIdClass) {
+    public void setGenIdClass(Class<? extends GenId<?>> genIdClass) {
         this.genIdClass = genIdClass;
     }
 

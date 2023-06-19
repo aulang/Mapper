@@ -49,14 +49,12 @@ public class UserInfoMap extends HashMap<String, Object> implements Serializable
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("UserInfoMap{");
-        sb.append("id=").append(id);
-        sb.append(", userName='").append(getUserName()).append('\'');
-        sb.append(", password='").append(getPassword()).append('\'');
-        sb.append(", userType='").append(getUserType()).append('\'');
-        sb.append(", realName='").append(getRealName()).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "UserInfoMap{" + "id=" + id +
+                ", userName='" + getUserName() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", userType='" + getUserType() + '\'' +
+                ", realName='" + getRealName() + '\'' +
+                '}';
     }
 
     public Integer getId() {

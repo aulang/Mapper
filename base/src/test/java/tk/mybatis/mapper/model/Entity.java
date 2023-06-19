@@ -38,7 +38,7 @@ public class Entity<ID extends Serializable, NAME extends Serializable> {
     //这里的a,b,c,d仅用来测试FieldHelper中的静态字段
     private static Integer a, b, c, d;
 
-    @Order(value = "desc", priority = 1)
+    @Order(value = "desc")
     private ID id;
 
     @Transient

@@ -31,7 +31,12 @@ import tk.mybatis.mapper.util.MetaObjectUtil;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.util.StringUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 通用的Example查询对象
@@ -434,12 +439,12 @@ public class Example implements IDynamicTableName {
             return (Criteria) this;
         }
 
-        public Criteria andIn(String property, Iterable values) {
+        public Criteria andIn(String property, Iterable<?> values) {
             addCriterion(column(property) + " in", values, property(property));
             return (Criteria) this;
         }
 
-        public Criteria andNotIn(String property, Iterable values) {
+        public Criteria andNotIn(String property, Iterable<?> values) {
             addCriterion(column(property) + " not in", values, property(property));
             return (Criteria) this;
         }
@@ -576,12 +581,12 @@ public class Example implements IDynamicTableName {
             return (Criteria) this;
         }
 
-        public Criteria orIn(String property, Iterable values) {
+        public Criteria orIn(String property, Iterable<?> values) {
             addOrCriterion(column(property) + " in", values, property(property));
             return (Criteria) this;
         }
 
-        public Criteria orNotIn(String property, Iterable values) {
+        public Criteria orNotIn(String property, Iterable<?> values) {
             addOrCriterion(column(property) + " not in", values, property(property));
             return (Criteria) this;
         }

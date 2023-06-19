@@ -1,5 +1,6 @@
 package tk.mybatis.mapper.annotation;
 
+import jakarta.persistence.Table;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,8 +8,6 @@ import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityTable;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
-
-import jakarta.persistence.Table;
 
 /**
  * @author liuzh
@@ -24,7 +23,7 @@ public class TableTest {
     }
 
     @Table(name = "sys_user")
-    class User {
+    static class User {
         private String name;
     }
 
@@ -35,5 +34,4 @@ public class TableTest {
         Assertions.assertNotNull(entityTable);
         Assertions.assertEquals("sys_user", entityTable.getName());
     }
-
 }

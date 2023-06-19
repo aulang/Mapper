@@ -42,8 +42,7 @@ public class TestIndentity {
      */
     @Test
     public void testINDENTITYInsert() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
             country.setCountrycode("CN");
@@ -52,8 +51,6 @@ public class TestIndentity {
             Assertions.assertNotNull(country.getId());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -62,8 +59,7 @@ public class TestIndentity {
      */
     @Test
     public void testINDENTITYInsert2() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
             country.setId(10086);
@@ -81,8 +77,6 @@ public class TestIndentity {
             Assertions.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -91,8 +85,7 @@ public class TestIndentity {
      */
     @Test
     public void testINDENTITYInsertSelective() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
             Assertions.assertEquals(1, mapper.insertSelective(country));
@@ -105,8 +98,6 @@ public class TestIndentity {
             Assertions.assertEquals("HH", country.getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -115,8 +106,7 @@ public class TestIndentity {
      */
     @Test
     public void testINDENTITYInsertSelective2() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryIMapper mapper = sqlSession.getMapper(CountryIMapper.class);
             CountryI country = new CountryI();
             country.setId(10086);
@@ -134,8 +124,6 @@ public class TestIndentity {
             Assertions.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
-        } finally {
-            sqlSession.close();
         }
     }
 }

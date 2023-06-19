@@ -49,8 +49,7 @@ public class TestUserLogin {
      */
     @Test
     public void testInsert() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
 
             UserLogin userLogin = new UserLogin();
@@ -64,8 +63,6 @@ public class TestUserLogin {
             Assertions.assertTrue(userLogin.getLogid() > 10);
             //这里测了实体类入参的删除
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userLogin));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -74,13 +71,12 @@ public class TestUserLogin {
      */
     @Test
     public void testDelete() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
             //查询总数
             Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
             //根据主键查询
-            Map<String, Object> key = new HashMap<String, Object>();
+            Map<String, Object> key = new HashMap<>();
             key.put("logid", 1);
             key.put("username", "test1");
             UserLogin userLogin = mapper.selectByPrimaryKey(key);
@@ -91,8 +87,6 @@ public class TestUserLogin {
             Assertions.assertEquals(9, mapper.selectCount(new UserLogin()));
             //插入
             Assertions.assertEquals(1, mapper.insert(userLogin));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -102,15 +96,12 @@ public class TestUserLogin {
      */
     @Test
     public void testSelect() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
             UserLogin userLogin = new UserLogin();
             userLogin.setUsername("test1");
             List<UserLogin> userLogins = mapper.select(userLogin);
             Assertions.assertEquals(5, userLogins.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -119,10 +110,9 @@ public class TestUserLogin {
      */
     @Test
     public void testUpdateByPrimaryKey() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
-            Map<String, Object> key = new HashMap<String, Object>();
+            Map<String, Object> key = new HashMap<>();
             key.put("logid", 2);
             key.put("username", "test1");
             UserLogin userLogin = mapper.selectByPrimaryKey(key);
@@ -135,8 +125,6 @@ public class TestUserLogin {
             userLogin = mapper.selectByPrimaryKey(userLogin);
             Assertions.assertNull(userLogin.getLogindate());
             Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -145,11 +133,10 @@ public class TestUserLogin {
      */
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
 
-            Map<String, Object> key = new HashMap<String, Object>();
+            Map<String, Object> key = new HashMap<>();
             key.put("logid", 1);
             key.put("username", "test1");
 
@@ -163,10 +150,6 @@ public class TestUserLogin {
             userLogin = mapper.selectByPrimaryKey(key);
             Assertions.assertNotNull(userLogin.getLogindate());
             Assertions.assertEquals("1.1.1.1", userLogin.getLoginip());
-        } finally {
-            sqlSession.close();
         }
     }
-
-
 }

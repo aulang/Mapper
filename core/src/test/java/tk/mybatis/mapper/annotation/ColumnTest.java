@@ -33,7 +33,7 @@ public class ColumnTest {
         configuration = new Configuration();
     }
 
-    class UserColumn {
+    static class UserColumn {
         @Column(name = "user_name")
         private String name;
     }

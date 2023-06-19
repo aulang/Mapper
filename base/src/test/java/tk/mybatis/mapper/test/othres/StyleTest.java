@@ -34,7 +34,8 @@ import tk.mybatis.mapper.util.StringUtil;
  * @since 2015-10-31 09:41
  */
 public class StyleTest {
-    private String[] fields = new String[]{
+
+    private final String[] fields = new String[]{
             "hello",
             "hello_world",
             //"hello_World",

@@ -10,8 +10,7 @@ public class DeleteByPrimaryKeyMapperTest extends BaseTest {
 
     @Test
     public void testDeleteByPrimaryKey() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Assertions.assertEquals(183, mapper.selectAll().size());
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(1L));
@@ -25,9 +24,6 @@ public class DeleteByPrimaryKeyMapperTest extends BaseTest {
 
             Assertions.assertEquals(0, mapper.deleteByPrimaryKey(1));
             Assertions.assertEquals(180, mapper.selectAll().size());
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

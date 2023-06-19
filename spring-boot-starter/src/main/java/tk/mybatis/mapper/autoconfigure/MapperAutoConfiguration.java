@@ -50,6 +50,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
+import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -66,7 +67,7 @@ import java.util.List;
 /**
  * {@link EnableAutoConfiguration Auto-Configuration} for Mybatis. Contributes a
  * {@link SqlSessionFactory} and a {@link SqlSessionTemplate}.
- *
+ * <p>
  * If {@link org.mybatis.spring.annotation.MapperScan} is used, or a
  * configuration file is specified as a property, those will be considered,
  * otherwise this auto-configuration will attempt to register mappers based on
@@ -198,7 +199,7 @@ public class MapperAutoConfiguration implements InitializingBean {
         private Environment environment;
 
         @Override
-        public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+        public void registerBeanDefinitions(@NonNull AnnotationMetadata importingClassMetadata, @NonNull BeanDefinitionRegistry registry) {
 
             logger.debug("Searching for mappers annotated with @Mapper");
 
@@ -235,17 +236,17 @@ public class MapperAutoConfiguration implements InitializingBean {
         }
 
         @Override
-        public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        public void setBeanFactory(@NonNull BeanFactory beanFactory) throws BeansException {
             this.beanFactory = beanFactory;
         }
 
         @Override
-        public void setEnvironment(Environment environment) {
+        public void setEnvironment(@NonNull Environment environment) {
             this.environment = environment;
         }
 
         @Override
-        public void setResourceLoader(ResourceLoader resourceLoader) {
+        public void setResourceLoader(@NonNull ResourceLoader resourceLoader) {
             this.resourceLoader = resourceLoader;
         }
     }

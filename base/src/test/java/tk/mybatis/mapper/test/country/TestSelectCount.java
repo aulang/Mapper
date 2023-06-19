@@ -43,13 +43,10 @@ public class TestSelectCount {
      */
     @Test
     public void testDynamicSelectCount() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
             Assertions.assertEquals(183, mapper.selectCount(new Country()));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -58,13 +55,10 @@ public class TestSelectCount {
      */
     @Test
     public void testDynamicSelectAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //查询总数
             Assertions.assertEquals(183, mapper.selectCount(null));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -73,14 +67,11 @@ public class TestSelectCount {
      */
     @Test
     public void testDynamicSelect() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
             Assertions.assertEquals(1, mapper.selectCount(country));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -89,16 +80,12 @@ public class TestSelectCount {
      */
     @Test
     public void testDynamicSelectZero() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
             country.setCountryname("天朝");//实际上是 China
             Assertions.assertEquals(0, mapper.selectCount(country));
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

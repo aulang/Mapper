@@ -65,16 +65,13 @@ public abstract class BaseTest {
      * 配置通用 Mapper
      */
     protected void configMapperHelper() {
-        SqlSession session = getSqlSession();
-        try {
+        try (SqlSession session = getSqlSession()) {
             //创建一个MapperHelper
             MapperHelper mapperHelper = new MapperHelper();
             //设置配置
             mapperHelper.setConfig(getConfig());
             //配置完成后，执行下面的操作
             mapperHelper.processConfiguration(session.getConfiguration());
-        } finally {
-            session.close();
         }
     }
 
@@ -87,18 +84,15 @@ public abstract class BaseTest {
         if (reader == null) {
             return;
         }
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             Connection conn = sqlSession.getConnection();
             ScriptRunner runner = new ScriptRunner(conn);
             runner.setLogWriter(null);
             runner.runScript(reader);
             try {
                 reader.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -121,8 +115,6 @@ public abstract class BaseTest {
         return toReader(url);
     }
 
-    ;
-
     /**
      * 获取初始化 sql
      *
@@ -132,8 +124,6 @@ public abstract class BaseTest {
         URL url = BaseTest.class.getResource("/CreateDB.sql");
         return toReader(url);
     }
-
-    ;
 
     /**
      * 转为 Reader

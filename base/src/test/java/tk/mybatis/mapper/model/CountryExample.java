@@ -59,7 +59,7 @@ public class CountryExample {
      * @mbggenerated Sat Mar 07 11:52:52 CST 2015
      */
     public CountryExample() {
-        oredCriteria = new ArrayList<Criteria>();
+        oredCriteria = new ArrayList<>();
     }
 
     /**
@@ -105,8 +105,7 @@ public class CountryExample {
      * @mbggenerated Sat Mar 07 11:52:52 CST 2015
      */
     protected Criteria createCriteriaInternal() {
-        Criteria criteria = new Criteria();
-        return criteria;
+        return new Criteria();
     }
 
     /**
@@ -132,7 +131,7 @@ public class CountryExample {
 
         protected GeneratedCriteria() {
             super();
-            criteria = new ArrayList<Criterion>();
+            criteria = new ArrayList<>();
         }
 
         protected void addCriterion(String condition) {
@@ -389,7 +388,7 @@ public class CountryExample {
      * @mbggenerated Sat Mar 07 11:52:52 CST 2015
      */
     public static class Criterion {
-        private String condition;
+        private final String condition;
 
         private Object value;
 
@@ -403,7 +402,7 @@ public class CountryExample {
 
         private boolean listValue;
 
-        private String typeHandler;
+        private final String typeHandler;
 
         protected Criterion(String condition) {
             super();

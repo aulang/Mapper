@@ -13,7 +13,7 @@ import java.util.List;
 
 public class InsertListMapperTest extends BaseTest {
 
-    private String[][] countries = new String[][]{
+    private final String[][] countries = new String[][]{
             {"Angola", "AO"},
             {"Afghanistan", "AF"},
             {"Albania", "AL"},
@@ -61,8 +61,6 @@ public class InsertListMapperTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     /**
      * 获取初始化 sql
      *
@@ -73,26 +71,19 @@ public class InsertListMapperTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     @Test
     public void testInsertList() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            List<User> userList = new ArrayList<User>(countries.length);
-            for (int i = 0; i < countries.length; i++) {
-                userList.add(new User(countries[i][0], countries[i][1]));
+            List<User> userList = new ArrayList<>(countries.length);
+            for (String[] country : countries) {
+                userList.add(new User(country[0], country[1]));
             }
             Assertions.assertEquals(countries.length, mapper.insertList(userList));
             for (User user : userList) {
                 Assertions.assertNotNull(user.getId());
                 System.out.println(user.getId());
             }
-        } finally {
-            sqlSession.close();
         }
     }
-
-
 }

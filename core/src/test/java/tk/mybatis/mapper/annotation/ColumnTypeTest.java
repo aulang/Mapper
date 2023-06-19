@@ -35,7 +35,7 @@ public class ColumnTypeTest {
         configuration = new Configuration();
     }
 
-    class UserColumn {
+    static class UserColumn {
         @ColumnType(column = "user_name")
         private String name;
     }
@@ -74,7 +74,7 @@ public class ColumnTypeTest {
         Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
-    class UserJdbcTypeVarchar {
+    static class UserJdbcTypeVarchar {
         @ColumnType(jdbcType = JdbcType.VARCHAR)
         private String name;
     }
@@ -114,7 +114,7 @@ public class ColumnTypeTest {
         Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
-    class UserJdbcTypeBlob {
+    static class UserJdbcTypeBlob {
         @ColumnType(jdbcType = JdbcType.BLOB)
         private String name;
     }
@@ -154,7 +154,7 @@ public class ColumnTypeTest {
         Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
 
-    class UserTypehandler {
+    static class UserTypehandler {
         @ColumnType(typeHandler = BlobTypeHandler.class)
         private String name;
     }
@@ -197,7 +197,7 @@ public class ColumnTypeTest {
         A, B
     }
 
-    class UserEnumOrdinalTypeHandler {
+    static class UserEnumOrdinalTypeHandler {
         @ColumnType(typeHandler = EnumOrdinalTypeHandler.class)
         private UserEnum name;
     }
@@ -237,7 +237,7 @@ public class ColumnTypeTest {
     }
 
 
-    class UserAll {
+    static class UserAll {
         @ColumnType(column = "user_name", jdbcType = JdbcType.BLOB, typeHandler = BlobTypeHandler.class)
         private String name;
     }
@@ -275,5 +275,4 @@ public class ColumnTypeTest {
         Assertions.assertNotNull(resultMapping.getJdbcType());
         Assertions.assertEquals(BlobTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
-
 }
