@@ -33,7 +33,12 @@ import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * OGNL静态方法
@@ -97,7 +102,7 @@ public abstract class OGNL {
      * @return
      */
     public static boolean notEmptyCollectionCheck(Object parameter, String error) {
-        if (parameter == null || (parameter instanceof Collection && ((Collection) parameter).size() == 0)) {
+        if (parameter == null || (parameter instanceof Collection && ((Collection<?>) parameter).size() == 0)) {
             throw new IllegalArgumentException(error);
         }
         return true;
@@ -120,7 +125,7 @@ public abstract class OGNL {
                 } else {
                     Method getter = parameter.getClass().getDeclaredMethod("getOredCriteria");
                     Object list = getter.invoke(parameter);
-                    if (list instanceof List && ((List) list).size() > 0) {
+                    if (list instanceof List && ((List<?>) list).size() > 0) {
                         return true;
                     }
                 }
@@ -263,5 +268,4 @@ public abstract class OGNL {
         }
         return false;
     }
-
 }

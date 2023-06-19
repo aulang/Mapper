@@ -24,7 +24,6 @@
 
 package tk.mybatis.mapper.test.user;
 
-import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,6 @@ import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.UserInfoMapper;
 import tk.mybatis.mapper.model.UserInfo;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,20 +54,11 @@ public class TestBasic {
             userInfo.setPassword("123456");
             userInfo.setUsertype("2");
             userInfo.setEmail("abel533@gmail.com");
-            Collection collection = sqlSession.getConfiguration().getMappedStatements();
-            for (Object o : collection) {
-                if (o instanceof MappedStatement) {
-                    MappedStatement ms = (MappedStatement) o;
-                    if (ms.getId().contains("UserInfoMapper.insert")) {
-                        System.out.println(ms.getId());
-                    }
-                }
-            }
 
             Assertions.assertEquals(1, mapper.insert(userInfo));
 
             Assertions.assertNotNull(userInfo.getId());
-            Assertions.assertTrue((int) userInfo.getId() >= 6);
+            Assertions.assertTrue(userInfo.getId() >= 6);
 
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(userInfo));
         } finally {
@@ -112,15 +101,12 @@ public class TestBasic {
      */
     @Test
     public void testSelect() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserInfoMapper mapper = sqlSession.getMapper(UserInfoMapper.class);
             UserInfo userInfo = new UserInfo();
             userInfo.setUsertype("1");
             List<UserInfo> userInfos = mapper.select(userInfo);
             Assertions.assertEquals(3, userInfos.size());
-        } finally {
-            sqlSession.close();
         }
     }
 

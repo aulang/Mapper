@@ -1,5 +1,10 @@
 package tk.mybatis.mapper.mapperhelper;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,15 +12,11 @@ import tk.mybatis.mapper.annotation.LogicDelete;
 import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 
-import jakarta.persistence.*;
-
 public class SqlHelperTest {
-
-    private Config config;
 
     @BeforeEach
     public void beforeTest() {
-        config = new Config();
+        Config config = new Config();
         config.setStyle(Style.normal);
         EntityHelper.initEntityNameMap(User.class, config);
     }
@@ -37,7 +38,6 @@ public class SqlHelperTest {
         String updateSetColumns = SqlHelper.updateSetColumns(User.class, null, false, false);
         Assertions.assertEquals("<set>username = #{username},is_valid = 1,</set>", updateSetColumns);
     }
-
 }
 
 @Table(name = "tb_user")

@@ -42,8 +42,7 @@ public class TestSelectRowBounds {
 
     @Test
     public void testSelectByExample() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = new Example(Country.class);
             example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 151);
@@ -51,9 +50,6 @@ public class TestSelectRowBounds {
             List<Country> countries = mapper.selectByExampleAndRowBounds(example, new RowBounds(10, 20));
             //查询总数
             Assertions.assertEquals(20, countries.size());
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

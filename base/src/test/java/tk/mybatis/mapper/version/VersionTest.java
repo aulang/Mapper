@@ -26,23 +26,19 @@ public class VersionTest extends BaseTest {
 
     @Test
     public void testInsert() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserTimestampMapper mapper = sqlSession.getMapper(UserTimestampMapper.class);
             UserTimestamp user = new UserTimestamp();
             user.setId(1);
             user.setJoinDate(new Timestamp(System.currentTimeMillis()));
             int count = mapper.insert(user);
             Assertions.assertEquals(1, count);
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdate() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserTimestampMapper mapper = sqlSession.getMapper(UserTimestampMapper.class);
             UserTimestamp user = mapper.selectByPrimaryKey(999);
             Assertions.assertNotNull(user);
@@ -52,15 +48,12 @@ public class VersionTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(999);
             Assertions.assertFalse(joinDate.equals(user.getJoinDate()));
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdateByPrimaryKeySelective() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserTimestampMapper mapper = sqlSession.getMapper(UserTimestampMapper.class);
             UserTimestamp user = mapper.selectByPrimaryKey(999);
             Assertions.assertNotNull(user);
@@ -70,15 +63,12 @@ public class VersionTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(999);
             Assertions.assertFalse(joinDate.equals(user.getJoinDate()));
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdateInt() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserIntMapper mapper = sqlSession.getMapper(UserIntMapper.class);
             UserInt user = mapper.selectByPrimaryKey(999);
             Assertions.assertNotNull(user);
@@ -87,16 +77,13 @@ public class VersionTest extends BaseTest {
             Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            Assertions.assertFalse(age.equals(user.getAge()));
-        } finally {
-            sqlSession.close();
+            Assertions.assertNotEquals(age, user.getAge());
         }
     }
 
     @Test
     public void testUpdateIntByPrimaryKeySelective() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserIntMapper mapper = sqlSession.getMapper(UserIntMapper.class);
             UserInt user = mapper.selectByPrimaryKey(999);
             Assertions.assertNotNull(user);
@@ -105,11 +92,7 @@ public class VersionTest extends BaseTest {
             Assertions.assertEquals(1, count);
 
             user = mapper.selectByPrimaryKey(999);
-            Assertions.assertFalse(age.equals(user.getAge()));
-        } finally {
-            sqlSession.close();
+            Assertions.assertNotEquals(age, user.getAge());
         }
     }
-
-
 }

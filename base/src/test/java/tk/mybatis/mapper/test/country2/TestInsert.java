@@ -45,8 +45,7 @@ public class TestInsert {
      */
     @Test
     public void testDynamicInsertAll() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             Country2Mapper mapper = sqlSession.getMapper(Country2Mapper.class);
             Country2 country2 = new Country2();
             country2.setCountrycode("CN");
@@ -58,8 +57,6 @@ public class TestInsert {
 
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(country2.getId()));
 
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -68,12 +65,9 @@ public class TestInsert {
      */
     @Test
     public void testDynamicInsertAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             Country2Mapper mapper = sqlSession.getMapper(Country2Mapper.class);
             mapper.insert(null);
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -82,8 +76,7 @@ public class TestInsert {
      */
     @Test
     public void testDynamicInsert() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             Country2Mapper mapper = sqlSession.getMapper(Country2Mapper.class);
             Country2 country = new Country2();
             country.setId(10086);
@@ -99,8 +92,6 @@ public class TestInsert {
             Assertions.assertEquals(1, list.size());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -109,8 +100,7 @@ public class TestInsert {
      */
     @Test
     public void testDynamicInsertNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             Country2Mapper mapper = sqlSession.getMapper(Country2Mapper.class);
             Country2 country = new Country2();
             country.setId(10086);
@@ -126,9 +116,6 @@ public class TestInsert {
             Assertions.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
             Assertions.assertEquals(1, mapper.deleteByPrimaryKey(10086));
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

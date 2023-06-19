@@ -24,12 +24,9 @@ public class SafeDeleteByMethodTest extends BaseTest {
     @Test
     public void testSafeDelete() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = getSqlSession();
-            try {
+            try (SqlSession sqlSession = getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.delete(new Country());
-            } finally {
-                sqlSession.close();
             }
         });
 
@@ -38,12 +35,9 @@ public class SafeDeleteByMethodTest extends BaseTest {
     @Test
     public void testSafeDeleteNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = getSqlSession();
-            try {
+            try (SqlSession sqlSession = getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.delete(null);
-            } finally {
-                sqlSession.close();
             }
         });
     }
@@ -52,12 +46,9 @@ public class SafeDeleteByMethodTest extends BaseTest {
     @Test
     public void testSafeDeleteByExample() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = getSqlSession();
-            try {
+            try (SqlSession sqlSession = getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.deleteByExample(new Example(Country.class));
-            } finally {
-                sqlSession.close();
             }
         });
     }
@@ -65,15 +56,11 @@ public class SafeDeleteByMethodTest extends BaseTest {
     @Test
     public void testSafeDeleteByExampleNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = getSqlSession();
-            try {
+            try (SqlSession sqlSession = getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 mapper.deleteByExample(null);
-            } finally {
-                sqlSession.close();
             }
         });
 
     }
-
 }

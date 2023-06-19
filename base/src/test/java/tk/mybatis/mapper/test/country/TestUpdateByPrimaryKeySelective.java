@@ -42,27 +42,21 @@ public class TestUpdateByPrimaryKeySelective {
     @Test
     public void testDynamicUpdateByPrimaryKeySelectiveAll() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = MybatisHelper.getSqlSession();
-            try {
+            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 Assertions.assertEquals(0, mapper.updateByPrimaryKeySelective(new Country()));
-            } finally {
-                sqlSession.close();
             }
-        });        
+        });
     }
 
     @Test
     public void testDynamicUpdateByPrimaryKeySelectiveAllByNull() {
         Assertions.assertThrows(PersistenceException.class, () -> {
-            SqlSession sqlSession = MybatisHelper.getSqlSession();
-            try {
+            try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
                 CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
                 Assertions.assertEquals(0, mapper.updateByPrimaryKeySelective(null));
-            } finally {
-                sqlSession.close();
             }
-        });        
+        });
     }
 
     /**
@@ -70,8 +64,7 @@ public class TestUpdateByPrimaryKeySelective {
      */
     @Test
     public void testDynamicUpdateByPrimaryKeySelective() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(173);
@@ -84,8 +77,6 @@ public class TestUpdateByPrimaryKeySelective {
             Assertions.assertEquals("英国", country.getCountryname());
             Assertions.assertNotNull(country.getCountrycode());
             Assertions.assertEquals("GB", country.getCountrycode());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -94,20 +85,17 @@ public class TestUpdateByPrimaryKeySelective {
      */
     @Test
     public void testDynamicUpdateByPrimaryKeySelectiveNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Key key = new Key();
             key.setId(173);
             key.setCountrycode("CN");
             key.setCountrytel("+86");
             Assertions.assertEquals(1, mapper.updateByPrimaryKeySelective(key));
-        } finally {
-            sqlSession.close();
         }
     }
 
-    class Key extends Country {
+    static class Key extends Country {
         private String countrytel;
 
         public String getCountrytel() {
@@ -118,5 +106,4 @@ public class TestUpdateByPrimaryKeySelective {
             this.countrytel = countrytel;
         }
     }
-
 }

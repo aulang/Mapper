@@ -30,14 +30,13 @@ public class GeneratedValueTest extends BaseTest {
     }
 
     @Override
-    protected Reader getSqlFileAsReader() throws IOException {
+    protected Reader getSqlFileAsReader() {
         return null;
     }
 
     @Test
     public void testUserAutoIncrement() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserAutoIncrementMapper mapper = sqlSession.getMapper(UserAutoIncrementMapper.class);
 
             UserAutoIncrement user = new UserAutoIncrement();
@@ -47,15 +46,12 @@ public class GeneratedValueTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUserAutoIncrementIdentity() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserAutoIncrementIdentityMapper mapper = sqlSession.getMapper(UserAutoIncrementIdentityMapper.class);
 
             UserAutoIncrementIdentity user = new UserAutoIncrementIdentity();
@@ -65,15 +61,12 @@ public class GeneratedValueTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUserSqlAfter() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             UserSqlAfterMapper mapper = sqlSession.getMapper(UserSqlAfterMapper.class);
 
             UserSqlAfter user = new UserSqlAfter();
@@ -83,9 +76,6 @@ public class GeneratedValueTest extends BaseTest {
 
             user = mapper.selectByPrimaryKey(user.getId());
             Assertions.assertEquals("liuzh", user.getName());
-        } finally {
-            sqlSession.close();
         }
     }
-
 }

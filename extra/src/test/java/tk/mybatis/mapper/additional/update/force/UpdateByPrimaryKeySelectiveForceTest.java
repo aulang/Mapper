@@ -51,8 +51,6 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
         return toReader(url);
     }
 
-    ;
-
     /**
      * 获取初始化 sql
      *
@@ -65,8 +63,7 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
 
     @Test
     public void testUpdateByPrimaryKeySelectiveForceByNull() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             CountryIntMapper mapper = sqlSession.getMapper(CountryIntMapper.class);
             CountryInt country = new CountryInt();
             country.setId(174);
@@ -75,15 +72,12 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
 
             country = mapper.selectByPrimaryKey(174);
             Assertions.assertNotNull(country.getCountrycode());
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testUpdateByPrimaryKeySelectiveForce() {
-        SqlSession sqlSession = getSqlSession();
-        try {
+        try (SqlSession sqlSession = getSqlSession()) {
             CountryIntMapper mapper = sqlSession.getMapper(CountryIntMapper.class);
             CountryInt country = new CountryInt();
             country.setId(174);
@@ -92,8 +86,6 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
             country = mapper.selectByPrimaryKey(174);
             Assertions.assertNull(country.getCountrycode());
             Assertions.assertNull(country.getCountryname());
-        } finally {
-            sqlSession.close();
         }
     }
 }

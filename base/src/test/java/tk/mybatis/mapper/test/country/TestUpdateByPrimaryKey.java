@@ -45,12 +45,9 @@ public class TestUpdateByPrimaryKey {
      */
     @Test
     public void testDynamicUpdateByPrimaryKeyAll() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Assertions.assertEquals(0, mapper.updateByPrimaryKey(new Country()));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -59,12 +56,9 @@ public class TestUpdateByPrimaryKey {
      */
     @Test
     public void testDynamicUpdateByPrimaryKeyAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             mapper.updateByPrimaryKey(null);
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -73,8 +67,7 @@ public class TestUpdateByPrimaryKey {
      */
     @Test
     public void testDynamicUpdateByPrimaryKey() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(174);
@@ -87,8 +80,6 @@ public class TestUpdateByPrimaryKey {
             Assertions.assertEquals(174, (int) country.getId());
             Assertions.assertEquals("美国", country.getCountryname());
             Assertions.assertNull(country.getCountrycode());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -97,8 +88,7 @@ public class TestUpdateByPrimaryKey {
      */
     @Test
     public void testDynamicUpdateByPrimaryKeyNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             Assertions.assertEquals(0, mapper.updateByPrimaryKey(new Key()));
@@ -108,8 +98,6 @@ public class TestUpdateByPrimaryKey {
             key.setCountrycode("CN");
             key.setCountrytel("+86");
             Assertions.assertEquals(1, mapper.updateByPrimaryKey(key));
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -118,8 +106,7 @@ public class TestUpdateByPrimaryKey {
      */
     @Test
     public void testUpdateByPrimaryKeyAndVersion() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryVersionMapper mapper = sqlSession.getMapper(CountryVersionMapper.class);
             CountryVersion country = mapper.selectByPrimaryKey(174);
             Assertions.assertNotNull(country);
@@ -144,12 +131,10 @@ public class TestUpdateByPrimaryKey {
             country = mapper.selectByPrimaryKey(174);
             Assertions.assertNotNull(country);
             Assertions.assertEquals(Integer.valueOf(4), country.getVersion());
-        } finally {
-            sqlSession.close();
         }
     }
 
-    class Key extends Country {
+    static class Key extends Country {
         private String countrytel;
 
         public String getCountrytel() {
