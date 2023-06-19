@@ -43,5 +43,4 @@ public class MapperException extends RuntimeException {
     public MapperException(Throwable cause) {
         super(cause);
     }
-
 }

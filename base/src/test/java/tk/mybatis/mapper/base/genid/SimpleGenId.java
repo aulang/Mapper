@@ -17,7 +17,7 @@ public class SimpleGenId implements GenId<Long> {
         if (time == null || time != current) {
             time = current;
             seq = 1;
-        } else if (current == time) {
+        } else {
             seq++;
         }
         return (time << 20) | seq;

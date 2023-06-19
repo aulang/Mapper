@@ -21,7 +21,12 @@ import org.springframework.context.annotation.Import;
 import tk.mybatis.spring.mapper.MapperFactoryBean;
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Use this annotation to register MyBatis mapper interfaces when using Java
@@ -33,19 +38,19 @@ import java.lang.annotation.*;
  * &#064;Configuration
  * &#064;MapperScan("org.mybatis.spring.sample.mapper")
  * public class AppConfig {
- *
+ * <p>
  *   &#064;Bean
  *   public DataSource dataSource() {
  *     return new EmbeddedDatabaseBuilder()
  *              .addScript("schema.sql")
  *              .build();
  *   }
- *
+ * <p>
  *   &#064;Bean
  *   public DataSourceTransactionManager transactionManager() {
  *     return new DataSourceTransactionManager(dataSource());
  *   }
- *
+ * <p>
  *   &#064;Bean
  *   public SqlSessionFactory sqlSessionFactory() throws Exception {
  *     SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
@@ -57,10 +62,9 @@ import java.lang.annotation.*;
  *
  * @author Michael Lanyon
  * @author Eduardo Macarron
- *
- * @since 1.2.0
  * @see tk.mybatis.spring.annotation.MapperScannerRegistrar
  * @see MapperFactoryBean
+ * @since 1.2.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -72,6 +76,7 @@ public @interface MapperScan {
      * Alias for the {@link #basePackages()} attribute. Allows for more concise
      * annotation declarations e.g.:
      * {@code @EnableMyBatisMapperScanner("org.my.pkg")} instead of {@code
+     *
      * @EnableMyBatisMapperScanner(basePackages= "org.my.pkg"})}.
      */
     String[] value() default {};
@@ -133,7 +138,6 @@ public @interface MapperScan {
 
     /**
      * Specifies a custom MapperFactoryBean to return a mybatis proxy as spring bean.
-     *
      */
     Class<? extends MapperFactoryBean> factoryBean() default MapperFactoryBean.class;
 
@@ -154,6 +158,7 @@ public @interface MapperScan {
     /**
      * Whether enable lazy initialization of mapper bean.
      * Default is {@code false}.
+     *
      * @return set {@code true} to enable lazy initialization
      */
     String lazyInitialization() default "";

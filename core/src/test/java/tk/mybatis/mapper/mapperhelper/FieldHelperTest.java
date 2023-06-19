@@ -38,5 +38,4 @@ public class FieldHelperTest {
         Assertions.assertEquals("admin", fieldList.get(0).getName());
         Assertions.assertEquals("user", fieldList.get(1).getName());
     }
-
 }

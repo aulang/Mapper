@@ -33,7 +33,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.camelhump)
-    class UserCamelhump {
+    static class UserCamelhump {
         private String userName;
     }
 
@@ -73,7 +73,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.camelhumpAndUppercase)
-    class UserCamelhumpAndUppercase {
+    static class UserCamelhumpAndUppercase {
         private String userName;
     }
 
@@ -113,7 +113,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.camelhumpAndLowercase)
-    class UserCamelhumpAndLowercase {
+    static class UserCamelhumpAndLowercase {
         private String userName;
     }
 
@@ -153,7 +153,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.normal)
-    class UserNormal {
+    static class UserNormal {
         private String userName;
     }
 
@@ -193,7 +193,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.uppercase)
-    class UserUppercase {
+    static class UserUppercase {
         private String userName;
     }
 
@@ -233,7 +233,7 @@ public class NameStyleTest {
     }
 
     @NameStyle(Style.lowercase)
-    class UserLowercase {
+    static class UserLowercase {
         private String userName;
     }
 
@@ -271,5 +271,4 @@ public class NameStyleTest {
         Assertions.assertNull(resultMapping.getJdbcType());
         Assertions.assertEquals(StringTypeHandler.class, resultMapping.getTypeHandler().getClass());
     }
-
 }

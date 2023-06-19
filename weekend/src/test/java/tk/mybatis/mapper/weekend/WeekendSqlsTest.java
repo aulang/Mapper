@@ -44,8 +44,7 @@ public class WeekendSqlsTest {
 
     @Test
     public void testWeekend() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
@@ -56,15 +55,12 @@ public class WeekendSqlsTest {
 
             //判断两个结果数组内容是否相同
             Assertions.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
-        } finally {
-            sqlSession.close();
         }
     }
 
     @Test
     public void testWeekendComplex() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
             List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
@@ -78,8 +74,6 @@ public class WeekendSqlsTest {
 
             // 判断两个结果数组内容是否相同
             Assertions.assertArrayEquals(selectByExample.toArray(), selectByWeekendSql.toArray());
-        } finally {
-            sqlSession.close();
         }
     }
 }

@@ -27,26 +27,27 @@ package tk.mybatis.mapper.weekend;
 
 /**
  * {@link WeekendSqls} 的工具类，提供一系列静态方法，减少泛型参数的指定，使代码更简洁、清晰
- *
+ * <p>
  * 直接使用WeekSqls，以下的查询需要指定两次Country类：
- *  List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
- *         .where(WeekendSqls.<Country>custom().andLike(Country::getCountryname, "%a%")
- *                 .andGreaterThan(Country::getCountrycode, "123"))
- *         .build());
- *
+ * List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
+ * .where(WeekendSqls.<Country>custom().andLike(Country::getCountryname, "%a%")
+ * .andGreaterThan(Country::getCountrycode, "123"))
+ * .build());
+ * <p>
  * 使用 WeekendSqlsUtils，只需指定一次Country类：
- *  List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
- *                     .where(WeekendSqlsUtils.andLike(Country::getCountryname, "%a%")
- *                             .andGreaterThan(Country::getCountrycode, "123"))
- *                     .build());
+ * List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
+ * .where(WeekendSqlsUtils.andLike(Country::getCountryname, "%a%")
+ * .andGreaterThan(Country::getCountrycode, "123"))
+ * .build());
+ * <p>
+ * 建议使用 import static，代码会简洁一些
+ * import static tk.mybatis.mapper.weekend.WeekendSqlsUtils.andLike;
+ * <p>
+ * List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
+ * .where(andLike(Country::getCountryname, "%a%")
+ * .andGreaterThan(Country::getCountrycode, "123"))
+ * .build());
  *
- *  建议使用 import static，代码会简洁一些
- *  import static tk.mybatis.mapper.weekend.WeekendSqlsUtils.andLike;
- *
- *  List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
- *                     .where(andLike(Country::getCountryname, "%a%")
- *                             .andGreaterThan(Country::getCountrycode, "123"))
- *                     .build());
  * @author linweichao
  * @date 2019/5/20
  */
@@ -116,19 +117,19 @@ public class WeekendSqlsUtils {
         return WeekendSqls.<T>custom().andLessThanOrEqualTo(fn, value);
     }
 
-    public static <T> WeekendSqls<T> andIn(String property, Iterable values) {
+    public static <T> WeekendSqls<T> andIn(String property, Iterable<?> values) {
         return WeekendSqls.<T>custom().andIn(property, values);
     }
 
-    public static <T> WeekendSqls<T> andIn(Fn<T, Object> fn, Iterable values) {
+    public static <T> WeekendSqls<T> andIn(Fn<T, Object> fn, Iterable<?> values) {
         return WeekendSqls.<T>custom().andIn(fn, values);
     }
 
-    public static <T> WeekendSqls<T> andNotIn(String property, Iterable values) {
+    public static <T> WeekendSqls<T> andNotIn(String property, Iterable<?> values) {
         return WeekendSqls.<T>custom().andNotIn(property, values);
     }
 
-    public static <T> WeekendSqls<T> andNotIn(Fn<T, Object> fn, Iterable values) {
+    public static <T> WeekendSqls<T> andNotIn(Fn<T, Object> fn, Iterable<?> values) {
         return WeekendSqls.<T>custom().andNotIn(fn, values);
     }
 
@@ -161,7 +162,7 @@ public class WeekendSqlsUtils {
     }
 
     public static <T> WeekendSqls<T> andNotLike(Fn<T, Object> fn, String value) {
-        return WeekendSqls.<T>custom().andNotLike(fn ,value);
+        return WeekendSqls.<T>custom().andNotLike(fn, value);
     }
 
     public static <T> WeekendSqls<T> orIsNull(String property) {
@@ -228,19 +229,19 @@ public class WeekendSqlsUtils {
         return WeekendSqls.<T>custom().orLessThanOrEqualTo(fn, value);
     }
 
-    public static <T> WeekendSqls<T> orIn(String property, Iterable values) {
+    public static <T> WeekendSqls<T> orIn(String property, Iterable<?> values) {
         return WeekendSqls.<T>custom().orIn(property, values);
     }
 
-    public static <T> WeekendSqls<T> orIn(Fn<T, Object> fn, Iterable values) {
+    public static <T> WeekendSqls<T> orIn(Fn<T, Object> fn, Iterable<?> values) {
         return WeekendSqls.<T>custom().orIn(fn, values);
     }
 
-    public static <T> WeekendSqls<T> orNotIn(String property, Iterable values) {
+    public static <T> WeekendSqls<T> orNotIn(String property, Iterable<?> values) {
         return WeekendSqls.<T>custom().orNotIn(property, values);
     }
 
-    public static <T> WeekendSqls<T> orNotIn(Fn<T, Object> fn, Iterable values) {
+    public static <T> WeekendSqls<T> orNotIn(Fn<T, Object> fn, Iterable<?> values) {
         return WeekendSqls.<T>custom().orNotIn(fn, values);
     }
 

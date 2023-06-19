@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -108,7 +107,7 @@ public class SpringAnnotationTest {
         @Bean
         public MapperHelper mapperHelper() {
             Config config = new Config();
-            List<Class> mappers = new ArrayList<>();
+            List<Class<?>> mappers = new ArrayList<>();
             mappers.add(Mapper.class);
             config.setMappers(mappers);
 
@@ -201,6 +200,4 @@ public class SpringAnnotationTest {
         }
 
     }
-
-
 }

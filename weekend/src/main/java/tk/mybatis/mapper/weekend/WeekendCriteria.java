@@ -79,12 +79,12 @@ public class WeekendCriteria<A, B> extends Criteria {
         return this;
     }
 
-    public WeekendCriteria<A, B> andIn(Fn<A, B> fn, Iterable values) {
+    public WeekendCriteria<A, B> andIn(Fn<A, B> fn, Iterable<?> values) {
         super.andIn(Reflections.fnToFieldName(fn), values);
         return this;
     }
 
-    public WeekendCriteria<A, B> andNotIn(Fn<A, B> fn, Iterable values) {
+    public WeekendCriteria<A, B> andNotIn(Fn<A, B> fn, Iterable<?> values) {
         super.andNotIn(Reflections.fnToFieldName(fn), values);
         return this;
     }
@@ -149,12 +149,12 @@ public class WeekendCriteria<A, B> extends Criteria {
         return this;
     }
 
-    public WeekendCriteria<A, B> orIn(Fn<A, B> fn, Iterable values) {
+    public WeekendCriteria<A, B> orIn(Fn<A, B> fn, Iterable<?> values) {
         super.orIn(Reflections.fnToFieldName(fn), values);
         return this;
     }
 
-    public WeekendCriteria<A, B> orNotIn(Fn<A, B> fn, Iterable values) {
+    public WeekendCriteria<A, B> orNotIn(Fn<A, B> fn, Iterable<?> values) {
         super.orNotIn(Reflections.fnToFieldName(fn), values);
         return this;
     }

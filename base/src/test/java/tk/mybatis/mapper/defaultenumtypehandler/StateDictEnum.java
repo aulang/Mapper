@@ -7,9 +7,9 @@ public enum StateDictEnum implements Dict {
     enabled(1),
     disabled(2);
 
-    private int value;
+    private final int value;
 
-    private StateDictEnum(int value) {
+    StateDictEnum(int value) {
         this.value = value;
     }
 
@@ -22,5 +22,4 @@ public enum StateDictEnum implements Dict {
     public String getName() {
         return name();
     }
-
 }

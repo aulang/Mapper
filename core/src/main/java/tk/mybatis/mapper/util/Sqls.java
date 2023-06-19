@@ -63,12 +63,12 @@ public class Sqls {
         return this;
     }
 
-    public Sqls andIn(String property, Iterable values) {
+    public Sqls andIn(String property, Iterable<?> values) {
         this.criteria.criterions.add(new Criterion(property, values, "in", "and"));
         return this;
     }
 
-    public Sqls andNotIn(String property, Iterable values) {
+    public Sqls andNotIn(String property, Iterable<?> values) {
         this.criteria.criterions.add(new Criterion(property, values, "not in", "and"));
         return this;
     }
@@ -135,12 +135,12 @@ public class Sqls {
         return this;
     }
 
-    public Sqls orIn(String property, Iterable values) {
+    public Sqls orIn(String property, Iterable<?> values) {
         this.criteria.criterions.add(new Criterion(property, values, "in", "or"));
         return this;
     }
 
-    public Sqls orNotIn(String property, Iterable values) {
+    public Sqls orNotIn(String property, Iterable<?> values) {
         this.criteria.criterions.add(new Criterion(property, values, "not in", "or"));
         return this;
     }

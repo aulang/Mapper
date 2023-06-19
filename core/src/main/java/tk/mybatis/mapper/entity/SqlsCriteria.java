@@ -32,5 +32,4 @@ import tk.mybatis.mapper.util.Sqls;
 public interface SqlsCriteria {
 
     Sqls.Criteria getCriteria();
-
 }

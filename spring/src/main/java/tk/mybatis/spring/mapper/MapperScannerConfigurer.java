@@ -33,6 +33,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.common.Marker;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
@@ -146,7 +147,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
      * {@inheritDoc}
      */
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+    public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) {
         // left intentionally blank
     }
 
@@ -156,7 +157,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
      * @since 1.0.2
      */
     @Override
-    public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
+    public void postProcessBeanDefinitionRegistry(@NonNull BeanDefinitionRegistry registry) {
         if (this.processPropertyPlaceHolders) {
             processPropertyPlaceHolders();
         }
@@ -270,6 +271,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
     /**
      * Set whether enable lazy initialization for mapper bean.
      * Default is {@code false}.
+     *
      * @param lazyInitialization Set the @{code true} to enable
      */
     public void setLazyInitialization(String lazyInitialization) {
@@ -294,7 +296,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
      * {@inheritDoc}
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -315,7 +317,7 @@ public class MapperScannerConfigurer implements BeanDefinitionRegistryPostProces
      * {@inheritDoc}
      */
     @Override
-    public void setBeanName(String name) {
+    public void setBeanName(@NonNull String name) {
         this.beanName = name;
     }
 

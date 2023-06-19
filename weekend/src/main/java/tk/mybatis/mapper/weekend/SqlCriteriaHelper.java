@@ -179,7 +179,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
      * @param values
      * @return
      */
-    public SqlCriteriaHelper<T> andIn(Fn<T, Object> fn, Iterable values) {
+    public SqlCriteriaHelper<T> andIn(Fn<T, Object> fn, Iterable<?> values) {
         if (Optional.ofNullable(values).isPresent() && values.iterator().hasNext()) {
             this.criteria.getCriterions().add(new Sqls.Criterion(Reflections.fnToFieldName(fn), values, "in", "and"));
         }
@@ -194,7 +194,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
      * @param values
      * @return
      */
-    public SqlCriteriaHelper<T> andNotIn(Fn<T, Object> fn, Iterable values) {
+    public SqlCriteriaHelper<T> andNotIn(Fn<T, Object> fn, Iterable<?> values) {
         if (Optional.ofNullable(values).isPresent() && values.iterator().hasNext()) {
             this.criteria.getCriterions().add(new Sqls.Criterion(Reflections.fnToFieldName(fn), values, "not in", "and"));
         }
@@ -489,7 +489,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
      * @param values
      * @return
      */
-    public SqlCriteriaHelper<T> orIn(Fn<T, Object> fn, Iterable values) {
+    public SqlCriteriaHelper<T> orIn(Fn<T, Object> fn, Iterable<?> values) {
         if (Optional.ofNullable(values).isPresent() && values.iterator().hasNext()) {
             this.criteria.getCriterions().add(new Sqls.Criterion(Reflections.fnToFieldName(fn), values, "in", "or"));
         }
@@ -504,7 +504,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
      * @param values
      * @return
      */
-    public SqlCriteriaHelper<T> orNotIn(Fn<T, Object> fn, Iterable values) {
+    public SqlCriteriaHelper<T> orNotIn(Fn<T, Object> fn, Iterable<?> values) {
         if (Optional.ofNullable(values).isPresent() && values.iterator().hasNext()) {
             this.criteria.getCriterions().add(new Sqls.Criterion(Reflections.fnToFieldName(fn), values, "not in", "or"));
         }

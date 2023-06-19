@@ -31,5 +31,6 @@ import tk.mybatis.mapper.model.CountryJDBC;
  * Created by liuzh on 2014/11/19.
  */
 public interface CountryJDBCMapper extends SqlServerMapper<CountryJDBC> {
+
     int insertA(CountryJDBC countryJDBC);
 }

@@ -7,9 +7,9 @@ public enum LockDictEnum implements Dict {
     locked(1),
     unlocked(2);
 
-    private int value;
+    private final int value;
 
-    private LockDictEnum(int value) {
+    LockDictEnum(int value) {
         this.value = value;
     }
 

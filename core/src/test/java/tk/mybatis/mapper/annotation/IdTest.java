@@ -33,7 +33,7 @@ public class IdTest {
         configuration = new Configuration();
     }
 
-    class UserSingleId {
+    static class UserSingleId {
         @Id
         private String name;
     }
@@ -58,7 +58,7 @@ public class IdTest {
         Assertions.assertEquals("<where> AND name = #{name}</where>", SqlHelper.wherePKColumns(UserSingleId.class));
     }
 
-    class UserCompositeKeys {
+    static class UserCompositeKeys {
         @Id
         private String name;
 

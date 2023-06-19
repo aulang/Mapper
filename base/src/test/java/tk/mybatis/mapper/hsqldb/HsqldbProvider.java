@@ -25,7 +25,11 @@
 package tk.mybatis.mapper.hsqldb;
 
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.scripting.xmltags.*;
+import org.apache.ibatis.scripting.xmltags.IfSqlNode;
+import org.apache.ibatis.scripting.xmltags.MixedSqlNode;
+import org.apache.ibatis.scripting.xmltags.SqlNode;
+import org.apache.ibatis.scripting.xmltags.StaticTextSqlNode;
+import org.apache.ibatis.scripting.xmltags.WhereSqlNode;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
@@ -54,7 +58,7 @@ public class HsqldbProvider extends MapperTemplate {
         //修改返回值类型为实体类型
         setResultType(ms, entityClass);
 
-        List<SqlNode> sqlNodes = new ArrayList<SqlNode>();
+        List<SqlNode> sqlNodes = new ArrayList<>();
         //静态的sql部分:select column ... from table
         sqlNodes.add(new StaticTextSqlNode("SELECT "
                 + EntityHelper.getSelectColumns(entityClass)
@@ -62,7 +66,7 @@ public class HsqldbProvider extends MapperTemplate {
                 + tableName(entityClass)));
         //获取全部列
         Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        List<SqlNode> ifNodes = new ArrayList<SqlNode>();
+        List<SqlNode> ifNodes = new ArrayList<>();
         boolean first = true;
         //对所有列循环，生成<if test="property!=null">[AND] column = #{property}</if>
         for (EntityColumn column : columnList) {

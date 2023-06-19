@@ -45,8 +45,7 @@ public class TestDelete {
      */
     @Test
     public void testDynamicDelete() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             UserLoginMapper mapper = sqlSession.getMapper(UserLoginMapper.class);
             //查询总数
             Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
@@ -62,8 +61,6 @@ public class TestDelete {
             }
             //查询总数
             Assertions.assertEquals(10, mapper.selectCount(new UserLogin()));
-        } finally {
-            sqlSession.close();
         }
     }
 }

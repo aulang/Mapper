@@ -11,11 +11,9 @@ import java.util.List;
  */
 public class SpringConfigTest {
 
-    private ClassPathXmlApplicationContext context;
-
     @Test
     public void testCountryMapper() {
-        context = new ClassPathXmlApplicationContext("tk/mybatis/mapper/configuration/spring.xml");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("tk/mybatis/mapper/configuration/spring.xml");
         CountryMapper countryMapper = context.getBean(CountryMapper.class);
 
         List<Country> countries = countryMapper.selectAll();

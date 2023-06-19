@@ -42,7 +42,7 @@ public class Reflections {
     private Reflections() {
     }
 
-    public static String fnToFieldName(Fn fn) {
+    public static String fnToFieldName(Fn<?, ?> fn) {
         try {
             Method method = fn.getClass().getDeclaredMethod("writeReplace");
             method.setAccessible(Boolean.TRUE);

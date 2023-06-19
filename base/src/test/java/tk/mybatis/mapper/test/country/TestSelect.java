@@ -45,8 +45,7 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelectAll() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             List<Country> countryList;
@@ -59,8 +58,6 @@ public class TestSelect {
             countryList = mapper.select(country);
             //查询总数
             Assertions.assertEquals(183, countryList.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -69,8 +66,7 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelectPage() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("US");
@@ -81,8 +77,6 @@ public class TestSelect {
             countryList = mapper.selectPage(null, 100, 10);
             //查询总数
             Assertions.assertEquals(10, countryList.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -91,8 +85,7 @@ public class TestSelect {
      */
     @Test
     public void testAllColumns() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             //35,'China','CN'
@@ -101,8 +94,6 @@ public class TestSelect {
             country.setCountryname("China");
             List<Country> countryList = mapper.select(country);
             Assertions.assertEquals(1, countryList.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -111,12 +102,9 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelectAllByNull() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             mapper.select(null);
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -125,18 +113,15 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelect() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
             List<Country> countryList = mapper.select(country);
 
             Assertions.assertEquals(1, countryList.size());
-            Assertions.assertEquals(true, countryList.get(0).getId() == 35);
+            Assertions.assertEquals(35, (int) countryList.get(0).getId());
             Assertions.assertEquals("China", countryList.get(0).getCountryname());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -145,8 +130,7 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelectZero() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setCountrycode("CN");
@@ -154,8 +138,6 @@ public class TestSelect {
             List<Country> countryList = mapper.select(country);
 
             Assertions.assertEquals(0, countryList.size());
-        } finally {
-            sqlSession.close();
         }
     }
 
@@ -164,8 +146,7 @@ public class TestSelect {
      */
     @Test
     public void testDynamicSelectNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
+        try (SqlSession sqlSession = MybatisHelper.getSqlSession()) {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             //根据主键删除
             Assertions.assertEquals(183, mapper.select(new Key()).size());
@@ -174,12 +155,10 @@ public class TestSelect {
             key.setCountrycode("CN");
             key.setCountrytel("+86");
             Assertions.assertEquals(1, mapper.select(key).size());
-        } finally {
-            sqlSession.close();
         }
     }
 
-    class Key extends Country {
+    static class Key extends Country {
         private String countrytel;
 
         public String getCountrytel() {

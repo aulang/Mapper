@@ -34,7 +34,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class VersionUtil {
 
-    private static final Map<Class<? extends NextVersion>, NextVersion> CACHE = new ConcurrentHashMap<>();
+    private static final Map<Class<? extends NextVersion<Object>>, NextVersion<Object>> CACHE = new ConcurrentHashMap<>();
 
     private static final ReentrantLock LOCK = new ReentrantLock();
 
@@ -46,9 +46,9 @@ public class VersionUtil {
      * @return
      * @throws VersionException
      */
-    public static Object nextVersion(Class<? extends NextVersion> nextVersionClass, Object current) throws VersionException {
+    public static Object nextVersion(Class<? extends NextVersion<Object>> nextVersionClass, Object current) throws VersionException {
         try {
-            NextVersion nextVersion;
+            NextVersion<Object> nextVersion;
             if (CACHE.containsKey(nextVersionClass)) {
                 nextVersion = CACHE.get(nextVersionClass);
             } else {
@@ -67,5 +67,4 @@ public class VersionUtil {
             throw new VersionException("获取下一个版本号失败!", e);
         }
     }
-
 }

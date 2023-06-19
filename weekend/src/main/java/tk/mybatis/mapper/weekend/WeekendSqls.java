@@ -116,21 +116,21 @@ public class WeekendSqls<T> implements tk.mybatis.mapper.entity.SqlsCriteria {
         return this.andLessThanOrEqualTo(Reflections.fnToFieldName(fn), value);
     }
 
-    public WeekendSqls<T> andIn(String property, Iterable values) {
+    public WeekendSqls<T> andIn(String property, Iterable<?> values) {
         this.criteria.getCriterions().add(new Criterion(property, values, "in", "and"));
         return this;
     }
 
-    public WeekendSqls<T> andIn(Fn<T, Object> fn, Iterable values) {
+    public WeekendSqls<T> andIn(Fn<T, Object> fn, Iterable<?> values) {
         return this.andIn(Reflections.fnToFieldName(fn), values);
     }
 
-    public WeekendSqls<T> andNotIn(String property, Iterable values) {
+    public WeekendSqls<T> andNotIn(String property, Iterable<?> values) {
         this.criteria.getCriterions().add(new Criterion(property, values, "not in", "and"));
         return this;
     }
 
-    public WeekendSqls<T> andNotIn(Fn<T, Object> fn, Iterable values) {
+    public WeekendSqls<T> andNotIn(Fn<T, Object> fn, Iterable<?> values) {
         return this.andNotIn(Reflections.fnToFieldName(fn), values);
     }
 
@@ -242,21 +242,21 @@ public class WeekendSqls<T> implements tk.mybatis.mapper.entity.SqlsCriteria {
         return this.orLessThanOrEqualTo(Reflections.fnToFieldName(fn), value);
     }
 
-    public WeekendSqls<T> orIn(String property, Iterable values) {
+    public WeekendSqls<T> orIn(String property, Iterable<?> values) {
         this.criteria.getCriterions().add(new Criterion(property, values, "in", "or"));
         return this;
     }
 
-    public WeekendSqls<T> orIn(Fn<T, Object> fn, Iterable values) {
+    public WeekendSqls<T> orIn(Fn<T, Object> fn, Iterable<?> values) {
         return this.orIn(Reflections.fnToFieldName(fn), values);
     }
 
-    public WeekendSqls<T> orNotIn(String property, Iterable values) {
+    public WeekendSqls<T> orNotIn(String property, Iterable<?> values) {
         this.criteria.getCriterions().add(new Criterion(property, values, "not in", "or"));
         return this;
     }
 
-    public WeekendSqls<T> orNotIn(Fn<T, Object> fn, Iterable values) {
+    public WeekendSqls<T> orNotIn(Fn<T, Object> fn, Iterable<?> values) {
         return this.orNotIn(Reflections.fnToFieldName(fn), values);
     }
 

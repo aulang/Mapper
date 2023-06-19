@@ -1,5 +1,7 @@
 package tk.mybatis.mapper.mapperhelper;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import org.apache.ibatis.mapping.ResultFlag;
 import org.apache.ibatis.mapping.ResultMap;
 import org.apache.ibatis.mapping.ResultMapping;
@@ -15,8 +17,6 @@ import tk.mybatis.mapper.code.Style;
 import tk.mybatis.mapper.entity.Config;
 import tk.mybatis.mapper.entity.EntityTable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +61,7 @@ public class ComplexEntityTest {
         }
     }
 
-    static enum State {
+    enum State {
         ENABLE,
         DISABLE
     }
@@ -93,7 +93,7 @@ public class ComplexEntityTest {
         }
 
         @Override
-        public Address getResult(CallableStatement cs, int columnIndex) throws SQLException {
+        public Address getResult(CallableStatement cs, int columnIndex) {
             return null;
         }
     }
@@ -180,8 +180,5 @@ public class ComplexEntityTest {
         Assertions.assertEquals("state", stateMapping.getColumn());
         Assertions.assertEquals("state", stateMapping.getProperty());
         Assertions.assertEquals(EnumTypeHandler.class, stateMapping.getTypeHandler().getClass());
-
-
     }
-
 }

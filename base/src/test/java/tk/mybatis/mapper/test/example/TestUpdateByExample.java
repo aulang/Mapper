@@ -88,5 +88,4 @@ public class TestUpdateByExample {
             sqlSession.close();
         }
     }
-
 }

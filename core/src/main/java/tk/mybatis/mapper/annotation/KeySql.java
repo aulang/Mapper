@@ -84,6 +84,5 @@ public @interface KeySql {
      *
      * @return
      */
-    Class<? extends GenId> genId() default GenId.NULL.class;
-
+    Class<? extends GenId<?>> genId() default GenId.NULL.class;
 }
