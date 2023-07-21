@@ -30,8 +30,8 @@ publishing {
             def releasesRepoUrl = "https://$swater_nexus/repository/maven-releases/"
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
-                username 'whzhsw'
-                password 'whzhsw'
+                username 'username'
+                password 'password'
             }
         }
     }
