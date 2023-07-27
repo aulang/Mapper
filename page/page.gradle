@@ -1,0 +1,20 @@
+apply from: "$rootDir/gradle/swater-module.gradle"
+
+description('mapper-page')
+
+dependencies {
+
+    api(project(':core'))
+
+    api 'com.github.jsqlparser:jsqlparser'
+
+    testImplementation(project(':base'))
+
+    testImplementation 'org.hsqldb:hsqldb'
+}
+
+processTestResources {
+    from('src/test/java') {
+        include '**/*.xml', '**/*.sql'
+    }
+}

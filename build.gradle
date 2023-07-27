@@ -1,8 +1,8 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '3.1.0' apply false
-    id 'io.spring.dependency-management' version '1.1.0' apply false
+    id 'org.springframework.boot' version '3.1.2' apply false
+    id 'io.spring.dependency-management' version '1.1.2' apply false
     id 'com.adarshr.test-logger' version '3.2.0' apply false
 }
 
@@ -20,7 +20,7 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom SpringBootPlugin.BOM_COORDINATES
-            mavenBom 'org.junit:junit-bom:5.9.3'
+            mavenBom 'org.junit:junit-bom:5.10.0'
         }
 
         dependencies {
@@ -32,12 +32,12 @@ allprojects {
             dependency 'org.mybatis:mybatis:3.5.13'
             dependency 'org.mybatis:mybatis-spring:3.0.2'
 
-            dependency 'com.mysql:mysql-connector-j:8.0.33'
+            dependency 'com.mysql:mysql-connector-j:8.1.0'
 
             dependency 'org.projectlombok:lombok:1.18.28'
 
             dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-            dependency 'jakarta.websocket:jakarta.websocket-api:2.1.0'
+            dependency 'jakarta.websocket:jakarta.websocket-api:2.1.1'
 
             dependency 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 
@@ -45,9 +45,10 @@ allprojects {
 
             dependency 'jakarta.persistence:jakarta.persistence-api:3.1.0'
 
+            dependency 'com.github.jsqlparser:jsqlparser:4.6'
 
             dependency 'org.hsqldb:hsqldb:2.7.2'
-            dependency 'com.h2database:h2:2.1.214'
+            dependency 'com.h2database:h2:2.1.220'
         }
 
         generatedPomCustomization {
@@ -102,7 +103,6 @@ configure(javaProjects) { project ->
     targetCompatibility = '17'
 }
 
-//get build file output directory, not calculates recursively.
 static def outputDir(Project project) {
     String parentPath = project == project.rootProject || project.parent == project.rootProject ? '' : project.parent.name + '/'
     project.parent == null ? project.name : parentPath + project.name
