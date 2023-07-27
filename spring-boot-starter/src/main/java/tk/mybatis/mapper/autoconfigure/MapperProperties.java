@@ -25,6 +25,7 @@
 package tk.mybatis.mapper.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import tk.mybatis.mapper.entity.Config;
 
 
@@ -37,6 +38,7 @@ import tk.mybatis.mapper.entity.Config;
 @ConfigurationProperties(prefix = MapperProperties.PREFIX)
 public class MapperProperties extends Config {
 
+    @NestedConfigurationProperty
     private PageProperties page = new PageProperties();
 
     public PageProperties getPage() {
