@@ -15,6 +15,7 @@ import tk.mybatis.mapper.page.plugin.PagePlugin;
  */
 @Configuration
 @EnableConfigurationProperties(MapperProperties.class)
+@ConditionalOnProperty(prefix = "mapper.page", name = "enabled", matchIfMissing = true)
 public class PageAutoConfiguration {
 
     private final MapperProperties properties;
@@ -26,7 +27,6 @@ public class PageAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "mapper.page", name = "enabled", matchIfMissing = true)
     public PagePlugin pagePlugin() {
         return new PagePlugin(properties.getPage().getDialect());
     }
