@@ -112,7 +112,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND column > value
+     * AND column &gt; value
      * 当 value = null 则当前属性不参与查询
      *
      * @param fn
@@ -127,7 +127,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column >= value
+     * AND column &gt;= value
      * 当 value = null 则当前属性不参与查询
      *
      * @param fn
@@ -142,7 +142,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column < value
+     * AND column &lt; value
      * 当 value = null 则当前属性不参与查询
      *
      * @param fn
@@ -157,7 +157,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column <= value
+     * AND column &lt;= value
      * 当 value = null 则当前属性不参与查询
      *
      * @param fn
@@ -172,7 +172,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column IN (#{item.value})
+     * AND column IN (#{item.value})
      * 当 values = null 则当前属性不参与查询
      *
      * @param fn
@@ -187,7 +187,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column NOT IN (#{item.value})
+     * AND column NOT IN (#{item.value})
      * 当 values = null 则当前属性不参与查询
      *
      * @param fn
@@ -202,7 +202,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND  column BETWEEN  value1 AND value2
+     * AND column BETWEEN  value1 AND value2
      * 当 value1 或 value2 为空 则当前属性不参与查询
      *
      * @param fn
@@ -218,7 +218,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * AND column  NOT BETWEEN value1 AND value2
+     * AND column NOT BETWEEN value1 AND value2
      * 当 value1 或 value2 为空 则当前属性不参与查询
      *
      * @param fn
@@ -389,7 +389,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column <> value
+     * OR column != value
      * 当value = null 则当前属性不参与查询
      *
      * @param fn
@@ -401,7 +401,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column <> value
+     * OR column != value
      * 当request = true 且  value = null时 转 #{@link #orIsNotNull(Fn)}
      *
      * @param fn
@@ -422,7 +422,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column > value
+     * OR column &gt; value
      * 当value = null 则当前属性不参与查询
      *
      * @param fn
@@ -437,7 +437,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column >= value
+     * OR column &gt;= value
      * 当value = null 则当前属性不参与查询
      *
      * @param fn
@@ -452,7 +452,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column < value
+     * OR column &lt; value
      * 当value = null 则当前属性不参与查询
      *
      * @param fn
@@ -467,7 +467,7 @@ public class SqlCriteriaHelper<T> implements tk.mybatis.mapper.entity.SqlsCriter
     }
 
     /**
-     * OR column <= value
+     * OR column &lt;= value
      * 当value = null 则当前属性不参与查询
      *
      * @param fn
