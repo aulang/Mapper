@@ -135,4 +135,11 @@ public class SimplePage<T> implements Pageable<T> {
         this.list = list;
         return this;
     }
+
+    @Override
+    public <K> Pageable<K> convert(Converter<T, K> converter) {
+        SimplePage<K> page = new SimplePage<>();
+        page.setPage(getPage()).setSize(getSize()).setTotal(getTotal());
+        return page.setList(getList().stream().map(converter::convert).toList());
+    }
 }

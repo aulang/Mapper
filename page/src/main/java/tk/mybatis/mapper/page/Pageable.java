@@ -83,4 +83,9 @@ public interface Pageable<T> {
      * 取得上一页页码，页码从1开始
      */
     long getPrePage();
+
+    /**
+     * 将list数据进行转换
+     */
+    <K> Pageable<K> convert(Converter<T, K> converter);
 }
