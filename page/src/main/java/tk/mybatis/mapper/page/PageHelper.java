@@ -1,10 +1,7 @@
 package tk.mybatis.mapper.page;
 
 /**
- * 传递mybatis分页参数的数据交换空间
- * <p>
- * 实现方式为ThreadLocal，以支持系统中使用tk通用mybatis Example等方式实现分页查询时，
- * 如何将Pageable传递给PagePlugin。
+ * 传递分页参数
  */
 public class PageHelper {
 

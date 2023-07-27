@@ -37,4 +37,13 @@ import tk.mybatis.mapper.entity.Config;
 @ConfigurationProperties(prefix = MapperProperties.PREFIX)
 public class MapperProperties extends Config {
 
+    private PageProperties page = new PageProperties();
+
+    public PageProperties getPage() {
+        return page;
+    }
+
+    public void setPage(PageProperties page) {
+        this.page = page;
+    }
 }

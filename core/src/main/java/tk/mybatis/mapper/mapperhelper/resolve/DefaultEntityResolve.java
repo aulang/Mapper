@@ -54,7 +54,7 @@ public class DefaultEntityResolve implements EntityResolve {
         }
         if (entityTable == null) {
             entityTable = new EntityTable(entityClass);
-            //可以通过stye控制
+            //可以通过style控制
             String tableName = StringUtil.convertByStyle(entityClass.getSimpleName(), style);
             //自动处理关键字
             if (StringUtil.isNotEmpty(config.getWrapKeyword()) && SqlReservedWords.containsWord(tableName)) {

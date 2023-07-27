@@ -1,1 +1,2 @@
+tk.mybatis.mapper.autoconfigure.PageAutoConfiguration
 tk.mybatis.mapper.autoconfigure.MapperAutoConfiguration

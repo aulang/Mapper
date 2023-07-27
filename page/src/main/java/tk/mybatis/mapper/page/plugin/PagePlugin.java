@@ -33,6 +33,14 @@ public class PagePlugin implements Interceptor {
 
     private final SimpleSQLParser parser = new SimpleSQLParser();
 
+    public PagePlugin() {
+
+    }
+
+    public PagePlugin(String dialectName) {
+        this.dialect = DialectFactory.create(dialectName);
+    }
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
@@ -62,27 +70,32 @@ public class PagePlugin implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
+        if (dialect != null) {
+            return;
+        }
+
         String dialectName = properties.getProperty("dialect");
         if (dialectName == null || dialectName.isEmpty()) {
             throw new PagePluginException("Configuration error, dialect property not set");
         }
+
         dialect = DialectFactory.create(dialectName);
     }
 
-    private Pageable<?> detectPageParam(Object parameterObj) {
-        if (parameterObj instanceof Pageable<?> pageable) {
+    private Pageable<?> detectPageParam(Object params) {
+        if (params instanceof Pageable<?> pageable) {
             return pageable;
         }
 
-        if (parameterObj instanceof Map<?, ?> paramMap) {
+        if (params instanceof Map<?, ?> paramMap) {
             for (Map.Entry<?, ?> entry : paramMap.entrySet()) {
                 Object value = entry.getValue();
                 if (value instanceof Pageable<?> pageable) {
                     return pageable;
                 }
-                if (value instanceof Pageable<?>[] pages) {
-                    if (pages.length > 0) {
-                        return pages[0];
+                if (value instanceof Pageable<?>[] pageables) {
+                    if (pageables.length > 0) {
+                        return pageables[0];
                     }
                 }
             }
