@@ -41,7 +41,7 @@ publishing {
 configureDeploymentRepository(project)
 
 static void configureDeploymentRepository(Project project) {
-    project.plugins.withType(MavenPublishPlugin.class).all {
+    project.plugins.withType(MavenPublishPlugin.class).configureEach {
         PublishingExtension publishing = project.getExtensions().getByType(PublishingExtension.class)
         if (project.hasProperty("deploymentRepository")) {
             publishing.repositories.maven {
