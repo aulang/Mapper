@@ -1,4 +1,4 @@
-apply plugin: "maven-publish"
+apply plugin: 'maven-publish'
 
 publishing {
     publications {
@@ -7,10 +7,6 @@ publishing {
                 afterEvaluate {
                     name = project.description
                     description = project.description
-                }
-                organization {
-                    name = "unicloudwater"
-                    url = "https://open.unicloudwater.com"
                 }
             }
             versionMapping {
@@ -26,16 +22,15 @@ publishing {
 
     repositories {
         maven {
-            def snapshotsRepoUrl = "https://$swater_nexus/repository/maven-snapshots/"
-            def releasesRepoUrl = "https://$swater_nexus/repository/maven-releases/"
+            def snapshotsRepoUrl = "https://$maven_registry/maven/repository/2110124-release-FYMnre/"
+            def releasesRepoUrl = "https://$maven_registry/maven/repository/2110124-snapshot-DoCVfz/"
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
-                username 'xxxxxx'
-                password 'xxxxxx'
+                username "$maven_registry_username"
+                password "$maven_registry_password"
             }
         }
     }
-
 }
 
 configureDeploymentRepository(project)
@@ -43,10 +38,10 @@ configureDeploymentRepository(project)
 static void configureDeploymentRepository(Project project) {
     project.plugins.withType(MavenPublishPlugin.class).configureEach {
         PublishingExtension publishing = project.getExtensions().getByType(PublishingExtension.class)
-        if (project.hasProperty("deploymentRepository")) {
+        if (project.hasProperty('deploymentRepository')) {
             publishing.repositories.maven {
-                it.url = project.property("deploymentRepository")
-                it.name = "deployment"
+                it.url = project.property('deploymentRepository')
+                it.name = 'deployment'
             }
         }
     }

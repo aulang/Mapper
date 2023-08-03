@@ -3,7 +3,6 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 plugins {
     id 'org.springframework.boot' version '3.1.2' apply false
     id 'io.spring.dependency-management' version '1.1.2' apply false
-    id 'com.adarshr.test-logger' version '3.2.0' apply false
 }
 
 ext {
@@ -17,6 +16,7 @@ allprojects {
     buildDir = "$rootDir/build/" + outputDir(project)
 
     apply plugin: "io.spring.dependency-management"
+
     dependencyManagement {
         imports {
             mavenBom SpringBootPlugin.BOM_COORDINATES
@@ -50,13 +50,6 @@ allprojects {
             dependency 'org.hsqldb:hsqldb:2.7.2'
             dependency 'com.h2database:h2:2.1.220'
         }
-
-        generatedPomCustomization {
-            enabled = false
-        }
-        resolutionStrategy {
-            cacheChangingModulesFor 0, 'seconds'
-        }
     }
 
     configurations.configureEach {
@@ -67,34 +60,40 @@ allprojects {
     }
 
     repositories {
+        repositories {
+            maven {
+                url 'https://maven.aliyun.com/repository/public'
+            }
+            maven {
+                url "https://$maven_registry/maven/repository/2110124-release-FYMnre/"
+                credentials {
+                    username "$maven_registry_username"
+                    password "$maven_registry_password"
+                }
+            }
+            maven {
+                url "https://$maven_registry/maven/repository/2110124-snapshot-DoCVfz/"
+                credentials {
+                    username "$maven_registry_username"
+                    password "$maven_registry_password"
+                }
+            }
+        }
         mavenLocal()
-        maven { url "https://$swater_nexus/repository/maven-public/" }
+        mavenCentral()
     }
 }
 
 configure(javaProjects) { project ->
     apply plugin: 'java'
-    apply plugin: 'com.adarshr.test-logger'
-    apply plugin: 'com.unicloud.swater.build.optional-dependencies'
-    apply from: "$rootDir/gradle/checkstyle.gradle"
 
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
-    configurations.configureEach {
-        exclude group: 'commons-logging', module: 'commons-logging'
-    }
-
     test {
         useJUnitPlatform()
-    }
-
-    testlogger {
-        slowThreshold 5000
-        showFullStackTraces false
-        showStandardStreams false
     }
 
     [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'

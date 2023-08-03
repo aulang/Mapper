@@ -1,4 +1,4 @@
-apply from: "$rootDir/gradle/swater-module.gradle"
+apply from: "$rootDir/gradle/library-module.gradle"
 
 description('spring-boot-starter')
 
