@@ -1,9 +1,9 @@
+description('mapper-generator')
+archivesBaseName = 'mapper-generator'
+
 apply from: "$rootDir/gradle/library-module.gradle"
 
-description('mapper-generator')
-
 dependencies {
-
     implementation(project(':base'))
 
     implementation 'org.freemarker:freemarker:2.3.32'

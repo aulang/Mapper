@@ -1,6 +1,7 @@
-apply from: "$rootDir/gradle/library-module.gradle"
-
 description('mapper-base')
+archivesBaseName = 'mapper-base'
+
+apply from: "$rootDir/gradle/library-module.gradle"
 
 dependencies {
     api(project(':core'))

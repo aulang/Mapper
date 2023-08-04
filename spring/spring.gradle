@@ -1,15 +1,14 @@
+description('mapper-spring')
+archivesBaseName = 'mapper-spring'
+
 apply from: "$rootDir/gradle/library-module.gradle"
 
-description('mapper-spring')
-
 dependencies {
-
     api(project(':base'))
 
     api 'org.springframework:spring-context'
     api 'org.springframework:spring-jdbc'
     api 'org.springframework:spring-tx'
-
     api 'org.mybatis:mybatis-spring'
 
     testImplementation 'org.hsqldb:hsqldb'

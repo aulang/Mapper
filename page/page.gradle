@@ -1,9 +1,9 @@
+description('mapper-page')
+archivesBaseName = 'mapper-page'
+
 apply from: "$rootDir/gradle/library-module.gradle"
 
-description('mapper-page')
-
 dependencies {
-
     api(project(':core'))
 
     api 'com.github.jsqlparser:jsqlparser'

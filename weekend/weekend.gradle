@@ -1,9 +1,9 @@
+description('mapper-weekend')
+archivesBaseName = 'mapper-weekend'
+
 apply from: "$rootDir/gradle/library-module.gradle"
 
-description('mapper-weekend')
-
 dependencies {
-
     api(project(':core'))
 
     testImplementation(project(':base'))

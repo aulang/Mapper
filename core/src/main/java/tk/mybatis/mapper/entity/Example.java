@@ -472,7 +472,7 @@ public class Example implements IDynamicTableName {
         /**
          * 手写条件
          *
-         * @param condition 例如 "length(countryname)<5"
+         * @param condition 例如 "length(countryname) &lt; 5"
          * @return
          */
         public Criteria andCondition(String condition) {
@@ -496,8 +496,7 @@ public class Example implements IDynamicTableName {
          * 将此对象的不为空的字段参数作为相等查询条件
          *
          * @param param 参数对象
-         * @author Bob {@link}0haizhu0@gmail.com
-         * @Date 2015年7月17日 下午12:48:08
+         * @return
          */
         public Criteria andEqualTo(Object param) {
             if (param == null) {
@@ -614,7 +613,7 @@ public class Example implements IDynamicTableName {
         /**
          * 手写条件
          *
-         * @param condition 例如 "length(countryname)<5"
+         * @param condition 例如 "length(countryname) &lt; 5"
          * @return
          */
         public Criteria orCondition(String condition) {
@@ -638,8 +637,7 @@ public class Example implements IDynamicTableName {
          * 将此对象的不为空的字段参数作为相等查询条件
          *
          * @param param 参数对象
-         * @author Bob {@link}0haizhu0@gmail.com
-         * @Date 2015年7月17日 下午12:48:08
+         * @return
          */
         public Criteria orEqualTo(Object param) {
             MetaObject metaObject = MetaObjectUtil.forObject(param);
