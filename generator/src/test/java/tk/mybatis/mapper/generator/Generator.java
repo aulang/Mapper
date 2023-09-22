@@ -25,6 +25,8 @@
 package tk.mybatis.mapper.generator;
 
 import org.hsqldb.cmdline.SqlFile;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -42,6 +44,11 @@ import java.util.List;
  * @author liuzh
  */
 public class Generator {
+
+    @Test
+    public void test() {
+        Assertions.assertTrue(true);
+    }
 
     public static void startDB() {
         try {

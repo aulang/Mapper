@@ -1,8 +1,8 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '3.1.2' apply false
-    id 'io.spring.dependency-management' version '1.1.2' apply false
+    id 'org.springframework.boot' version '3.1.4' apply false
+    id 'io.spring.dependency-management' version '1.1.3' apply false
 }
 
 ext {
@@ -13,7 +13,7 @@ allprojects {
     group 'tk.mybatis-jakarta'
     version '1.0.0'
 
-    buildDir = "$rootDir/build/" + outputDir(project)
+    layout.buildDirectory = "$rootDir/build/" + outputDir(project)
 
     apply plugin: "io.spring.dependency-management"
 
@@ -24,7 +24,7 @@ allprojects {
         }
 
         dependencies {
-            dependencySet(group: 'org.slf4j', version: '2.0.7') {
+            dependencySet(group: 'org.slf4j', version: '2.0.9') {
                 entry 'slf4j-api'
                 entry 'jcl-over-slf4j'
             }
@@ -34,10 +34,9 @@ allprojects {
 
             dependency 'com.mysql:mysql-connector-j:8.1.0'
 
-            dependency 'org.projectlombok:lombok:1.18.28'
+            dependency 'org.projectlombok:lombok:1.18.30'
 
             dependency 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-            dependency 'jakarta.websocket:jakarta.websocket-api:2.1.1'
 
             dependency 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 
@@ -48,7 +47,7 @@ allprojects {
             dependency 'com.github.jsqlparser:jsqlparser:4.6'
 
             dependency 'org.hsqldb:hsqldb:2.7.2'
-            dependency 'com.h2database:h2:2.1.220'
+            dependency 'com.h2database:h2:2.1.224'
         }
     }
 
@@ -92,14 +91,20 @@ configure(javaProjects) { project ->
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    ext {
+        artifactId = name
+    }
+
     test {
         useJUnitPlatform()
     }
 
     [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
-
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
 }
 
 static def outputDir(Project project) {

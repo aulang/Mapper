@@ -1,5 +1,8 @@
 description('mapper-spring-boot-starter')
-archivesBaseName = 'mapper-spring-boot-starter'
+
+ext {
+    artifactId = 'mapper-spring-boot-starter'
+}
 
 apply from: "$rootDir/gradle/library-module.gradle"
 

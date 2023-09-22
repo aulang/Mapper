@@ -1,5 +1,8 @@
 description('mapper-extra')
-archivesBaseName = 'mapper-extra'
+
+ext {
+    artifactId = 'mapper-extra'
+}
 
 apply from: "$rootDir/gradle/library-module.gradle"
 

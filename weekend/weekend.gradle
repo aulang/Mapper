@@ -1,5 +1,8 @@
 description('mapper-weekend')
-archivesBaseName = 'mapper-weekend'
+
+ext {
+    artifactId = 'mapper-weekend'
+}
 
 apply from: "$rootDir/gradle/library-module.gradle"
 
