@@ -1,8 +1,8 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id 'org.springframework.boot' version '3.1.4' apply false
-    id 'io.spring.dependency-management' version '1.1.3' apply false
+    id 'org.springframework.boot' version '3.2.0' apply false
+    id 'io.spring.dependency-management' version '1.1.4' apply false
 }
 
 ext {
@@ -20,7 +20,7 @@ allprojects {
     dependencyManagement {
         imports {
             mavenBom SpringBootPlugin.BOM_COORDINATES
-            mavenBom 'org.junit:junit-bom:5.10.0'
+            mavenBom 'org.junit:junit-bom:5.10.1'
         }
 
         dependencies {
@@ -29,10 +29,10 @@ allprojects {
                 entry 'jcl-over-slf4j'
             }
 
-            dependency 'org.mybatis:mybatis:3.5.13'
-            dependency 'org.mybatis:mybatis-spring:3.0.2'
+            dependency 'org.mybatis:mybatis:3.5.14'
+            dependency 'org.mybatis:mybatis-spring:3.0.3'
 
-            dependency 'com.mysql:mysql-connector-j:8.1.0'
+            dependency 'com.mysql:mysql-connector-j:8.2.0'
 
             dependency 'org.projectlombok:lombok:1.18.30'
 
@@ -44,7 +44,7 @@ allprojects {
 
             dependency 'jakarta.persistence:jakarta.persistence-api:3.1.0'
 
-            dependency 'com.github.jsqlparser:jsqlparser:4.6'
+            dependency 'com.github.jsqlparser:jsqlparser:4.7'
 
             dependency 'org.hsqldb:hsqldb:2.7.2'
             dependency 'com.h2database:h2:2.1.224'
@@ -92,8 +92,8 @@ configure(javaProjects) { project ->
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     ext {

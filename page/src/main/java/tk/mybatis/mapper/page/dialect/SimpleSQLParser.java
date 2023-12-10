@@ -6,32 +6,28 @@ import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
-import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.select.FromItem;
 import net.sf.jsqlparser.statement.select.Join;
-import net.sf.jsqlparser.statement.select.LateralSubSelect;
 import net.sf.jsqlparser.statement.select.OrderByElement;
+import net.sf.jsqlparser.statement.select.ParenthesedFromItem;
+import net.sf.jsqlparser.statement.select.ParenthesedSelect;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
-import net.sf.jsqlparser.statement.select.SelectBody;
-import net.sf.jsqlparser.statement.select.SelectExpressionItem;
 import net.sf.jsqlparser.statement.select.SelectItem;
 import net.sf.jsqlparser.statement.select.SetOperationList;
-import net.sf.jsqlparser.statement.select.SubJoin;
-import net.sf.jsqlparser.statement.select.SubSelect;
 import net.sf.jsqlparser.statement.select.WithItem;
 import tk.mybatis.mapper.util.StringUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * SQL解析类，提供更智能的count SQL
+ * SQL解析类，提供更智能的count查询语句
  * <p>
  * 1. 标准方案是剔除order by子句，改造原语句为select count('count column')的形式
  * 2. 当原查询语句含聚合函及分组等情况时，使用简单模式，将原始查询包装为子查询再求count
@@ -97,12 +93,12 @@ public class SimpleSQLParser {
     /**
      * 已经分析过的非聚合函数集合Cache，但此函数不在rejectFunCache中
      */
-    private final Set<String> analyzedFunCache = Collections.synchronizedSet(new HashSet<>());
+    private final Set<String> analyzedFunCache = new CopyOnWriteArraySet<>();
 
     /**
      * 已经分析过的属于聚合的函数集合Cache，命中可以立即返回false，SQL语句包含聚合函数，不应被简化
      */
-    private final Set<String> rejectFunCache = Collections.synchronizedSet(new HashSet<>());
+    private final Set<String> rejectFunCache = new CopyOnWriteArraySet<>();
 
     /**
      * 添加到聚合函数，可以是逗号隔开的多个函数前缀
@@ -119,7 +115,7 @@ public class SimpleSQLParser {
     }
 
     /**
-     * 获取智能的countSql
+     * 获取智能的count查询语句
      *
      * @param sql 原始的select查询语句
      */
@@ -128,91 +124,80 @@ public class SimpleSQLParser {
     }
 
     /**
-     * 获取智能的countSql
+     * 获取智能的count查询语句
      *
      * @param sql         原始的select查询语句
-     * @param countColumn count column
+     * @param countColumn count列名
      */
     public String getSmartCountSql(String sql, String countColumn) {
-        Statement stmt;
+        Select select;
         if (sql.contains(KEEP_ORDER_BY)) {
             return getSimpleCountSql(sql, countColumn);
         }
+
         try {
-            stmt = CCJSqlParserUtil.parse(sql);
+            select = (Select) CCJSqlParserUtil.parse(sql);
         } catch (Throwable e) {
-            //无法解析的用一般方法返回count语句
+            // 无法解析的用一般方法返回count语句
             return getSimpleCountSql(sql, countColumn);
         }
-        Select select = (Select) stmt;
-        SelectBody selectBody = select.getSelectBody();
+
         try {
-            //处理select body，去除order by
-            processSelectBody(selectBody);
+            // 处理select语句，去除order by
+            processSelectBody(select);
         } catch (Exception e) {
-            //当sql包含group by时，不去除order by
+            // 当处理异常时，不去除order by
             return getSimpleCountSql(sql, countColumn);
         }
-        //处理with语句去除order by
+
+        // 处理with语句去除order by
         processWithItemsList(select.getWithItemsList());
 
-        //处理为count查询
-        sqlToCount(select, countColumn);
-
-        return select.toString();
+        // 转为count查询语句
+        return sqlToCount(select, countColumn);
     }
 
     /**
-     * 获取普通的count-sql
+     * 获取普通的count查询语句，默认count(*)
      *
-     * @param sql 原查询sql
-     * @return 返回count查询sql
+     * @param sql 原查询语句
+     * @return 返回count查询语句
      */
     public String getSimpleCountSql(final String sql) {
         return getSimpleCountSql(sql, "*");
     }
 
     /**
-     * 获取普通的count-sql
+     * 获取普通的count查询语句
      *
-     * @param sql 原查询sql
-     * @return 返回count查询sql
+     * @param sql 原查询语句
+     * @return 返回count查询语句
      */
     public String getSimpleCountSql(final String sql, String countColumn) {
         return "select count(" + countColumn + ") from (" + sql + ") table_count";
     }
 
     /**
-     * 将sql转换为count查询
+     * 将sql转换为count查询语句
      *
-     * @param select      select
-     * @param countColumn count column
+     * @param select      查询语句
+     * @param countColumn count列名
      */
-    private void sqlToCount(Select select, String countColumn) {
-        SelectBody selectBody = select.getSelectBody();
+    private String sqlToCount(Select select, String countColumn) {
+        List<SelectItem<?>> countItem = Collections.singletonList(SelectItem.from(new Column("count(" + countColumn + ")")));
 
-        //是否能简化count查询
-        List<SelectItem> countItem = new ArrayList<>();
-        countItem.add(new SelectExpressionItem(new Column("count(" + countColumn + ")")));
-
-        if (selectBody instanceof PlainSelect plainSelect && isSimpleCount(plainSelect)) {
-            plainSelect.setSelectItems(countItem);
+        if (select instanceof PlainSelect plainSelect && isSimpleCount(plainSelect)) {
+            return plainSelect.withSelectItems(countItem).toString();
         } else {
-            PlainSelect plainSelect = new PlainSelect();
-            SubSelect subSelect = new SubSelect();
-            subSelect.setSelectBody(selectBody);
-            subSelect.setAlias(TABLE_ALIAS);
-            plainSelect.setFromItem(subSelect);
-            plainSelect.setSelectItems(countItem);
-
-            select.setSelectBody(plainSelect);
+            FromItem fromItem = new ParenthesedSelect().withSelect(select).withAlias(TABLE_ALIAS);
+            return new PlainSelect().withSelectItems(countItem).withFromItem(fromItem).toString();
         }
     }
 
     /**
      * 检查是否只能用简单的count查询方式
      *
-     * @param select 查询
+     * @param select 查询语句
      */
     private boolean isSimpleCount(PlainSelect select) {
         // 包含group by、distinct、having时不是
@@ -220,78 +205,76 @@ public class SimpleSQLParser {
             return false;
         }
 
-        for (SelectItem item : select.getSelectItems()) {
+        for (SelectItem<?> item : select.getSelectItems()) {
             //select列中包含参数的时候不可以，否则会引起参数个数错误
             if (item.toString().contains("?")) {
                 return false;
             }
             //如果查询列中包含函数，也不可以，函数可能会聚合列
-            if (item instanceof SelectExpressionItem selectExpressionItem) {
-                Expression expression = selectExpressionItem.getExpression();
-                if (expression instanceof Function function) {
-                    String name = function.getName();
-                    if (name == null) {
-                        continue;
-                    }
-                    name = name.toUpperCase();
-                    if (analyzedFunCache.contains(name)) {
-                        continue;
-                    }
-
-                    if (rejectFunCache.contains(name)) {
-                        return false;
-                    } else {
-                        for (String aggregateFunction : AGGREGATE_FUNCTIONS) {
-                            if (name.startsWith(aggregateFunction)) {
-                                rejectFunCache.add(name);
-                                return false;
-                            }
-                        }
-                        analyzedFunCache.add(name);
-                    }
-                } else if (expression instanceof Parenthesis && selectExpressionItem.getAlias() != null) {
-                    // 当存在 (a+b) as c 时，c 如果出现在order by 或者 having中时，会找不到对应的列
-                    return false;
+            Expression expression = item.getExpression();
+            if (expression instanceof Function function) {
+                String name = function.getName();
+                if (name == null) {
+                    continue;
                 }
+                name = name.toUpperCase();
+                if (analyzedFunCache.contains(name)) {
+                    continue;
+                }
+
+                if (rejectFunCache.contains(name)) {
+                    return false;
+                } else {
+                    for (String aggregateFunction : AGGREGATE_FUNCTIONS) {
+                        if (name.startsWith(aggregateFunction)) {
+                            rejectFunCache.add(name);
+                            return false;
+                        }
+                    }
+                    analyzedFunCache.add(name);
+                }
+            } else if (expression instanceof Parenthesis && item.getAlias() != null) {
+                // 当存在 (a+b) as c 时，c 如果出现在order by 或者 having中时，会找不到对应的列
+                return false;
             }
         }
         return true;
     }
 
     /**
-     * 处理selectBody去除order by
+     * 处理select语句去除order by
      *
-     * @param selectBody select body
+     * @param selectBody 待处理select语句
      */
-    private void processSelectBody(SelectBody selectBody) {
+    private void processSelectBody(Select selectBody) {
         if (selectBody == null) {
             return;
         }
 
-        if (selectBody instanceof PlainSelect plainSelect) {
-            processPlainSelect(plainSelect);
-        } else if (selectBody instanceof WithItem withItem) {
-            if (withItem.getSubSelect() != null) {
-                processSelectBody(withItem.getSubSelect().getSelectBody());
-            }
-        } else if (selectBody instanceof SetOperationList setOperationList) {
-            List<SelectBody> selectBodies = setOperationList.getSelects();
-            if (isNotEmpty(selectBodies)) {
-                for (SelectBody select : selectBodies) {
-                    processSelectBody(select);
+        switch (selectBody) {
+            case PlainSelect plainSelect -> processPlainSelect(plainSelect);
+            case ParenthesedSelect parenthesedSelect -> processSelectBody(parenthesedSelect.getSelect());
+            case SetOperationList setOperationList -> {
+                List<Select> selects = setOperationList.getSelects();
+                if (isNotEmpty(selects)) {
+                    for (Select select : selects) {
+                        processSelectBody(select);
+                    }
+                }
+
+                if (orderByHasNoParameters(setOperationList.getOrderByElements())) {
+                    setOperationList.setOrderByElements(null);
                 }
             }
-
-            if (orderByHasNoParameters(setOperationList.getOrderByElements())) {
-                setOperationList.setOrderByElements(null);
+            default -> {
             }
         }
     }
 
     /**
-     * 处理PlainSelect类型的selectBody
+     * 处理PlainSelect类型的Select
      *
-     * @param plainSelect plain select
+     * @param plainSelect plainSelect
      */
     private void processPlainSelect(PlainSelect plainSelect) {
         if (orderByHasNoParameters(plainSelect.getOrderByElements())) {
@@ -303,17 +286,15 @@ public class SimpleSQLParser {
         List<Join> joins = plainSelect.getJoins();
         if (isNotEmpty(joins)) {
             for (Join join : joins) {
-                if (join.getRightItem() != null) {
-                    processFromItem(join.getRightItem());
-                }
+                processFromItem(join.getFromItem());
             }
         }
     }
 
     /**
-     * 处理WithItem
+     * 处理WithItem列表
      *
-     * @param withItemsList withItem list
+     * @param withItemsList 待处理的ithItem列表
      */
     private void processWithItemsList(List<WithItem> withItemsList) {
         if (!isNotEmpty(withItemsList)) {
@@ -321,9 +302,7 @@ public class SimpleSQLParser {
         }
 
         for (WithItem item : withItemsList) {
-            if (item.getSubSelect() != null) {
-                processSelectBody(item.getSubSelect().getSelectBody());
-            }
+            processSelectBody(item.getSelect());
         }
     }
 
@@ -337,24 +316,18 @@ public class SimpleSQLParser {
             return;
         }
 
-        if (fromItem instanceof SubJoin subJoin) {
-            List<Join> joins = subJoin.getJoinList();
+        if (fromItem instanceof ParenthesedSelect parenthesedSelect) {
+            processSelectBody(parenthesedSelect.getSelect());
+        } else if (fromItem instanceof ParenthesedFromItem parenthesedFromItem) {
+            processFromItem(parenthesedFromItem.getFromItem());
 
+            List<Join> joins = parenthesedFromItem.getJoins();
             if (isNotEmpty(joins)) {
                 for (Join join : joins) {
-                    processFromItem(join.getRightItem());
+                    processFromItem(join.getFromItem());
                 }
             }
-            processFromItem(subJoin.getLeft());
-        } else if (fromItem instanceof SubSelect subSelect) {
-            processSelectBody(subSelect.getSelectBody());
-        } else if (fromItem instanceof LateralSubSelect lateralSubSelect) {
-            SubSelect subSelect = lateralSubSelect.getSubSelect();
-            if (subSelect != null) {
-                processSelectBody(subSelect.getSelectBody());
-            }
         }
-        // ValuesList时不处理; Table时不用处理
     }
 
     /**
@@ -364,15 +337,7 @@ public class SimpleSQLParser {
      * @return order by未含参数返回true，否则返回false
      */
     private boolean orderByHasNoParameters(List<OrderByElement> orderByElements) {
-        if (orderByElements == null) {
-            return true;
-        }
-        for (OrderByElement orderByElement : orderByElements) {
-            if (orderByElement.toString().contains("?")) {
-                return false;
-            }
-        }
-        return true;
+        return !isNotEmpty(orderByElements) || orderByElements.parallelStream().noneMatch(e -> e.toString().contains("?"));
     }
 
     /**
