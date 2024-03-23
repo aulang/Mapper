@@ -10,7 +10,7 @@ dependencies {
     implementation(project(':base'))
 
     implementation 'org.freemarker:freemarker:2.3.32'
-    implementation 'io.swagger:swagger-annotations:1.6.12'
+    implementation 'io.swagger:swagger-annotations:1.6.14'
     implementation 'org.mybatis.generator:mybatis-generator-core:1.4.2'
 
     compileOnly 'org.projectlombok:lombok'
